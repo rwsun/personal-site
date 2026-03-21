@@ -1,0 +1,14 @@
+div {
+background-color: rgb(27, 100, 149);
+color:aliceblue;
+padding: 1em;
+}
+
+body {
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    display:flex;
+    gap:1em;
+    justify-content:center;
+    align-items:center;
+    background-color:bisque;
+}
