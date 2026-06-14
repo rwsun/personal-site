@@ -3,12 +3,87 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Libertinus+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
   </head>
+
   <body>
-    <div>hi</div>
-    <div>what are you</div>
-    <div>doing here?</div>
+    <div class="landing">
+      <div class="landing-text">
+        <div class="subtitle">hi, I'm</div>
+        <div class="title">renran</div>
+        <div class="body">running events @ hack club!</div>
+
+        <div class="icons">
+          <a href="mailto:renran@hackclub.com">
+            <img src="mail.png" alt="email"
+          /></a>
+          <a href="https://github.com/rwsun"
+            ><img src="github.png" alt="github"
+          /></a>
+          <a href="https://www.instagram.com/renran.sun/"
+            ><img src="instagram.png" alt="instagram"
+          /></a>
+        </div>
+      </div>
+
+      <div class="cloud">
+        <img class="clouds" src="img/clouds.png" alt="cloud" />
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="section">
+        <div class="section-text">
+          <div class="subtitle">I'm a</div>
+          <div class="title">student...</div>
+          <div class="body">Queen's Commerce '30</div>
+        </div>
+        <div class="section-image">
+          <img src="window1.png" alt="window 01" />
+          <div class="body">click to read more</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-image">
+          <img src="window2.png" alt="window 02" />
+          <div class="body">click to read more</div>
+        </div>
+        <div class="section-text">
+          <div class="title">artist...</div>
+          <div class="body">Merch, Web UI, & Misc.</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-text">
+          <div class="h1">event organizer...</div>
+          <div class="body">Running hackathons worldwide!</div>
+        </div>
+        <div class="section-image">
+          <img src="window3.png" alt="window 03" />
+          <div class="body">click to read more</div>
+        </div>
+      </div>
+
+      <div class="third">
+        <div class="h2">random things about me</div>
+      </div>
+    </div>
+
+    <script>
+      window.addEventListener("scroll", () => {
+        const cloud = document.querySelector(".cloud");
+        const scrollY = window.scrollY;
+        cloud.style.transform = `translateY(-${scrollY * 0.5}px)`;
+      });
+    </script>
   </body>
 </html>
