@@ -75,6 +75,15 @@
 
       <div class="third">
         <div class="h2">random things about me</div>
+        <div class="polaroid">
+          <img src="random1.png" alt="random 01" />
+          <img src="random2.png" alt="random 02" />
+          <img src="random3.png" alt="random 03" />
+        </div>
+      </div>
+
+      <div class="fourth">
+        <div class="h1">memories</div>
       </div>
     </div>
 
@@ -83,6 +92,15 @@
         const cloud = document.querySelector(".cloud");
         const scrollY = window.scrollY;
         cloud.style.transform = `translateY(-${scrollY * 0.5}px)`;
+      });
+
+      document.addEventListener("mousemove", (e) => {
+        const dot = document.createElement("div");
+        dot.className = "trail";
+        dot.style.left = e.pageX + "px";
+        dot.style.top = e.pageY + "px";
+        document.body.appendChild(dot);
+        setTimeout(() => dot.remove(), 600);
       });
     </script>
   </body>
