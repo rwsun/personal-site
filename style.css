@@ -90,8 +90,8 @@ html,body{
 }
 
 .icons img{
-    width:1rem;
-    height:1rem;
+    width:3.5rem;
+    padding-top:2em;
     z-index:0;
 }
 
