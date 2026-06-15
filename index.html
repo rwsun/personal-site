@@ -67,7 +67,7 @@
 
       <div class="section">
         <div class="section-image">
-          <img src="window2.png" alt="window 02" />
+          <img class="window2" src="window2.png" alt="window 02" />
           <div class="body">click to read more</div>
         </div>
         <div class="section-text">
@@ -137,6 +137,26 @@
       document.querySelector(".window1").addEventListener("click", () => {
         index1 = (index1 + 1) % images1.length;
         document.querySelector(".window1").src = images1[index1];
+      });
+    </script>
+
+    <script>
+      const images2 = [];
+      let index2 = 0;
+
+      document.querySelector(".window2").addEventListener("click", () => {
+        index2 = (index2 + 1) % images2.length;
+        document.querySelector(".window2").src = images2[index2];
+      });
+    </script>
+
+    <script>
+      const images3 = [];
+      let index3 = 0;
+
+      document.querySelector(".window3").addEventListener("click", () => {
+        index3 = (index3 + 1) % images3.length;
+        document.querySelector(".window3").src = images3[index3];
       });
     </script>
   </body>
