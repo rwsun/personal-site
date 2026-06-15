@@ -197,8 +197,10 @@ html,body{
 }
 
 .section img{
-    width:30rem;
+    max-width:30rem;
+    max-height:30rem;
     border: solid white 5px;
+    align-items:center;
 }
 
 .third{
