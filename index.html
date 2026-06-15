@@ -21,20 +21,34 @@
         <div class="body">running events @ hack club!</div>
 
         <div class="icons">
-          <a href="mailto:renran@hackclub.com">
-            <img src="img/mail.png" alt="email"
-          /></a>
-          <a href="https://github.com/rwsun"
-            ><img src="img/github.png" alt="github"
-          /></a>
-          <a href="https://www.instagram.com/renran.sun/"
-            ><img src="img/instagram.png" alt="instagram"
-          /></a>
+          <div class="icon-wrapper">
+            <a href="mailto:renran@hackclub.com" target="_blank">
+              <img src="img/mail.png" alt="email"
+            /></a>
+            <span class="hoverbox"> email me!</span>
+          </div>
+
+          <div class="icon-wrapper">
+            <a href="https://github.com/rwsun" target="_blank"
+              ><img src="img/github.png" alt="github"
+            /></a>
+            <span class="hoverbox"> github?</span>
+          </div>
+          <div class="icon-wrapper">
+            <a href="https://www.instagram.com/renran.sun/" target="_blank"
+              ><img src="img/instagram.png" alt="instagram"
+            /></a>
+            <span class="hoverbox"> my insta!</span>
+          </div>
         </div>
       </div>
 
       <div class="cloud">
-        <img class="clouds" src="img/clouds.png" alt="cloud" />
+        <img src="img/clouds.png" alt="cloud" />
+      </div>
+
+      <div class="wave">
+        <img src="img/wave.png" alt="wave" />
       </div>
     </div>
 
@@ -68,7 +82,7 @@
           <div class="body">Running hackathons worldwide!</div>
         </div>
         <div class="section-image">
-          <img src="window3.png" alt="window 03" />
+          <img src="img/jpeg.png" alt="jpeg photo" />
           <div class="body">click to read more</div>
         </div>
       </div>
@@ -101,6 +115,16 @@
         dot.style.top = e.pageY + "px";
         document.body.appendChild(dot);
         setTimeout(() => dot.remove(), 600);
+      });
+    </script>
+
+    <script>
+      const images1 = ["img/photo1.png", "img/photo2.png", "img/photo3.png"];
+      let index1 = 0;
+
+      document.querySelector(".window1").addEventListener("click", () => {
+        index1 = (index1 + 1) % images1.length;
+        document.querySelector(".window1").src = images1[index1];
       });
     </script>
   </body>
