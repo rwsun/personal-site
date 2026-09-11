@@ -13,6 +13,7 @@ html,body{
     min-height: 100vh;
     margin:0;
     color:#fffde3;
+    overscroll-behavior:none;
 }
 
 .landing{
@@ -84,13 +85,14 @@ html,body{
 
 .hyperlink{
     font-family:"Verdana",sans-serif;
-    font-size:1.5rem; 
-    color:#92e7ff;
+    font-size:1.1rem; 
+    color:#30E1FF;
+    aligne-self:center;
 }
 
 .hyperlink:hover{
-    font-size:1.55rem;
-    color:#FFFFF1
+    transform: scale(1.1);
+    color:#87edff;
 }
 
 .icons{
@@ -177,7 +179,7 @@ html,body{
         #25B3F6,
         #8DDBFF
     );
-    padding-top:10em;
+    padding-top:22em;
 }
 
 .section{
@@ -188,7 +190,7 @@ html,body{
     justify-content:space-between;
     gap: 2em;
     padding-left: 10em;
-    padding-top:5em;
+    padding-top:em;
     padding-right:8em;
     padding-bottom:10em;
 }
