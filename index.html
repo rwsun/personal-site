@@ -69,12 +69,14 @@
         </div>
         <div class="section-image">
           <img class="window1" src="img/happy.png" alt="window 01" />
+          <span class="hoverbox-image"> click me!</span>
         </div>
       </div>
 
       <div class="section">
         <div class="section-image">
-          <img class="window3" src="img/jpeg.png" alt="jpeg photo" />
+          <img class="window3" src="img/hack 003.png" alt="jpeg photo" />
+          <span class="hoverbox-image"> click me!</span>
         </div>
         <div class="section-text">
           <div class="h1">events organizer</div>
@@ -87,104 +89,157 @@
         <div class="section-text">
           <div class="h1">artist / merch designer</div>
           <div class="body">Merch, Web UI, & Misc.</div>
-          <a class="hyperlink" href="art.html"> click to read more</a>
+          <a class="hyperlink" href="art.html"> check out my portfolio!</a>
         </div>
         <div class="section-image">
           <img class="window2" src="img/art 001.png" alt="window 02" />
+          <span class="hoverbox-image"> click me!</span>
         </div>
         <div class="section-image"></div>
       </div>
 
+      <div class="polaroid">
+        <div class="h1">random things about me</div>
+      </div>
       <div class="section">
-        <div class="h2">random things about me</div>
-        <div class="polaroid">
-          <img src="random1.png" alt="random 01" />
-          <img src="random2.png" alt="random 02" />
-          <img src="random3.png" alt="random 03" />
+        <div class="column">
+          <img class="obsessions" src="img/anime 01.jpg" alt="jjk" />
+          <div class="body">all-time favorites</div>
+        </div>
+        <div class="column">
+          <img class="reads" src="img/book 01.jpeg" alt="random 02" />
+          <div class="body">my current reads</div>
+        </div>
+        <div class="column">
+          <img class="hobbies" src="img/random3.png" alt="random 03" />
         </div>
       </div>
 
-      <div class="fourth">
-        <div class="h1">memories</div>
-      </div>
       <div class="polaroid">
-        <img src="random1.png" alt="random 01" />
-        <img src="random2.png" alt="random 02" />
-        <img src="random3.png" alt="random 03" />
+        <div class="h2">favorite memories</div>
       </div>
+      <div class="section">
+        <div class="column">
+          <img src="img/random.jpg" alt="singapore!" />
+          <div class="body">friends</div>
+        </div>
+        <div class="column">
+          <img src="img/random2.png" alt="busan, seoul, & hokkaido" />
+          <div class="body">this summer!</div>
+        </div>
+        <div class="column">
+          <img src="img/random3.png" alt="random 03" />
+          <div class="body">hack club</div>
+        </div>
+      </div>
+
+      <script>
+        window.addEventListener("scroll", () => {
+          const cloud = document.querySelector(".cloud");
+          const scrollY = window.scrollY;
+          cloud.style.transform = `translateY(-${scrollY * 0.4}px)`;
+        });
+
+        document.addEventListener("mousemove", (e) => {
+          const dot = document.createElement("div");
+          dot.className = "trail";
+          dot.style.left = e.pageX + "px";
+          dot.style.top = e.pageY + "px";
+          document.body.appendChild(dot);
+          setTimeout(() => dot.remove(), 400);
+        });
+      </script>
+
+      <script>
+        const images1 = [
+          "img/happy.png",
+          "img/student 01.png",
+          "img/student 02.png",
+          "img/student 03.png",
+          "img/student 04.png",
+          "img/student 05.png",
+          "img/student 06.png",
+          "img/student 07.png",
+          "img/student 08.png",
+          "img/student 10.png",
+          "img/student 11.png",
+        ];
+        let index1 = 0;
+
+        document.querySelector(".window1").addEventListener("click", () => {
+          index1 = (index1 + 1) % images1.length;
+          document.querySelector(".window1").src = images1[index1];
+        });
+      </script>
+
+      <script>
+        const images2 = [
+          "img/art 001.png",
+          "img/art 002.png",
+          "img/art 003.png",
+          "img/art 004.png",
+          "img/art 005.png",
+          "img/art 006.png",
+        ];
+        let index2 = 0;
+
+        document.querySelector(".window2").addEventListener("click", () => {
+          index2 = (index2 + 1) % images2.length;
+          document.querySelector(".window2").src = images2[index2];
+        });
+      </script>
+
+      <script>
+        const images3 = [
+          "img/hack 003.png",
+          "img/hack 002.png",
+          "img/hack 001.png",
+          "img/hack 004.png",
+          "img/hack 005.png",
+          "img/hack 000.png",
+        ];
+        let index3 = 0;
+
+        document.querySelector(".window3").addEventListener("click", () => {
+          index3 = (index3 + 1) % images3.length;
+          document.querySelector(".window3").src = images3[index3];
+        });
+      </script>
+
+      <script>
+        const images4 = [
+          "img/book 01.jpeg",
+          "img/book 02.jpg",
+          "img/book 03.jpg",
+          "img/book 04.jpg",
+        ];
+        let index4 = 0;
+
+        document.querySelector(".reads").addEventListener("click", () => {
+          index4 = (index4 + 1) % images4.length;
+          document.querySelector(".reads").src = images4[index4];
+        });
+      </script>
+
+      <script>
+        const images5 = ["img/anime 01.jpg"];
+        let index5 = 0;
+
+        document.querySelector(".obsessions").addEventListener("click", () => {
+          index5 = (index5 + 1) % images5.length;
+          document.querySelector(".obsessions").src = images5[index5];
+        });
+      </script>
+
+      <script>
+        const images6 = ["img/anime 01.jpg"];
+        let index6 = 0;
+
+        document.querySelector(".hobbies").addEventListener("click", () => {
+          index6 = (index6 + 1) % images6.length;
+          document.querySelector(".hobbies").src = images6[index6];
+        });
+      </script>
     </div>
-
-    <script>
-      window.addEventListener("scroll", () => {
-        const cloud = document.querySelector(".cloud");
-        const scrollY = window.scrollY;
-        cloud.style.transform = `translateY(-${scrollY * 0.4}px)`;
-      });
-
-      document.addEventListener("mousemove", (e) => {
-        const dot = document.createElement("div");
-        dot.className = "trail";
-        dot.style.left = e.pageX + "px";
-        dot.style.top = e.pageY + "px";
-        document.body.appendChild(dot);
-        setTimeout(() => dot.remove(), 400);
-      });
-    </script>
-
-    <script>
-      const images1 = [
-        "img/happy.png",
-        "img/student 01.png",
-        "img/student 02.png",
-        "img/student 03.png",
-        "img/student 04.png",
-        "img/student 05.png",
-        "img/student 06.png",
-        "img/student 07.png",
-        "img/student 08.png",
-        "img/student 10.png",
-        "img/student 11.png",
-      ];
-      let index1 = 0;
-
-      document.querySelector(".window1").addEventListener("click", () => {
-        index1 = (index1 + 1) % images1.length;
-        document.querySelector(".window1").src = images1[index1];
-      });
-    </script>
-
-    <script>
-      const images2 = [
-        "img/art 001.png",
-        "img/art 002.png",
-        "img/art 003.png",
-        "img/art 004.png",
-        "img/art 005.png",
-        "img/art 006.png",
-      ];
-      let index2 = 0;
-
-      document.querySelector(".window2").addEventListener("click", () => {
-        index2 = (index2 + 1) % images2.length;
-        document.querySelector(".window2").src = images2[index2];
-      });
-    </script>
-
-    <script>
-      const images3 = [
-        "img/art 001.png",
-        "img/art 002.png",
-        "img/art 003.png",
-        "img/art 004.png",
-        "img/art 005.png",
-        "img/art 006.png",
-      ];
-      let index3 = 0;
-
-      document.querySelector(".window3").addEventListener("click", () => {
-        index3 = (index3 + 1) % images3.length;
-        document.querySelector(".window3").src = images3[index3];
-      });
-    </script>
   </body>
 </html>

@@ -139,8 +139,26 @@ html,body{
   pointer-events: none;
 }
 
+.hoverbox-image{
+  position: absolute;
+  bottom: 30%;
+  left: 40%;
+  background: white;
+  color: #238CE2;
+  padding: 0.4em 0.8em;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
 .icon-wrapper:hover .hoverbox {
   opacity: 1;
+}
+
+.section-image:hover .hoverbox-image{
+    opacity:1;
 }
 
 .cloud{
@@ -165,7 +183,7 @@ html,body{
         transform translateY(0)
     }
     to{
-        transform translateY(+50px);
+        transform translateY(-50px);
     }
 }
 
@@ -176,9 +194,9 @@ html,body{
     justify-content:center;
     align-items:center;
     overflow:hidden;
-    bottom:0em;
+    bottom:1em;
     z-index:1;
-    transition: transform 0.4s ease;
+    transition: transform 0.8s ease;
     pointer-events: none;
 }
 
@@ -226,6 +244,13 @@ html,body{
     padding-bottom:10em;
 }
 
+.last-section{
+    justify-content:center;
+    align-items:center;
+    z-index:0;
+    text-align:center;
+}
+
 .section-text{
     display:flex;
     flex-direction:column;
@@ -270,6 +295,26 @@ gap:1.5em;
     align-items:center;
 }
 
+.column{
+    float:left;
+    width:33.33%;
+    align-items:center;
+    justify-items: center;
+    z-index:0;
+    margin-top:2em;
+}
+
+.row:after{
+    content:"";
+    display:table;
+    clear:both;
+}
+
+.column-image{
+    width:12em;
+    align-self:center;
+}
+
 .fourth{
     justify-content:center;
 display:flex;
@@ -308,3 +353,4 @@ gap:1.5em;
   0%   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
   100% { opacity: 0; transform: translate(-50%, -50%) scale(0); }
 }
+
