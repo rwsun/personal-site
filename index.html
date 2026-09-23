@@ -65,23 +65,31 @@
           <div class="subtitle">I'm a</div>
           <div class="h1">Canadian student</div>
           <div class="body">Queen's Commerce '30</div>
-          <a class="hyperlink" href="academics.html"> click to read more </a>
+          <a class="hyperlink" href="academics.html" target="blank">
+            click to read more
+          </a>
         </div>
         <div class="section-image">
-          <img class="window1" src="img/happy.png" alt="window 01" />
+          <img class="rounded window1" src="img/happy.png" alt="window 01" />
           <span class="hoverbox-image"> click me!</span>
         </div>
       </div>
 
       <div class="section">
         <div class="section-image">
-          <img class="window3" src="img/hack 003.png" alt="jpeg photo" />
+          <img
+            class="rounded window3"
+            src="img/hack 003.png"
+            alt="jpeg photo"
+          />
           <span class="hoverbox-image"> click me!</span>
         </div>
         <div class="section-text">
-          <div class="h1">events organizer</div>
+          <div class="h1">event organizer</div>
           <div class="body">Running hackathons worldwide!</div>
-          <a class="hyperlink" href="events.html">click to read more</a>
+          <a class="hyperlink" href="events.html" target="blank"
+            >click to read more</a
+          >
         </div>
       </div>
 
@@ -89,7 +97,7 @@
         <div class="section-text">
           <div class="h1">artist / merch designer</div>
           <div class="body">Merch, Web UI, & Misc.</div>
-          <a class="hyperlink" href="portfolio.html">
+          <a class="hyperlink" href="portfolio.html" target="blank">
             check out my portfolio!</a
           >
         </div>
@@ -105,15 +113,16 @@
       </div>
       <div class="section">
         <div class="column">
-          <img class="obsessions" src="img/anime 01.jpg" alt="jjk" />
-          <div class="body">all-time favorites</div>
+          <img class="rounded obsessions" src="img/anime 01.jpg" alt="jjk" />
+          <div class="body">favorite watches</div>
         </div>
         <div class="column">
-          <img class="reads" src="img/book 01.jpeg" alt="random 02" />
-          <div class="body">my current reads</div>
+          <img class="rounded reads" src="img/book 02.jpg" alt="book 02" />
+          <div class="body">recent reads</div>
         </div>
         <div class="column">
-          <img class="hobbies" src="img/random3.png" alt="random 03" />
+          <img class="rounded music" src="img/music 001.jpeg" alt="random 03" />
+          <div class="body">current listens!</div>
         </div>
       </div>
 
@@ -122,15 +131,24 @@
       </div>
       <div class="section">
         <div class="column">
-          <img src="img/random.jpg" alt="singapore!" />
+          <img
+            class="rounded friends"
+            src="img/friends 02.png"
+            alt="singapore!"
+          />
           <div class="body">friends!</div>
         </div>
         <div class="column">
-          <img src="img/random2.png" alt="busan, seoul, & hokkaido" />
+          <img
+            class="rounded summer"
+            style="min-width: 4em"
+            src="img/summer 008.png"
+            alt="busan, seoul, hokkaido, tokyo, osaka, singapore"
+          />
           <div class="body">this summer!</div>
         </div>
         <div class="column">
-          <img src="img/random3.png" alt="random 03" />
+          <img class="rounded food" src="img/food 01.png" alt="yum food" />
           <div class="body">food</div>
         </div>
       </div>
@@ -156,13 +174,10 @@
         const images1 = [
           "img/happy.png",
           "img/student 01.png",
-          "img/student 02.png",
           "img/student 03.png",
           "img/student 04.png",
           "img/student 05.png",
           "img/student 06.png",
-          "img/student 07.png",
-          "img/student 08.png",
           "img/student 10.png",
           "img/student 11.png",
         ];
@@ -210,10 +225,17 @@
 
       <script>
         const images4 = [
-          "img/book 01.jpeg",
           "img/book 02.jpg",
+          "img/book 01.jpeg",
           "img/book 03.jpg",
           "img/book 04.jpg",
+          "img/book 06.jpeg",
+          "img/book 07.jpg",
+          "img/book 08.jpg",
+          "img/book 09.jpg",
+          "img/book 10.jpg",
+          "img/book 11.jpg",
+          "img/book 12.jpg",
         ];
         let index4 = 0;
 
@@ -224,7 +246,12 @@
       </script>
 
       <script>
-        const images5 = ["img/anime 01.jpg"];
+        const images5 = [
+          "img/anime 01.jpg",
+          "img/anime 02.jpg",
+          "img/anime 03.jpg",
+          "img/movie 01.jpeg",
+        ];
         let index5 = 0;
 
         document.querySelector(".obsessions").addEventListener("click", () => {
@@ -234,12 +261,73 @@
       </script>
 
       <script>
-        const images6 = ["img/anime 01.jpg"];
+        const images6 = [
+          "img/music 001.jpeg",
+          "img/music 002.jpg",
+          "img/music 003.jpeg",
+        ];
         let index6 = 0;
 
-        document.querySelector(".hobbies").addEventListener("click", () => {
+        document.querySelector(".music").addEventListener("click", () => {
           index6 = (index6 + 1) % images6.length;
-          document.querySelector(".hobbies").src = images6[index6];
+          document.querySelector(".music").src = images6[index6];
+        });
+      </script>
+
+      <script>
+        const images7 = [
+          "img/summer 003.png",
+          "img/summer 002.png",
+          "img/summer 004.png",
+          "img/summer 005.png",
+          "img/summer 006.png",
+          "img/summer 007.png",
+          "img/summer 008.png",
+          "img/summer 009.png",
+          "img/summer 010.png",
+        ];
+        let index7 = 0;
+
+        document.querySelector(".summer").addEventListener("click", () => {
+          index7 = (index7 + 1) % images7.length;
+          document.querySelector(".summer").src = images7[index7];
+        });
+      </script>
+
+      <script>
+        const images8 = [
+          "img/food 01.png",
+          "img/food 02.png",
+          "img/food 04.png",
+          "img/food 05.png",
+          "img/food 06.png",
+          "img/food 07.png",
+          "img/food 08.png",
+          "img/food 04.png",
+        ];
+        let index8 = 0;
+
+        document.querySelector(".food").addEventListener("click", () => {
+          index8 = (index8 + 1) % images8.length;
+          document.querySelector(".food").src = images8[index8];
+        });
+      </script>
+
+      <script>
+        const images9 = [
+          "img/friends 02.png",
+          "img/friends 01.png",
+          "img/friends 04.png",
+          "img/friends 05.png",
+          "img/friends 06.png",
+          "img/friends 07.png",
+          "img/friends 08.png",
+        ];
+        let index9 = 0;
+
+        document.querySelector(".friends").addEventListener("click", () => {
+          index9 = (index9 + 1) % images9.length;
+          document.querySelector(".friends").src = images9[index9];
         });
       </script>
     </div>
