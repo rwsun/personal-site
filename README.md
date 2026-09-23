@@ -1,4 +1,4 @@
 # personal-site
-hi I'll be working on this instead of math class. Also, thought I should have a personal siet! 
+hi time to work on this instead of math class
 
 email me if you have any questions. 
