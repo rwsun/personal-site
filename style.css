@@ -159,6 +159,7 @@ html,body{
 
 .section-image:hover .hoverbox-image{
     opacity:1;
+    z-index:2;
 }
 
 .cloud{
@@ -186,7 +187,7 @@ html,body{
     align-items:center;
     overflow:hidden;
     bottom:1em;
-    z-index:1;
+    z-index:2;
     transition: transform 0.8s ease;
     pointer-events: none;
 }
@@ -206,6 +207,7 @@ html,body{
     z-index:1;
     transition: transform 0.2s ease;
     pointer-events: none;
+    opacity:80%;
 }
 
 .wave img{
