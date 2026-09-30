@@ -77,10 +77,15 @@ img{
     line-height:1;
 }
 
-.title:hover{
-    transform:scale(1.1);
-    cursor:pointer;
+.title-letter{
+    display:inline-block;
+    transition:transform 0.2s ease;
 }
+
+.title-letter:hover{
+    transform:scale(1.3);
+}
+
 
 .h1{
     font-family: "Bodoni 72 Italics", serif;
@@ -148,7 +153,48 @@ img{
 
 .icons img:hover{
     transform: scale(1.3);
-    cursor: pointer;
+    cursor: grab;
+}
+
+/* the icons can be dragged around the landing (script in index.html) */
+.icons a{
+    cursor:grab;
+    touch-action:none;
+}
+
+.is-grabbing,
+.is-grabbing *{
+    cursor:grabbing !important;
+}
+
+.icon-wrapper.is-empty .hoverbox{
+    display:none;
+}
+
+/* an icon that has been dragged out of the row */
+.falling-icon{
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:5;
+    will-change:transform;
+}
+
+.falling-icon a,
+.falling-icon img{
+    display:block;
+}
+
+/* a dragged icon keeps the enlarged hover size instead of shrinking back
+   once the pointer is no longer over it */
+.falling-icon img,
+.falling-icon img:hover{
+    transform:scale(1.3);
+}
+
+/* no focus ring after a mouse drag (keyboard users still get one) */
+.falling-icon a:focus:not(:focus-visible){
+    outline:none;
 }
 
 
@@ -977,6 +1023,7 @@ gap:1.5em;
 
 @media (hover: none){
     .title:hover,
+    .title-letter:hover,
     .hyperlink:hover,
     .icons img:hover,
     .section-image:hover,

@@ -35,8 +35,12 @@
       <div class="landing-text">
         <div class="subtitle">hi, I'm</div>
         <div class="title">
-          ren
-          <span class="hoverbox"> actually it's renran sun?</span>
+          <span class="sr-only">ren</span>
+          <span aria-hidden="true"
+            ><span class="title-letter">r</span
+            ><span class="title-letter">e</span
+            ><span class="title-letter">n</span></span
+          >
         </div>
         <div class="body">running events @ hack club!</div>
 
@@ -86,6 +90,205 @@
       </div>
     </div>
 
+    <script>
+      // drag the social icons anywhere on the landing; let go and they fall onto
+      // the water (where the front clouds end) and bounce. A plain click still opens the link.
+      (() => {
+        const landing = document.querySelector(".landing");
+        const waterEdge = document.querySelector(".cloud2");
+        const GRAVITY = 2400; // px/s²
+        const BOUNCE = 0.55; // share of speed kept after hitting the water or a side
+        const SINK = 0.75; // share of an icon's width that settles below the water line
+        const DRAG_START = 6; // px of movement before a press becomes a drag
+        const MAX_THROW = 2500; // px/s, so a hard flick doesn't ricochet forever
+        const bodies = new Map(); // link -> { el, x, y, vx, vy, w, h, angle, held, resting }
+        let frame = null;
+        let lastTime = 0;
+
+        const floorFor = (body) =>
+          waterEdge.getBoundingClientRect().bottom -
+          landing.getBoundingClientRect().top +
+          body.w * SINK -
+          body.h;
+
+        const place = (body) => {
+          body.el.style.transform = `translate(${body.x}px, ${body.y}px) rotate(${body.angle}deg)`;
+        };
+
+        const step = (now) => {
+          const dt = Math.min((now - lastTime) / 1000, 1 / 30);
+          lastTime = now;
+          let moving = false;
+
+          bodies.forEach((body) => {
+            if (body.held || body.resting) return;
+            moving = true;
+            body.vy += GRAVITY * dt;
+            body.x += body.vx * dt;
+            body.y += body.vy * dt;
+            body.angle += body.vx * dt * 0.4;
+
+            const maxX = landing.clientWidth - body.w;
+            if (body.x < 0) {
+              body.x = 0;
+              body.vx = -body.vx * BOUNCE;
+            } else if (body.x > maxX) {
+              body.x = maxX;
+              body.vx = -body.vx * BOUNCE;
+            }
+            if (body.y < -body.h) body.vy = Math.abs(body.vy) * BOUNCE;
+
+            const floor = floorFor(body);
+            if (body.y >= floor) {
+              body.y = floor;
+              body.vy = Math.abs(body.vy) < 90 ? 0 : -body.vy * BOUNCE;
+              body.vx *= body.vy === 0 ? Math.pow(0.03, dt) : 0.85; // slide to a stop
+              if (body.vy === 0 && Math.abs(body.vx) < 8) {
+                body.vx = 0;
+                body.resting = true;
+              }
+            }
+            place(body);
+          });
+
+          frame = moving ? requestAnimationFrame(step) : null;
+        };
+
+        const wake = () => {
+          if (frame) return;
+          lastTime = performance.now();
+          frame = requestAnimationFrame(step);
+        };
+
+        // lift an icon out of its row (its empty slot keeps the row in place)
+        const detach = (link) => {
+          const img = link.querySelector("img");
+          const wrapper = link.closest(".icon-wrapper");
+          const box = img.getBoundingClientRect();
+          const landingBox = landing.getBoundingClientRect();
+          const w = img.offsetWidth;
+          const h = img.offsetHeight;
+
+          wrapper.style.width = `${wrapper.offsetWidth}px`;
+          wrapper.style.height = `${wrapper.offsetHeight}px`;
+          wrapper.classList.add("is-empty");
+
+          const holder = document.createElement("div");
+          holder.className = "icons falling-icon";
+          holder.appendChild(link);
+          landing.appendChild(holder);
+
+          const body = {
+            el: holder,
+            x: box.left + box.width / 2 - w / 2 - landingBox.left,
+            y: box.top + box.height / 2 - h / 2 - landingBox.top,
+            vx: 0,
+            vy: 0,
+            w,
+            h,
+            angle: 0,
+            held: false,
+            resting: false,
+          };
+          bodies.set(link, body);
+          place(body);
+          return body;
+        };
+
+        document.querySelectorAll(".icons a").forEach((link) => {
+          let press = null; // { id, x, y, dragging, offsetX, offsetY, samples }
+          let justDragged = false;
+
+          link.addEventListener("dragstart", (e) => e.preventDefault());
+
+          link.addEventListener("pointerdown", (e) => {
+            if (e.button !== 0) return;
+            press = {
+              id: e.pointerId,
+              x: e.clientX,
+              y: e.clientY,
+              dragging: false,
+              samples: [],
+            };
+            link.setPointerCapture(e.pointerId);
+          });
+
+          // move/release are watched on the whole window: lifting the icon into its
+          // floating holder moves it in the page, which drops the pointer capture
+          addEventListener("pointermove", (e) => {
+            if (!press || e.pointerId !== press.id) return;
+            const landingBox = landing.getBoundingClientRect();
+
+            if (!press.dragging) {
+              if (
+                Math.hypot(e.clientX - press.x, e.clientY - press.y) <
+                DRAG_START
+              )
+                return;
+              const body = bodies.get(link) || detach(link);
+              try {
+                link.setPointerCapture(press.id);
+              } catch {}
+              body.held = true;
+              body.resting = false;
+              press.dragging = true;
+              press.offsetX = press.x - landingBox.left - body.x;
+              press.offsetY = press.y - landingBox.top - body.y;
+              document.documentElement.classList.add("is-grabbing");
+            }
+
+            const body = bodies.get(link);
+            body.x = e.clientX - landingBox.left - press.offsetX;
+            body.y = e.clientY - landingBox.top - press.offsetY;
+            body.angle *= 0.9;
+            place(body);
+
+            // remember the last ~100ms of movement to throw with the right speed
+            const now = performance.now();
+            press.samples.push({ t: now, x: body.x, y: body.y });
+            while (press.samples.length > 2 && now - press.samples[0].t > 100)
+              press.samples.shift();
+          });
+
+          const release = (e) => {
+            if (!press || e.pointerId !== press.id) return;
+            if (press.dragging) {
+              const body = bodies.get(link);
+              const first = press.samples[0];
+              const last = press.samples[press.samples.length - 1];
+              const dt =
+                first && last && last.t > first.t
+                  ? (last.t - first.t) / 1000
+                  : 0;
+              const clamp = (v) => Math.max(-MAX_THROW, Math.min(MAX_THROW, v));
+              body.vx = dt ? clamp((last.x - first.x) / dt) : 0;
+              body.vy = dt ? clamp((last.y - first.y) / dt) : 0;
+              body.held = false;
+              justDragged = true;
+              document.documentElement.classList.remove("is-grabbing");
+              wake();
+            }
+            press = null;
+          };
+          addEventListener("pointerup", release);
+          addEventListener("pointercancel", release);
+
+          // a drag shouldn't also open the link
+          link.addEventListener("click", (e) => {
+            if (!justDragged) return;
+            e.preventDefault();
+            justDragged = false;
+          });
+        });
+
+        // the water line moves when the window is resized: let resting icons re-settle
+        addEventListener("resize", () => {
+          bodies.forEach((body) => (body.resting = false));
+          wake();
+        });
+      })();
+    </script>
+
     <div class="main">
       <div class="section section-first">
         <div class="section-text">
@@ -98,14 +301,12 @@
         </div>
         <div class="section-image">
           <img class="window1" src="img/happy.png" alt="window 01" />
-          <span class="hoverbox-image"> click me!</span>
         </div>
       </div>
 
       <div class="section">
         <div class="section-image">
           <img class="window3" src="img/hack 003.png" alt="jpeg photo" />
-          <span class="hoverbox-image"> click me!</span>
         </div>
         <div class="section-text">
           <div class="h1">event organizer</div>
@@ -126,7 +327,6 @@
         </div>
         <div class="section-image">
           <img class="window2" src="img/art 001.png" alt="window 02" />
-          <span class="hoverbox-image"> click me!</span>
         </div>
         <div class="section-image"></div>
       </div>
@@ -189,7 +389,7 @@
 
         // animated fish cursor (mouse/trackpad only): its nose is the click point,
         // so the image sits 13px above the pointer and the trail comes out of its
-        // tail, 38px to the right; over links and photos the pointing hand shows instead
+        // tail, 38px to the right; over links, photos and icons the normal cursor shows instead
         const FISH_NOSE_Y = 13;
         const FISH_TAIL_X = 38;
         const FISH_TAIL_Y = -1;
@@ -212,7 +412,7 @@
         }
 
         document.addEventListener("mousemove", (e) => {
-          const fish = fishOn && getComputedStyle(e.target).cursor !== "pointer";
+          const fish = fishOn && getComputedStyle(e.target).cursor === "none";
 
           if (fishCursor) {
             fishCursor.style.transform = `translate(${e.clientX}px, ${e.clientY - FISH_NOSE_Y}px)`;
@@ -266,7 +466,6 @@
             "img/book 07.jpg",
             "img/book 08.jpg",
             "img/book 09.jpg",
-            "img/book 11.jpg",
           ],
           ".obsessions": [
             "img/anime 01.jpg",
@@ -289,7 +488,6 @@
             "img/summer 006.png",
             "img/summer 007.png",
             "img/summer 008.png",
-            "img/summer 009.png",
             "img/summer 010.png",
           ],
           ".food": [
