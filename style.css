@@ -91,7 +91,7 @@ img{
     font-family: "Bodoni 72 Italics", serif;
     font-style: italic;
     font-weight: 400;
-    font-size:clamp(2.5rem, 9vw, 6rem);
+    font-size:clamp(2rem, 9vw, 4rem);
     color:#fffde3;
     margin-bottom:1rem;
     line-height:1;
