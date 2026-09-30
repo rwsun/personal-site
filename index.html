@@ -137,7 +137,7 @@
       </div>
       <div class="section">
         <div class="column">
-          <img class="friends" src="img/friends 02.png" alt="singapore!" />
+          <img class="friends" src="img/friends 04.png" alt="singapore!" />
           <div class="body" style="margin-top: 0.5em">friends!</div>
         </div>
         <div class="column">
@@ -181,165 +181,116 @@
       </script>
 
       <script>
-        const images1 = [
-          "img/happy.png",
-          "img/student 01.png",
-          "img/student 03.png",
-          "img/student 04.png",
-          "img/student 05.png",
-          "img/student 06.png",
-          "img/student 10.png",
-          "img/student 11.png",
-        ];
-        let index1 = 0;
+        // click an image to cycle through its photos
+        const galleries = {
+          ".window1": [
+            "img/happy.png",
+            "img/student 01.png",
+            "img/student 03.png",
+            "img/student 04.png",
+            "img/student 05.png",
+            "img/student 06.png",
+            "img/student 10.png",
+            "img/student 11.png",
+          ],
+          ".window2": [
+            "img/art 001.png",
+            "img/art 002.png",
+            "img/art 003.png",
+            "img/art 004.png",
+            "img/art 005.png",
+            "img/art 006.png",
+          ],
+          ".window3": [
+            "img/hack 003.png",
+            "img/hack 002.png",
+            "img/hack 001.png",
+            "img/hack 004.png",
+            "img/hack 005.png",
+            "img/hack 000.png",
+          ],
+          ".reads": [
+            "img/book 02.jpg",
+            "img/book 01.jpeg",
+            "img/book 03.jpg",
+            "img/book 04.jpg",
+            "img/book 06.jpeg",
+            "img/book 07.jpg",
+            "img/book 08.jpg",
+            "img/book 09.jpg",
+            "img/book 11.jpg",
+          ],
+          ".obsessions": [
+            "img/anime 01.jpg",
+            "img/anime 02.jpg",
+            "img/anime 03.jpg",
+            "img/movie 01.jpeg",
+          ],
+          ".hobby": [
+            "img/hobby 001.png",
+            "img/hobby 002.png",
+            "img/hobby 003.png",
+            "img/hobby 004.png",
+            "img/hobby 005.png",
+          ],
+          ".summer": [
+            "img/summer 003.png",
+            "img/summer 002.png",
+            "img/summer 004.png",
+            "img/summer 005.png",
+            "img/summer 006.png",
+            "img/summer 007.png",
+            "img/summer 008.png",
+            "img/summer 009.png",
+            "img/summer 010.png",
+          ],
+          ".food": [
+            "img/food 01.png",
+            "img/food 02.png",
+            "img/food 04.png",
+            "img/food 05.png",
+            "img/food 06.png",
+            "img/food 07.png",
+            "img/food 08.png",
+            "img/food 04.png",
+          ],
+          ".friends": [
+            "img/friends 04.png",
+            "img/friends 01.png",
+            "img/friends 02.png",
+            "img/friends 05.png",
+            "img/friends 06.png",
+            "img/friends 07.png",
+            "img/friends 08.png",
+          ],
+        };
 
-        document.querySelector(".window1").addEventListener("click", () => {
-          index1 = (index1 + 1) % images1.length;
-          document.querySelector(".window1").src = images1[index1];
-        });
-      </script>
+        Object.entries(galleries).forEach(([selector, images]) => {
+          const img = document.querySelector(selector);
+          if (!img) return;
+          let index = 0;
 
-      <script>
-        const images2 = [
-          "img/art 001.png",
-          "img/art 002.png",
-          "img/art 003.png",
-          "img/art 004.png",
-          "img/art 005.png",
-          "img/art 006.png",
-        ];
-        let index2 = 0;
+          // fetch the next photo ahead of time so a tap switches instantly
+          const preloadNext = () => {
+            const next = new Image();
+            next.src = images[(index + 1) % images.length];
+            next.decode().catch(() => {});
+          };
 
-        document.querySelector(".window2").addEventListener("click", () => {
-          index2 = (index2 + 1) % images2.length;
-          document.querySelector(".window2").src = images2[index2];
-        });
-      </script>
+          new IntersectionObserver(
+            ([entry], observer) => {
+              if (!entry.isIntersecting) return;
+              preloadNext();
+              observer.disconnect();
+            },
+            { rootMargin: "300px" },
+          ).observe(img);
 
-      <script>
-        const images3 = [
-          "img/hack 003.png",
-          "img/hack 002.png",
-          "img/hack 001.png",
-          "img/hack 004.png",
-          "img/hack 005.png",
-          "img/hack 000.png",
-        ];
-        let index3 = 0;
-
-        document.querySelector(".window3").addEventListener("click", () => {
-          index3 = (index3 + 1) % images3.length;
-          document.querySelector(".window3").src = images3[index3];
-        });
-      </script>
-
-      <script>
-        const images4 = [
-          "img/book 02.jpg",
-          "img/book 01.jpeg",
-          "img/book 03.jpg",
-          "img/book 04.jpg",
-          "img/book 06.jpeg",
-          "img/book 07.jpg",
-          "img/book 08.jpg",
-          "img/book 09.jpg",
-          "img/book 10.jpg",
-          "img/book 11.jpg",
-          "img/book 12.jpg",
-        ];
-        let index4 = 0;
-
-        document.querySelector(".reads").addEventListener("click", () => {
-          index4 = (index4 + 1) % images4.length;
-          document.querySelector(".reads").src = images4[index4];
-        });
-      </script>
-
-      <script>
-        const images5 = [
-          "img/anime 01.jpg",
-          "img/anime 02.jpg",
-          "img/anime 03.jpg",
-          "img/movie 01.jpeg",
-        ];
-        let index5 = 0;
-
-        document.querySelector(".obsessions").addEventListener("click", () => {
-          index5 = (index5 + 1) % images5.length;
-          document.querySelector(".obsessions").src = images5[index5];
-        });
-      </script>
-
-      <script>
-        const images6 = [
-          "img/hobby 001.png",
-          "img/hobby 002.png",
-          "img/hobby 003.png",
-          "img/hobby 004.png",
-          "img/hobby 005.png",
-        ];
-        let index6 = 0;
-
-        document.querySelector(".hobby").addEventListener("click", () => {
-          index6 = (index6 + 1) % images6.length;
-          document.querySelector(".hobby").src = images6[index6];
-        });
-      </script>
-
-      <script>
-        const images7 = [
-          "img/summer 003.png",
-          "img/summer 002.png",
-          "img/summer 004.png",
-          "img/summer 005.png",
-          "img/summer 006.png",
-          "img/summer 007.png",
-          "img/summer 008.png",
-          "img/summer 009.png",
-          "img/summer 010.png",
-        ];
-        let index7 = 0;
-
-        document.querySelector(".summer").addEventListener("click", () => {
-          index7 = (index7 + 1) % images7.length;
-          document.querySelector(".summer").src = images7[index7];
-        });
-      </script>
-
-      <script>
-        const images8 = [
-          "img/food 01.png",
-          "img/food 02.png",
-          "img/food 04.png",
-          "img/food 05.png",
-          "img/food 06.png",
-          "img/food 07.png",
-          "img/food 08.png",
-          "img/food 04.png",
-        ];
-        let index8 = 0;
-
-        document.querySelector(".food").addEventListener("click", () => {
-          index8 = (index8 + 1) % images8.length;
-          document.querySelector(".food").src = images8[index8];
-        });
-      </script>
-
-      <script>
-        const images9 = [
-          "img/friends 02.png",
-          "img/friends 01.png",
-          "img/friends 04.png",
-          "img/friends 05.png",
-          "img/friends 06.png",
-          "img/friends 07.png",
-          "img/friends 08.png",
-        ];
-        let index9 = 0;
-
-        document.querySelector(".friends").addEventListener("click", () => {
-          index9 = (index9 + 1) % images9.length;
-          document.querySelector(".friends").src = images9[index9];
+          img.addEventListener("click", () => {
+            index = (index + 1) % images.length;
+            img.src = images[index];
+            preloadNext();
+          });
         });
       </script>
       <script>

@@ -211,7 +211,6 @@ img{
     justify-content:center;
     align-items:center;
     overflow:hidden;
-    /* wave is 23.8vw tall; tuck its top 4vw under the front cloud's solid base */
     bottom:calc(1em + 4vw - 23.8vw);
     z-index:1;
     transition: transform 0.2s ease;
@@ -274,7 +273,6 @@ img{
     display:none;
 }
 
-/* image on the left: pin it to the left edge instead of the right */
 .section-image:first-child{
     align-items:flex-start;
     padding-left:0;
@@ -323,6 +321,13 @@ gap:1.5em;
 
 .column img{
     border-radius:0.6em;
+}
+
+.section-image img,
+.column img{
+    cursor:pointer;
+    touch-action:manipulation;
+    -webkit-tap-highlight-color:transparent;
 }
 
 .column img:hover{
@@ -397,12 +402,10 @@ gap:1.5em;
     transition: 0.2s ease-out;
 }
 
-/* Spotify player bar: pinned to the bottom once the landing is scrolled past,
-   and closes down to a round cover-art button (driven by the script in index.html) */
+
 .player{
     --player-blue:#238CE2;
     --player-fg:#fff;
-    /* same blue as the page, slightly see-through so it blends with what's behind */
     --player-bg:rgba(37, 179, 246, 0.85);
     position:fixed;
     left:0;
@@ -643,12 +646,10 @@ gap:1.5em;
     color:var(--player-fg);
 }
 
-/* leave room so the bar never covers the end of the page */
 .main{
     padding-bottom:6rem;
 }
 
-/* the real Spotify embed: kept loaded but out of sight */
 .player-engine{
     position:absolute;
     width:1px;
@@ -664,9 +665,7 @@ gap:1.5em;
     }
 }
 
-/* ---------- Responsive ---------- */
 
-/* Laptops / small desktops */
 @media (max-width: 1200px){
     .section{
         padding-left:5em;
@@ -676,7 +675,7 @@ gap:1.5em;
 
 }
 
-/* Tablets */
+
 @media (max-width: 900px){
     .section{
         padding-left:2.5em;
@@ -690,7 +689,7 @@ gap:1.5em;
     }
 }
 
-/* Phones */
+
 @media (max-width: 768px){
     .landing{
         padding:0 1rem;
@@ -711,7 +710,7 @@ gap:1.5em;
         padding-top:1.5em;
     }
 
-    /* widen the decorative layers so they keep their height on narrow screens */
+
     .cloud,
     .cloud2{
         width:240%;
@@ -736,8 +735,6 @@ gap:1.5em;
         padding-top:calc(56.4vw + 4em);
         padding-bottom:10rem;
     }
-
-    /* stack every section: text on top, image below */
     .section{
         flex-direction:column;
         align-items:center;
@@ -763,7 +760,6 @@ gap:1.5em;
         transform:translateX(-50%);
     }
 
-    /* photo rows: keep three across on large phones */
     .section:has(.column){
         flex-direction:row;
         align-items:flex-start;
@@ -817,7 +813,6 @@ gap:1.5em;
     }
 }
 
-/* Small phones: stack the photo rows */
 @media (max-width: 560px){
     .section:has(.column){
         flex-direction:column;
@@ -846,7 +841,6 @@ gap:1.5em;
     }
 }
 
-/* Touch devices: no sticky hover scaling after a tap */
 @media (hover: none){
     .title:hover,
     .hyperlink:hover,
@@ -862,7 +856,6 @@ gap:1.5em;
     }
 }
 
-/* Scroll fading (classes added by the script in index.html) */
 .fade-in{
     opacity:0;
     transform:translateY(40px);
