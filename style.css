@@ -211,7 +211,8 @@ img{
     justify-content:center;
     align-items:center;
     overflow:hidden;
-    bottom:-250px;
+    /* wave is 23.8vw tall; tuck its top 4vw under the front cloud's solid base */
+    bottom:calc(1em + 4vw - 23.8vw);
     z-index:1;
     transition: transform 0.2s ease;
     pointer-events: none;
@@ -230,7 +231,7 @@ img{
         #25B3F6,
         #8DDBFF
     );
-    padding-top:22em;
+    padding-top:calc(19.8vw + 6em);
 }
 
 .section{
@@ -267,6 +268,16 @@ img{
     gap:0.2rem;
     padding-top:2rem;
     padding-left:1rem;
+}
+
+.section-image:empty{
+    display:none;
+}
+
+/* image on the left: pin it to the left edge instead of the right */
+.section-image:first-child{
+    align-items:flex-start;
+    padding-left:0;
 }
 
 .section-image:hover{
@@ -389,9 +400,6 @@ gap:1.5em;
         padding-bottom:7em;
     }
 
-    .main{
-        padding-top:19em;
-    }
 }
 
 /* Tablets */
@@ -400,14 +408,6 @@ gap:1.5em;
         padding-left:2.5em;
         padding-right:2.5em;
         padding-bottom:5em;
-    }
-
-    .main{
-        padding-top:12em;
-    }
-
-    .wave{
-        bottom:-150px;
     }
 
     .polaroid{
@@ -455,11 +455,11 @@ gap:1.5em;
     .wave{
         width:300%;
         left:-100%;
-        bottom:-140px;
+        bottom:calc(-1em + 15vw - 71.4vw);
     }
 
     .main{
-        padding-top:12em;
+        padding-top:calc(56.4vw + 4em);
     }
 
     /* stack every section: text on top, image below */
@@ -476,14 +476,11 @@ gap:1.5em;
         order:-1;
     }
 
-    .section-image{
+    .section-image,
+    .section-image:first-child{
         align-items:center;
         padding:0;
         position:relative;
-    }
-
-    .section-image:empty{
-        display:none;
     }
 
     .hoverbox-image{
@@ -557,4 +554,16 @@ gap:1.5em;
     .trail{
         display:none;
     }
+}
+
+/* Scroll fading (classes added by the script in index.html) */
+.fade-in{
+    opacity:0;
+    transform:translateY(40px);
+    transition:opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in.visible{
+    opacity:1;
+    transform:none;
 }

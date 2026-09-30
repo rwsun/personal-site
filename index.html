@@ -164,10 +164,17 @@
       </div>
 
       <script>
+        const cloud = document.querySelector(".cloud");
+        const cloud2 = document.querySelector(".cloud2");
+
         window.addEventListener("scroll", () => {
-          const cloud = document.querySelector(".cloud");
-          const scrollY = window.scrollY;
-          cloud.style.transform = `translateY(-${scrollY * 0.4}px)`;
+          // stop rising once the back cloud's bottom edge would peek out
+          // above the front cloud's solid base (bottom 20% of the image)
+          const maxLift =
+            cloud.offsetTop + cloud.offsetHeight -
+            (cloud2.offsetTop + cloud2.offsetHeight * 0.8);
+          const lift = Math.min(window.scrollY * 0.4, maxLift);
+          cloud.style.transform = `translateY(-${lift}px)`;
         });
 
         document.addEventListener("mousemove", (e) => {
@@ -340,6 +347,44 @@
           document.querySelector(".friends").src = images9[index9];
         });
       </script>
+      <script>
+        // scroll fading: reveal each block as it enters the viewport
+        const fadeTargets = document.querySelectorAll(
+          ".main .section-text, .main .section-image:not(:empty), .main .polaroid, .main .column"
+        );
+
+        const fadeObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              entry.target.classList.add("visible");
+              fadeObserver.unobserve(entry.target);
+            });
+          },
+          { threshold: 0.15, rootMargin: "0px 0px -8% 0px" }
+        );
+
+        const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        if (!reduceMotion) fadeTargets.forEach((el) => {
+          // stagger siblings in the same row so they arrive one after another
+          const siblings = [...el.parentElement.children].filter((c) =>
+            c.matches(".section-text, .section-image:not(:empty), .column")
+          );
+          el.style.transitionDelay = `${Math.max(siblings.indexOf(el), 0) * 0.15}s`;
+          el.classList.add("fade-in");
+          fadeObserver.observe(el);
+
+          // hand transform back to the hover effects once the fade is done
+          el.addEventListener("transitionend", function cleanup(e) {
+            if (e.target !== el || e.propertyName !== "opacity") return;
+            el.classList.remove("fade-in", "visible");
+            el.style.transitionDelay = "";
+            el.removeEventListener("transitionend", cleanup);
+          });
+        });
+      </script>
+
       <script src="/path/to/noframework.waypoints.min.js"></script>
     </div>
   </body>
