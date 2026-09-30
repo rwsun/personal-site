@@ -17,6 +17,28 @@ html,body{
     overflow-x:clip;
 }
 
+/* animated fish cursor (the GIF can't be a real CSS cursor, which would only show
+   its first frame): the script in index.html hides the normal cursor and moves
+   this image with the mouse; links, photos and buttons keep the pointing hand */
+.fish-cursor-on{
+    cursor:none;
+}
+
+.fish-cursor{
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:10000;
+    width:40px;
+    max-width:none;
+    pointer-events:none;
+    visibility:hidden;
+}
+
+.fish-cursor.is-visible{
+    visibility:visible;
+}
+
 img{
     max-width:100%;
     height:auto;
