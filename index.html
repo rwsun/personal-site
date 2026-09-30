@@ -300,6 +300,7 @@
           // swapped and the cards snap back to their places, so the pile keeps cycling
           const SHUFFLE_MS = 550;
           let shuffleTimer = null;
+          let exitRight = false; // alternate sides: left, right, left, ...
 
           const settle = () => {
             shuffleTimer = null;
@@ -322,6 +323,8 @@
               showBacks();
               return;
             }
+            stack.classList.toggle("exit-right", exitRight);
+            exitRight = !exitRight;
             stack.classList.add("is-shuffling");
             shuffleTimer = setTimeout(settle, SHUFFLE_MS);
           });
