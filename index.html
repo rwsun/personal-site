@@ -120,15 +120,15 @@
       <div class="section">
         <div class="column">
           <img class="obsessions" src="img/anime 01.jpg" alt="jjk" />
-          <div class="body">favorite watches</div>
+          <div class="body" style="margin-top: 0.5em">favorite watches</div>
         </div>
         <div class="column">
           <img class="reads" src="img/book 02.jpg" alt="book 02" />
-          <div class="body">recent reads</div>
+          <div class="body" style="margin-top: 0.5em">recent reads</div>
         </div>
         <div class="column">
-          <img class="music" src="img/music 001.jpeg" alt="random 03" />
-          <div class="body">current listens!</div>
+          <img class="hobby" src="img/hobby 001.png" alt="random 03" />
+          <div class="body" style="margin-top: 0.5em">in my free time!</div>
         </div>
       </div>
 
@@ -138,7 +138,7 @@
       <div class="section">
         <div class="column">
           <img class="friends" src="img/friends 02.png" alt="singapore!" />
-          <div class="body">friends!</div>
+          <div class="body" style="margin-top: 0.5em">friends!</div>
         </div>
         <div class="column">
           <img
@@ -147,11 +147,11 @@
             src="img/summer 008.png"
             alt="busan, seoul, hokkaido, tokyo, osaka, singapore"
           />
-          <div class="body">this summer!</div>
+          <div class="body" style="margin-top: 0.5em">this summer!</div>
         </div>
         <div class="column">
           <img class="food" src="img/food 01.png" alt="yum food" />
-          <div class="body">food</div>
+          <div class="body" style="margin-top: 0.5em">food</div>
         </div>
       </div>
 
@@ -272,15 +272,17 @@
 
       <script>
         const images6 = [
-          "img/music 001.jpeg",
-          "img/music 002.jpg",
-          "img/music 003.jpeg",
+          "img/hobby 001.png",
+          "img/hobby 002.png",
+          "img/hobby 003.png",
+          "img/hobby 004.png",
+          "img/hobby 005.png",
         ];
         let index6 = 0;
 
-        document.querySelector(".music").addEventListener("click", () => {
+        document.querySelector(".hobby").addEventListener("click", () => {
           index6 = (index6 + 1) % images6.length;
-          document.querySelector(".music").src = images6[index6];
+          document.querySelector(".hobby").src = images6[index6];
         });
       </script>
 
