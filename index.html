@@ -295,11 +295,10 @@
             });
           showBacks();
 
-          // shuffle: the top photo slides off while every card behind moves up one
-          // spot; once they've arrived the photos are swapped and the cards snap
-          // back to their places, which looks identical, so the pile keeps cycling
-          const SHUFFLE_MS = 450;
-          const [, secondBack] = backs[0];
+          // shuffle: the top photo slides out and tucks in at the back while every
+          // card behind moves up one spot; once they've arrived the photos are
+          // swapped and the cards snap back to their places, so the pile keeps cycling
+          const SHUFFLE_MS = 550;
           let shuffleTimer = null;
 
           const settle = () => {
@@ -307,11 +306,9 @@
             stack.classList.add("no-anim");
             img.src = images[index];
             showBacks();
-            secondBack.classList.add("stack-enter");
             stack.classList.remove("is-shuffling");
             void stack.offsetWidth;
             stack.classList.remove("no-anim");
-            secondBack.classList.remove("stack-enter");
           };
 
           img.addEventListener("click", () => {
