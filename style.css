@@ -402,34 +402,111 @@ gap:1.5em;
     transition: 0.2s ease-out;
 }
 
-/* Spotify player: white card at the end of the page, driven by the script in index.html */
+/* Spotify player bar: pinned to the bottom once the landing is scrolled past,
+   and closes down to a round cover-art button (driven by the script in index.html) */
 .player{
     --player-blue:#238CE2;
+    --player-fg:#fff;
+    /* same blue as the page, slightly see-through so it blends with what's behind */
+    --player-bg:rgba(37, 179, 246, 0.85);
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index:100;
+    font-family:"Bodoni 72 Italics", serif;
+    color:var(--player-fg);
+    pointer-events:none;
+}
+
+.player-card,
+.player-bubble{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:auto;
+    transition:opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+}
+
+.player-card{
+    transform:translateY(100%);
+}
+
+.player-bubble{
+    transform:scale(0.6);
+}
+
+.player.is-shown:not(.is-closed) .player-card,
+.player.is-shown.is-closed .player-bubble{
+    opacity:1;
+    visibility:visible;
+    transform:none;
+}
+
+.player-card{
     display:grid;
     grid-template-columns:1fr auto 1fr;
     align-items:center;
     gap:1.5rem;
-    width:calc(100% - 2rem);
-    max-width:60rem;
-    box-sizing:border-box;
-    margin:0 auto;
-    padding:0.75rem 1.25rem;
-    background:#fff;
-    color:var(--player-blue);
-    border-radius:12px;
-    box-shadow:0 8px 24px rgba(20, 90, 150, 0.2);
+    padding:0.6rem 1.5rem;
+    background:var(--player-bg);
+    -webkit-backdrop-filter:blur(12px);
+    backdrop-filter:blur(12px);
+    border-top:1px solid rgba(255, 255, 255, 0.35);
+    box-shadow:0 -4px 20px rgba(20, 90, 150, 0.2);
+}
+
+.player-center{
+    display:flex;
+    flex-direction:column;
+    gap:0.3rem;
+    width:min(30rem, 42vw);
+}
+
+.player-side{
+    justify-self:end;
+    display:flex;
+    align-items:center;
+    gap:1rem;
+}
+
+.player-bubble{
+    position:absolute;
+    right:1.25rem;
+    bottom:1.25rem;
+    width:56px;
+    height:56px;
+    padding:0;
+    border:3px solid #fff;
+    border-radius:50%;
+    overflow:hidden;
+    background:#d9efff;
+    box-shadow:0 6px 18px rgba(20, 90, 150, 0.3);
+    cursor:pointer;
+}
+
+.player-bubble .player-cover{
+    width:100%;
+    height:100%;
+    border-radius:0;
+}
+
+.player.is-playing .player-bubble .player-cover{
+    animation:player-spin 8s linear infinite;
+}
+
+@keyframes player-spin{
+    to{ transform:rotate(360deg); }
 }
 
 .player-info{
     display:flex;
     align-items:center;
-    gap:0.9rem;
-    min-width:0;
+    gap:0.7rem;
 }
 
 .player-cover{
-    width:56px;
-    height:56px;
+    width:52px;
+    height:52px;
     flex-shrink:0;
     border-radius:6px;
     object-fit:cover;
@@ -437,6 +514,7 @@ gap:1.5em;
 }
 
 .player-text{
+    flex:1;
     min-width:0;
 }
 
@@ -448,7 +526,8 @@ gap:1.5em;
 }
 
 .player-title{
-    font-size:1.05rem;
+    font-size:1.1rem;
+    font-style:italic;
 }
 
 .player-subtitle{
@@ -456,20 +535,7 @@ gap:1.5em;
     opacity:0.75;
 }
 
-.player-center{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:0.35rem;
-    width:min(28rem, 100%);
-}
-
-.player-controls{
-    display:flex;
-    align-items:center;
-    gap:1.5rem;
-}
-
+.player-close,
 .player-btn,
 .player-play{
     display:grid;
@@ -477,37 +543,51 @@ gap:1.5em;
     padding:0;
     border:0;
     background:none;
-    color:var(--player-blue);
+    color:var(--player-fg);
     cursor:pointer;
     transition:transform 0.15s ease;
 }
 
-.player-btn svg{
-    width:28px;
-    height:28px;
-    fill:currentColor;
-}
-
-.player-btn text{
-    font-family:Verdana, sans-serif;
-    font-size:6.5px;
-    font-weight:700;
-}
-
-.player-play{
-    width:48px;
-    height:48px;
-    border-radius:50%;
-    background:var(--player-blue);
-    color:#fff;
-}
-
-.player-play svg{
+.player-close svg{
     width:26px;
     height:26px;
     fill:currentColor;
 }
 
+.player-controls{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:0.9rem;
+}
+
+.player-btn svg{
+    width:24px;
+    height:24px;
+    fill:currentColor;
+}
+
+.player-btn text{
+    font-family:"Bodoni 72 Italics", serif;
+    font-size:7px;
+    font-weight:700;
+}
+
+.player-play{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:#fff;
+    color:var(--player-blue);
+}
+
+.player-play svg{
+    width:22px;
+    height:22px;
+    fill:currentColor;
+}
+
+.player-close:hover,
 .player-btn:hover,
 .player-play:hover{
     transform:scale(1.08);
@@ -525,13 +605,12 @@ gap:1.5em;
 .player-progress{
     display:flex;
     align-items:center;
-    gap:0.6rem;
-    width:100%;
+    gap:0.5rem;
 }
 
 .player-time{
     font-size:0.8rem;
-    min-width:2.5em;
+    min-width:2.2em;
     text-align:center;
     font-variant-numeric:tabular-nums;
 }
@@ -542,7 +621,7 @@ gap:1.5em;
     height:4px;
     margin:0;
     border-radius:2px;
-    background:linear-gradient(to right, var(--player-blue) var(--fill), #cfe8fb var(--fill));
+    background:linear-gradient(to right, #fff var(--fill), rgba(255, 255, 255, 0.35) var(--fill));
     appearance:none;
     -webkit-appearance:none;
     cursor:pointer;
@@ -553,7 +632,7 @@ gap:1.5em;
     width:12px;
     height:12px;
     border-radius:50%;
-    background:var(--player-blue);
+    background:#fff;
 }
 
 .player-seek::-moz-range-thumb{
@@ -561,21 +640,17 @@ gap:1.5em;
     height:12px;
     border:0;
     border-radius:50%;
-    background:var(--player-blue);
-}
-
-.player-side{
-    justify-self:end;
+    background:#fff;
 }
 
 .player-link{
-    font-size:0.8rem;
-    color:var(--player-blue);
+    font-size:0.85rem;
+    color:var(--player-fg);
 }
 
-/* keep the blue background running below the player */
+/* leave room so the bar never covers the end of the page */
 .main{
-    padding-bottom:3rem;
+    padding-bottom:6rem;
 }
 
 /* the real Spotify embed: kept loaded but out of sight */
@@ -586,6 +661,12 @@ gap:1.5em;
     overflow:hidden;
     opacity:0;
     pointer-events:none;
+}
+
+@media (prefers-reduced-motion: reduce){
+    .player.is-playing .player-bubble .player-cover{
+        animation:none;
+    }
 }
 
 /* ---------- Responsive ---------- */
@@ -658,6 +739,7 @@ gap:1.5em;
 
     .main{
         padding-top:calc(56.4vw + 4em);
+        padding-bottom:10rem;
     }
 
     /* stack every section: text on top, image below */
@@ -708,19 +790,30 @@ gap:1.5em;
     border-width:1px;
   }
 
-    /* stack the player: song info, then the centred controls */
-    .player{
-        grid-template-columns:1fr;
-        gap:0.75rem;
-        padding:1rem;
+    .player-card{
+        grid-template-columns:1fr auto;
+        gap:0.4rem 1rem;
+        padding:0.6rem 1rem 0.8rem;
     }
 
     .player-center{
-        justify-self:center;
+        grid-column:1 / -1;
+        grid-row:2;
+        width:100%;
     }
 
-    .player-side{
-        justify-self:center;
+    .player-link{
+        display:none;
+    }
+
+    .player-cover{
+        width:44px;
+        height:44px;
+    }
+
+    .player-bubble{
+        right:1rem;
+        bottom:1rem;
     }
 
     .third,
