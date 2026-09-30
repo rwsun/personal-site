@@ -321,17 +321,12 @@ gap:1.5em;
     margin-top:2em;
 }
 
-.column-image{
-    border-radius:10px;
-}
-
 .column img{
-  border:0.2em solid #fffde3;
-  box-sizing:border-box;
+    border-radius:0.6em;
 }
 
 .column img:hover{
-    transform: scale(1.1); 
+    transform: scale(1.06); 
     transition:transform 0.1s ease-in-out;
 }
 .row:after{
