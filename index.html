@@ -265,31 +265,68 @@
           ],
         };
 
+        const reduceMotionGallery = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
         Object.entries(galleries).forEach(([selector, images]) => {
           const img = document.querySelector(selector);
           if (!img) return;
           let index = 0;
 
-          // fetch the next photo ahead of time so a tap switches instantly
-          const preloadNext = () => {
-            const next = new Image();
-            next.src = images[(index + 1) % images.length];
-            next.decode().catch(() => {});
+          // stack the next two photos behind this one, tilted, so it reads as a
+          // pile you can click through (they also load those photos ahead of time)
+          const stack = document.createElement("div");
+          stack.className = "stack";
+          img.parentNode.insertBefore(stack, img);
+
+          const backs = [2, 1].map((offset) => {
+            const back = document.createElement("img");
+            back.className = `stack-back stack-back-${offset}`;
+            back.alt = "";
+            back.setAttribute("aria-hidden", "true");
+            back.loading = "lazy";
+            stack.appendChild(back);
+            return [offset, back];
+          });
+          stack.appendChild(img);
+
+          const showBacks = () =>
+            backs.forEach(([offset, back]) => {
+              back.src = images[(index + offset) % images.length];
+            });
+          showBacks();
+
+          // shuffle: the top photo slides off while every card behind moves up one
+          // spot; once they've arrived the photos are swapped and the cards snap
+          // back to their places, which looks identical, so the pile keeps cycling
+          const SHUFFLE_MS = 450;
+          const [, secondBack] = backs[0];
+          let shuffleTimer = null;
+
+          const settle = () => {
+            shuffleTimer = null;
+            stack.classList.add("no-anim");
+            img.src = images[index];
+            showBacks();
+            secondBack.classList.add("stack-enter");
+            stack.classList.remove("is-shuffling");
+            void stack.offsetWidth;
+            stack.classList.remove("no-anim");
+            secondBack.classList.remove("stack-enter");
           };
 
-          new IntersectionObserver(
-            ([entry], observer) => {
-              if (!entry.isIntersecting) return;
-              preloadNext();
-              observer.disconnect();
-            },
-            { rootMargin: "300px" },
-          ).observe(img);
-
           img.addEventListener("click", () => {
+            if (shuffleTimer) {
+              clearTimeout(shuffleTimer);
+              settle();
+            }
             index = (index + 1) % images.length;
-            img.src = images[index];
-            preloadNext();
+            if (reduceMotionGallery) {
+              img.src = images[index];
+              showBacks();
+              return;
+            }
+            stack.classList.add("is-shuffling");
+            shuffleTimer = setTimeout(settle, SHUFFLE_MS);
           });
         });
       </script>
@@ -332,6 +369,68 @@
               el.removeEventListener("transitionend", cleanup);
             });
           });
+      </script>
+
+      <script>
+        // typewriter: each section's text types itself out as it scrolls into view
+        // (desktop only; phones and reduced-motion users just see the text)
+        const typewriterOn =
+          matchMedia("(min-width: 769px) and (hover: hover)").matches &&
+          !matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        if (typewriterOn) {
+          const TYPE_DELAY = 30; // ms per character
+
+          // swap an element's text for hidden per-character spans; a visually
+          // hidden copy keeps the full text readable for screen readers
+          const splitIntoChars = (el) => {
+            const text = el.textContent.trim().replace(/\s+/g, " ");
+            const label = document.createElement("span");
+            label.className = "sr-only";
+            label.textContent = text;
+            const shown = document.createElement("span");
+            shown.setAttribute("aria-hidden", "true");
+            const chars = [...text].map((ch) => {
+              const span = document.createElement("span");
+              span.className = "tw-char";
+              span.textContent = ch;
+              shown.appendChild(span);
+              return span;
+            });
+            el.replaceChildren(label, shown);
+            return chars;
+          };
+
+          const typeOut = (chars) => {
+            let i = 0;
+            const step = () => {
+              if (i > 0) chars[i - 1].classList.remove("tw-current");
+              if (i === chars.length) return;
+              chars[i].classList.add("tw-shown", "tw-current");
+              i++;
+              setTimeout(step, TYPE_DELAY);
+            };
+            step();
+          };
+
+          const blockChars = new Map();
+          const typeObserver = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                typeObserver.unobserve(entry.target);
+                typeOut(blockChars.get(entry.target));
+              });
+            },
+            { threshold: 0.4 }
+          );
+
+          document.querySelectorAll(".main .section-text, .main .polaroid").forEach((block) => {
+            // type the block's lines one after another: subtitle, heading, text, link
+            blockChars.set(block, [...block.children].flatMap(splitIntoChars));
+            typeObserver.observe(block);
+          });
+        }
       </script>
 
       <script src="/path/to/noframework.waypoints.min.js"></script>

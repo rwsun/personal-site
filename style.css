@@ -310,6 +310,11 @@ gap:1.5em;
     align-items:center;
 }
 
+/* rows of photos: a little more space between them than other sections */
+.section:has(.column){
+    gap:3em;
+}
+
 .column{
     float:left;
     width:33.33%;
@@ -328,6 +333,98 @@ gap:1.5em;
     cursor:pointer;
     touch-action:manipulation;
     -webkit-tap-highlight-color:transparent;
+}
+
+/* photo stacks: the next photos peek out behind the top one (built by the gallery script) */
+.stack{
+    /* resting spots of the two cards behind the photo */
+    --pose-1:translate(3%, 1.5%) rotate(4deg);
+    --pose-2:translate(-3%, 2.5%) rotate(-5deg);
+    position:relative;
+    display:inline-block;
+    max-width:100%;
+    line-height:0;
+    isolation:isolate;
+}
+
+/* fan the pile out a little on hover so it invites a click */
+.stack:hover{
+    --pose-1:translate(5%, 2%) rotate(7deg);
+    --pose-2:translate(-5%, 3%) rotate(-8deg);
+}
+
+.stack > img{
+    filter:drop-shadow(0 6px 10px rgba(10, 70, 130, 0.22));
+}
+
+.stack > img:not(.stack-back){
+    position:relative;
+    z-index:2;
+    display:block;
+    max-width:100%;
+}
+
+/* room for the tilted back cards above the caption */
+.column .stack{
+    margin-bottom:0.75rem;
+}
+
+/* size limit lives on the stack so the back cards match the photo exactly */
+.section .stack{
+    max-width:min(30rem, 100%);
+}
+
+.stack-back{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    pointer-events:none;
+    transition:transform 0.3s ease, opacity 0.3s ease;
+}
+
+.stack-back-1{
+    z-index:1;
+    transform:var(--pose-1);
+}
+
+.stack-back-2{
+    z-index:0;
+    transform:var(--pose-2);
+    opacity:0.9;
+}
+
+/* shuffle (timed by the gallery script): the top photo slides off to the left
+   while each card behind moves up into the spot in front of it */
+.stack.is-shuffling > .stack-back{
+    transition:transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease;
+}
+
+/* (specific enough to beat the photo hover rules, which set their own transition) */
+.stack.is-shuffling > img:not(.stack-back){
+    transform:translate(-28%, -6%) rotate(-14deg);
+    opacity:0;
+    transition:transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
+}
+
+.stack.is-shuffling .stack-back-1{
+    transform:none;
+    opacity:1;
+}
+
+.stack.is-shuffling .stack-back-2{
+    transform:var(--pose-1);
+    opacity:1;
+}
+
+/* the new card at the back of the pile fades in */
+.stack-back-2.stack-enter{
+    opacity:0;
+}
+
+.stack.no-anim > img{
+    transition:none !important;
 }
 
 .column img:hover{
@@ -763,22 +860,21 @@ gap:1.5em;
     .section:has(.column){
         flex-direction:row;
         align-items:flex-start;
-        gap:0.75rem;
+        gap:calc(0.75rem + 1em);
     }
 
     .column{
         float:none;
-        width:33.33%;
+        width:30%;
         margin-top:0;
+        gap:3em;
     }
 
     .column .body{
         margin-top:0.5rem;
     }
 
-  .column-image{
-    border:#FFFFF1;
-    border-width:1px;
+  .column .img{
   }
 
     .player-card{
@@ -865,4 +961,37 @@ gap:1.5em;
 .fade-in.visible{
     opacity:1;
     transform:none;
+}
+
+/* Typewriter text (spans added by the script in index.html, desktop only) */
+.tw-char{
+    visibility:hidden;
+}
+
+.tw-char.tw-shown{
+    visibility:visible;
+}
+
+/* cursor that rides along with the newest character */
+.tw-current{
+    position:relative;
+}
+
+.tw-current::after{
+    content:"";
+    position:absolute;
+    top:0.1em;
+    bottom:0.05em;
+    right:-0.12em;
+    width:max(2px, 0.05em);
+    background:currentColor;
+}
+
+.sr-only{
+    position:absolute;
+    width:1px;
+    height:1px;
+    overflow:hidden;
+    clip:rect(0 0 0 0);
+    white-space:nowrap;
 }
