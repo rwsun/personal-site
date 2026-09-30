@@ -314,9 +314,10 @@ gap:1.5em;
     align-items:center;
 }
 
-/* rows of photos: a little more space between them than other sections */
+/* rows of photos: wide enough that the tilted cards behind each photo
+   (which stick out ~15% of the photo's width) never touch the next pile */
 .section:has(.column){
-    gap:3em;
+    gap:clamp(3.5em, 9vw, 8em);
 }
 
 .column{
@@ -386,6 +387,11 @@ gap:1.5em;
     object-fit:cover;
     pointer-events:none;
     transition:transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* card shape shown while a back photo is still downloading */
+.stack-back:not(.is-loaded){
+    background:rgba(255, 255, 255, 0.75);
 }
 
 .stack-back-1{
@@ -875,7 +881,6 @@ gap:1.5em;
     .section:has(.column){
         flex-direction:row;
         align-items:flex-start;
-        gap:calc(0.75rem + 1em);
     }
 
     .column{
