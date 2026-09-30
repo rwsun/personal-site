@@ -246,6 +246,10 @@ img{
     padding-bottom:10em;
 }
 
+.section img{
+    border-radius:0.4em;
+}
+
 .last-section{
     justify-content:center;
     align-items:center;
