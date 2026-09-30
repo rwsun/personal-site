@@ -267,6 +267,14 @@
 
         const reduceMotionGallery = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+        // swoosh sound on every photo click (restarts if clicked again quickly)
+        const swooshSound = new Audio("swoosh.mp3");
+        swooshSound.preload = "auto";
+        const playSwoosh = () => {
+          swooshSound.currentTime = 0;
+          swooshSound.play().catch(() => {});
+        };
+
         Object.entries(galleries).forEach(([selector, images]) => {
           const img = document.querySelector(selector);
           if (!img) return;
@@ -283,17 +291,35 @@
             back.className = `stack-back stack-back-${offset}`;
             back.alt = "";
             back.setAttribute("aria-hidden", "true");
-            back.loading = "lazy";
+            // plain card shape until its photo arrives, so the pile shows right away
+            back.addEventListener("load", () => back.classList.add("is-loaded"));
             stack.appendChild(back);
             return [offset, back];
           });
           stack.appendChild(img);
 
-          const showBacks = () =>
+          // back photos load once the pile is about a screen away (done here rather
+          // than with loading="lazy", which some phone browsers hold back)
+          let nearScreen = false;
+          const showBacks = () => {
+            if (!nearScreen) return;
             backs.forEach(([offset, back]) => {
-              back.src = images[(index + offset) % images.length];
+              const src = images[(index + offset) % images.length];
+              if (back.getAttribute("src") === src) return;
+              back.classList.remove("is-loaded");
+              back.src = src;
             });
-          showBacks();
+          };
+
+          new IntersectionObserver(
+            ([entry], observer) => {
+              if (!entry.isIntersecting) return;
+              observer.disconnect();
+              nearScreen = true;
+              showBacks();
+            },
+            { rootMargin: "100% 0px" }
+          ).observe(stack);
 
           // shuffle: the top photo slides out and tucks in at the back while every
           // card behind moves up one spot; once they've arrived the photos are
@@ -313,6 +339,7 @@
           };
 
           img.addEventListener("click", () => {
+            playSwoosh();
             if (shuffleTimer) {
               clearTimeout(shuffleTimer);
               settle();
@@ -433,7 +460,6 @@
         }
       </script>
 
-      <script src="/path/to/noframework.waypoints.min.js"></script>
     </div>
 
     <div class="player" id="player">
