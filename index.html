@@ -3,13 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- what Google (and the browser tab) shows for this page -->
+
     <title>Ren Sun - Queen's Commerce Student, Developer, &amp; Artist</title>
     <meta
       name="description"
       content="Ren Sun, also known as Renran Sun, is a first-year student at Queen's Commerce in Kingston, ON. She welcomes you to her personal website."
     />
-    <link rel="icon" type="image/png" sizes="192x192" href="img/favicon-192.png" />
+
+    <meta
+      name="google-site-verification"
+      content="3jfZPfZ-8H1rOotuiYyB6KGX5YyHactmCyV4tzWghds"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="img/favicon-192.png"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="style.css" />
@@ -272,7 +282,9 @@
           ],
         };
 
-        const reduceMotionGallery = matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const reduceMotionGallery = matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
 
         // swoosh sound on every photo click (restarts if clicked again quickly)
         const swooshSound = new Audio("swoosh.mp3");
@@ -299,7 +311,9 @@
             back.alt = "";
             back.setAttribute("aria-hidden", "true");
             // plain card shape until its photo arrives, so the pile shows right away
-            back.addEventListener("load", () => back.classList.add("is-loaded"));
+            back.addEventListener("load", () =>
+              back.classList.add("is-loaded"),
+            );
             stack.appendChild(back);
             return [offset, back];
           });
@@ -325,7 +339,7 @@
               nearScreen = true;
               showBacks();
             },
-            { rootMargin: "100% 0px" }
+            { rootMargin: "100% 0px" },
           ).observe(stack);
 
           // shuffle: the top photo slides out and tucks in at the back while every
@@ -456,17 +470,21 @@
                 typeOut(blockChars.get(entry.target));
               });
             },
-            { threshold: 0.4 }
+            { threshold: 0.4 },
           );
 
-          document.querySelectorAll(".main .section-text, .main .polaroid").forEach((block) => {
-            // type the block's lines one after another: subtitle, heading, text, link
-            blockChars.set(block, [...block.children].flatMap(splitIntoChars));
-            typeObserver.observe(block);
-          });
+          document
+            .querySelectorAll(".main .section-text, .main .polaroid")
+            .forEach((block) => {
+              // type the block's lines one after another: subtitle, heading, text, link
+              blockChars.set(
+                block,
+                [...block.children].flatMap(splitIntoChars),
+              );
+              typeObserver.observe(block);
+            });
         }
       </script>
-
     </div>
 
     <div class="player" id="player">
