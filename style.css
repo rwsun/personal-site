@@ -309,8 +309,8 @@ img{
     justify-content:space-between;
     gap: 2em;
     padding-left: 10em;
-    padding-top:em;
-    padding-right:8em;
+    padding-top:2em;
+    padding-right:10em;
     padding-bottom:10em;
 
 }
@@ -383,17 +383,20 @@ gap:1.5em;
     align-items:center;
 }
 
-/* rows of photos: wide enough that the tilted cards behind each photo
-   (which stick out ~15% of the photo's width) never touch the next pile */
+
 .section:has(.column){
     gap:clamp(3.5em, 9vw, 8em);
+    justify-content:center;
 }
 
+/* photo and caption centred within each column */
 .column{
     float:left;
-    width:33.33%;
+    width:50%;
+    display:flex;
+    flex-direction:column;
     align-items:center;
-    justify-items: center;
+    text-align:center;
     z-index:0;
     margin-top:2em;
 }
@@ -408,8 +411,6 @@ gap:1.5em;
     touch-action:manipulation;
     -webkit-tap-highlight-color:transparent;
 }
-
-/* photo stacks: the next photos peek out behind the top one (built by the gallery script) */
 .stack{
     /* resting spots of the two cards behind the photo */
     --pose-1:translate(3%, 1.5%) rotate(4deg);
