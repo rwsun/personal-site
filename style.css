@@ -429,7 +429,7 @@ gap:1.5em;
 .stack > img{
     box-sizing:border-box;
     padding:0.8em 0.8em 2em;
-    background:#ebe8e5;
+    background:#efefec;
     border-radius:3px;
     filter:drop-shadow(0 6px 10px rgba(10, 70, 130, 0.22));
 }
