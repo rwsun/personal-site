@@ -434,6 +434,51 @@ gap:1.5em;
     filter:drop-shadow(0 6px 10px rgba(10, 70, 130, 0.22));
 }
 
+/* desktop scroll gallery (built by the gallery script): in the sections with text
+   beside a photo, the text stays pinned while every photo slides up past it */
+.scroll-gallery{
+    display:none;
+}
+
+@media (min-width: 769px){
+    .section:has(.scroll-gallery){
+        align-items:flex-start;
+    }
+
+    .section:has(.scroll-gallery) .section-text{
+        position:sticky;
+        top:30vh;
+    }
+
+    .section-image:has(.scroll-gallery) .stack,
+    .section-image:has(.scroll-gallery) .hoverbox-image{
+        display:none;
+    }
+
+    .scroll-gallery{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        gap:4rem;
+    }
+
+    .scroll-photo{
+        display:block;
+        max-width:min(30rem, 100%);
+        max-height:30rem;
+        box-sizing:border-box;
+        border-radius:3px;
+        filter:drop-shadow(0 6px 10px rgba(10, 70, 130, 0.22));
+    }
+
+    /* the merch artwork stays unframed here too */
+    .scroll-gallery.no-frame .scroll-photo{
+        padding:0;
+        background:none;
+        border-radius:0.4em;
+    }
+}
+
 /* the artist / merch designer artwork goes without the polaroid frame */
 .stack:has(.window2) > img{
     padding:0;

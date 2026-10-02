@@ -545,6 +545,27 @@
           swooshSound.play().catch(() => {});
         };
 
+        // desktop: the sections with text beside a photo show the whole gallery as a
+        // column that scrolls up past the pinned text (CSS shows it from 769px up;
+        // phones keep the clickable polaroid pile built below)
+        [".window1", ".window3", ".window2"].forEach((selector) => {
+          const img = document.querySelector(selector);
+          if (!img) return;
+          const column = document.createElement("div");
+          column.className = "scroll-gallery";
+          // the merch artwork stays unframed
+          column.classList.toggle("no-frame", selector === ".window2");
+          galleries[selector].forEach((src) => {
+            const photo = document.createElement("img");
+            photo.loading = "lazy";
+            photo.src = src;
+            photo.alt = img.alt;
+            photo.className = "scroll-photo";
+            column.appendChild(photo);
+          });
+          img.closest(".section-image").appendChild(column);
+        });
+
         Object.entries(galleries).forEach(([selector, images]) => {
           const img = document.querySelector(selector);
           if (!img) return;
