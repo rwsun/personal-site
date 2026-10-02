@@ -39,6 +39,9 @@ html,body{
 img{
     max-width:100%;
     height:auto;      
+    /* no dragging images around as a see-through "ghost" (Firefox: see index.html) */
+    -webkit-user-drag:none;
+    user-select:none;
 }
 
 .landing{
@@ -304,6 +307,18 @@ img{
         #8DDBFF
     );
     padding-top:calc(19.8vw + 6em);
+
+    position:relative;
+    z-index:0;
+}
+
+.sparkles{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    z-index:-1;
+    pointer-events:none;
 }
 
 .section{
