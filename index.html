@@ -84,17 +84,16 @@
     </div>
 
     <script>
-      // drag the social icons anywhere on the landing; let go and they fall onto
-      // the water (where the front clouds end) and bounce. A plain click still opens the link.
+      // drag the social icons anywhere on the landing
       (() => {
         const landing = document.querySelector(".landing");
         const waterEdge = document.querySelector(".cloud2");
-        const GRAVITY = 2400; // px/s²
-        const BOUNCE = 0.55; // share of speed kept after hitting the water or a side
-        const SINK = 0.75; // share of an icon's width that settles below the water line
-        const DRAG_START = 6; // px of movement before a press becomes a drag
-        const MAX_THROW = 2500; // px/s, so a hard flick doesn't ricochet forever
-        const bodies = new Map(); // link -> { el, x, y, vx, vy, w, h, angle, held, resting }
+        const GRAVITY = 2400; 
+        const BOUNCE = 0.55; 
+        const SINK = 0.75; 
+        const DRAG_START = 6; 
+        const MAX_THROW = 2500; 
+        const bodies = new Map(); 
         let frame = null;
         let lastTime = 0;
 
@@ -369,11 +368,21 @@
       </div>
 
       <footer class="site-footer">
-        <img
-          class="footer-deer"
-          src="img/deer.gif"
-          alt="a deer standing on a grassy hill with fireflies"
-        />
+        <!-- 768px and wider (desktop, laptop, iPad upright) get the wide hill made
+             from img/bottomfooter.gif; phones keep the narrower deer GIF -->
+        <picture>
+          <source
+            media="(min-width: 768px)"
+            srcset="img/footer-hill.webp"
+            type="image/webp"
+          />
+          <source media="(min-width: 768px)" srcset="img/footer-hill.gif" />
+          <img
+            class="footer-deer"
+            src="img/deer.gif"
+            alt="a deer standing on a grassy hill with fireflies"
+          />
+        </picture>
         <div class="footer-bar">
           <a
             class="footer-credit"
@@ -529,7 +538,6 @@
           "(prefers-reduced-motion: reduce)",
         ).matches;
 
-        // swoosh sound on every photo click (restarts if clicked again quickly)
         const swooshSound = new Audio("swoosh.mp3");
         swooshSound.preload = "auto";
         const playSwoosh = () => {
@@ -899,7 +907,6 @@
                 `${duration ? (position / duration) * 100 : 0}%`,
               );
 
-              // new song started: show its title and album art
               if (data.playingURI && data.playingURI !== playingURI) {
                 playingURI = data.playingURI;
                 const trackId = playingURI.split(":").pop();
@@ -960,7 +967,7 @@
         if (controller) controller.seek(Number(seekBar.value));
       });
 
-      // open / close: the card shrinks to a round cover-art button
+      
       const setOpen = (open) => playerEl.classList.toggle("is-closed", !open);
       playerEl
         .querySelector(".player-close")

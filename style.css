@@ -17,9 +17,6 @@ html,body{
     overflow-x:clip;
 }
 
-/* animated fish cursor (the GIF can't be a real CSS cursor, which would only show
-   its first frame): the script in index.html hides the normal cursor and moves
-   this image with the mouse; links, photos and buttons keep the pointing hand */
 .fish-cursor-on{
     cursor:none;
 }
@@ -41,7 +38,7 @@ html,body{
 
 img{
     max-width:100%;
-    height:auto;
+    height:auto;      
 }
 
 .landing{
@@ -428,8 +425,20 @@ gap:1.5em;
     --pose-2:translate(-5%, 3%) rotate(-8deg);
 }
 
+
 .stack > img{
+    box-sizing:border-box;
+    padding:0.8em 0.8em 2em;
+    background:#ebe8e5;
+    border-radius:3px;
     filter:drop-shadow(0 6px 10px rgba(10, 70, 130, 0.22));
+}
+
+/* the artist / merch designer artwork goes without the polaroid frame */
+.stack:has(.window2) > img{
+    padding:0;
+    background:none;
+    border-radius:0.4em;
 }
 
 .stack > img:not(.stack-back){
@@ -843,8 +852,6 @@ gap:1.5em;
 }
 
 
-
-
 .footer-deer{
     display:block;
     width:100%;
@@ -860,6 +867,13 @@ gap:1.5em;
     font-size:min(1.2em); 
     line-height:1.1;
     color:#fffde3;
+}
+
+/* the wide hill (768px and up) ends in a slightly different green */
+@media (min-width: 768px){
+    .footer-bar{
+        background:#8DD48C;
+    }
 }
 
 .footer-credit{
