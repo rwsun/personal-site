@@ -1,24 +1,50 @@
-<!doctyle html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" sizes="192x192" href="img/favicon-192.png" />
+    <title>Portfolio - Ren Sun</title>
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="img/favicon-192.png"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="style.css" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Libertinus+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap"
       rel="stylesheet"
     />
   </head>
-  <body>
-    <div class="landing">
-      <div class="h1">under construction :/</div>
-      <div style="margin-top: 1.2em" class="return-button">
-        <a href="index.html" style="color: aliceblue"> return </a>
+  <body class="portfolio-page">
+    <header class="acad-hero">
+      <!-- shooting stars drawn by shooting-stars.js -->
+      <canvas class="shooting-stars" aria-hidden="true"></canvas>
+      <a class="portfolio-home" href="index.html">← back home</a>
+      <div class="portfolio-intro">
+        <h1 class="portfolio-title">
+          I’m also an artist, web designer,<br />
+          and merch maker
+        </h1>
+        <a
+          class="forward-button"
+          href="mailto:renran.sun@queensu.ca?subject=Commission%20request"
+          >commissions open</a
+        >
+        <a class="portfolio-contact" href="mailto:renran.sun@queensu.ca"
+          >email me + we can jump on a call!</a
+        >
       </div>
-    </div>
+    </header>
+
+    <main class="portfolio-posts">
+      <!-- posts are built by portfolio.js (add your art to the POSTS list there) -->
+      <p class="acad-back"><a href="index.html">← back home</a></p>
+    </main>
+
+    <script src="shooting-stars.js"></script>
+    <script src="portfolio.js"></script>
   </body>
 </html>
