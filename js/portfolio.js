@@ -8,22 +8,22 @@
 // starts with. Posts with no image show a grey placeholder.
 // ---------------------------------------------------------------------------
 const POSTS = [
-  { id: "campfire-shirt-back", image: "img/portfolio/campfire-shirt-back.png", caption: "campfire shirt back", alt: "campfire shirt back", likes: 0 },
-  { id: "counterspell-ottawa-postcard", image: "img/portfolio/counterspell-ottawa-postcard.png", caption: "counterspell ottawa postcard", alt: "counterspell ottawa postcard", likes: 0 },
-  { id: "daydream-landing-ui", image: "img/portfolio/daydream-landing-ui.png", caption: "daydream landing ui", alt: "daydream landing ui", likes: 0 },
-  { id: "daydream-shirt", image: "img/portfolio/daydream-shirt.png", caption: "daydream shirt", alt: "daydream shirt", likes: 0 },
-  { id: "daydream-sticker-sheet", image: "img/portfolio/daydream-sticker-sheet.png", caption: "daydream sticker sheet", alt: "daydream sticker sheet", likes: 0 },
-  { id: "fallout-animatic", image: "img/portfolio/fallout-animatic.png", caption: "fallout animatic", alt: "fallout animatic", likes: 0 },
-  { id: "fallout-landing-page-ui", image: "img/portfolio/fallout-landing-page-ui.png", caption: "fallout landing page ui", alt: "fallout landing page ui", likes: 0 },
-  { id: "fallout-platform-ui", image: "img/portfolio/fallout-platform-ui.png", caption: "fallout platform ui", alt: "fallout platform ui", likes: 0 },
-  { id: "fallout-postcard-and-stickers", image: "img/portfolio/fallout-postcard-and-stickers.png", caption: "fallout postcard and stickers", alt: "fallout postcard and stickers", likes: 0 },
-  { id: "midnight-sticker", image: "img/portfolio/midnight-sticker.png", caption: "midnight sticker", alt: "midnight sticker", likes: 0 },
-  { id: "scrapyard-hoodie", image: "img/portfolio/scrapyard-hoodie.png", caption: "scrapyard hoodie", alt: "scrapyard hoodie", likes: 0 },
-  { id: "scrapyard-postcard", image: "img/portfolio/scrapyard-postcard.png", caption: "scrapyard postcard", alt: "scrapyard postcard", likes: 0 },
-  { id: "shipwrecked-hoodie", image: "img/portfolio/shipwrecked-hoodie.png", caption: "shipwrecked hoodie", alt: "shipwrecked hoodie", likes: 0 },
-  { id: "shipwrecked-sticker-sheet", image: "img/portfolio/shipwrecked-sticker-sheet.png", caption: "shipwrecked sticker sheet", alt: "shipwrecked sticker sheet", likes: 0 },
-  { id: "shirt-fallout", image: "img/portfolio/shirt-fallout.png", caption: "shirt fallout", alt: "shirt fallout", likes: 0 },
-  { id: "sticker-fallout", image: "img/portfolio/sticker-fallout.png", caption: "sticker fallout", alt: "sticker fallout", likes: 0 },
+  { id: "campfire-shirt-back", image: "img/portfolio/campfire-shirt-back.png", caption: "Back of Campfire T-shirt, printed 15,000 times worldwide!", alt: "campfire shirt back", likes: 0 },
+  { id: "counterspell-ottawa-postcard", image: "img/portfolio/counterspell-ottawa-postcard.png", caption: "First time making a postcard - for Counterspell Ottawa!", alt: "counterspell ottawa postcard", likes: 0 },
+  { id: "daydream-landing-ui", image: "img/portfolio/daydream-landing-ui.png", caption: "Daydream's UI/UX - pulled an all-nighter for this!", alt: "Daydream's UI/UX - pulled an all-nighter for this", likes: 0 },
+  { id: "daydream-shirt", image: "img/portfolio/daydream-shirt.png", caption: "Daydream T-shirt, printed 8,000 times worldwide! (if you speak mandarin, please ignore this)", alt: "daydream shirt", likes: 0 },
+  { id: "daydream-sticker-sheet", image: "img/portfolio/daydream-sticker-sheet.png", caption: "Daydream's special sticker sheet!", alt: "daydream sticker sheet", likes: 0 },
+  { id: "fallout-animatic", image: "img/portfolio/fallout-animatic.png", caption: "Fallout's animatic! Check it out on youtube :D", alt: "fallout animatic", likes: 0 },
+  { id: "fallout-landing-page-ui", image: "img/portfolio/fallout-landing-page-ui.png", caption: "Fallout's landing page UI!", alt: "fallout landing page ui", likes: 0 },
+  { id: "fallout-platform-ui", image: "img/portfolio/fallout-platform-ui.png", caption: "Fallout's platform UI!", alt: "fallout platform ui", likes: 0 },
+  { id: "fallout-postcard-and-stickers", image: "img/portfolio/fallout-postcard-and-stickers.png", caption: "Fallout's postcards and sticker sheet - printed 10,000 times worldwide!", alt: "fallout postcard and stickers", likes: 0 },
+  { id: "midnight-sticker", image: "img/portfolio/midnight-sticker.png", caption: "Midnight custom stickers!", alt: "Midnight custom stickers!", likes: 0 },
+  { id: "scrapyard-hoodie", image: "img/portfolio/scrapyard-hoodie.png", caption: "Scrapyard hoodie, printed 200 times for our Austin TX hackathon!", alt: "scrapyard hoodie", likes: 0 },
+  { id: "scrapyard-postcard", image: "img/portfolio/scrapyard-postcard.png", caption: "Custom postcard for Scrapyard <3", alt: "scrapyard postcard", likes: 0 },
+  { id: "shipwrecked-hoodie", image: "img/portfolio/shipwrecked-hoodie.png", caption: "Custom hoodie for Shipwrecked!", alt: "shipwrecked hoodie", likes: 0 },
+  { id: "shipwrecked-sticker-sheet", image: "img/portfolio/shipwrecked-sticker-sheet.png", caption: "Shipwrecked's custom sticker sheet!", alt: "shipwrecked sticker sheet", likes: 0 },
+  { id: "shirt-fallout", image: "img/portfolio/shirt-fallout.png", caption: "Fallout's custom jersey - manufacturing it took so long haha", alt: "shirt fallout", likes: 0 },
+  { id: "sticker-fallout", image: "img/portfolio/sticker-fallout.png", caption: "Fallout custom stickers <3 My fav's the koi fish!", alt: "sticker fallout", likes: 0 },
 ];
 
 // ---------------------------------------------------------------------------
