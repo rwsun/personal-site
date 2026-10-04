@@ -18,12 +18,12 @@
       rel="icon"
       type="image/png"
       sizes="192x192"
-      href="img/favicon-192.png"
+      href="img/icons/favicon-192.png"
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="style.css" />
-    <script src="loading.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/loading.js"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Libertinus+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap"
@@ -58,7 +58,7 @@
         <div class="icons">
           <div class="icon-wrapper">
             <a href="mailto:renran.sun@queensu.ca" target="_blank">
-              <img src="img/mail.png" alt="email"
+              <img src="img/icons/mail.png" alt="email"
             /></a>
             <span class="hoverbox"> renran.sun@queensu.ca</span>
           </div>
@@ -67,14 +67,14 @@
             <a
               href="https://www.linkedin.com/in/ren-sun-217999275"
               target="_blank"
-              ><img src="img/linkedin.png" alt="linkedin"
+              ><img src="img/icons/linkedin.png" alt="linkedin"
             /></a>
             <span class="hoverbox"> linkedin?</span>
           </div>
 
           <div class="icon-wrapper">
             <a href="https://www.instagram.com/renran.sun/" target="_blank"
-              ><img src="img/instagram.png" alt="instagram"
+              ><img src="img/icons/instagram.png" alt="instagram"
             /></a>
             <span class="hoverbox"> @renran.sun</span>
           </div>
@@ -82,19 +82,19 @@
       </div>
 
       <div class="cloud">
-        <img src="img/clouds.png" alt="cloud" />
+        <img src="img/landing/clouds.png" alt="cloud" />
       </div>
 
       <div class="cloud2">
-        <img src="img/clouds.png" alt="cloud2" />
+        <img src="img/landing/clouds.png" alt="cloud2" />
       </div>
 
       <div class="wave">
-        <img src="img/waves 01.png" alt="wave" />
+        <img src="img/landing/waves.jpg" alt="wave" />
       </div>
     </div>
 
-    <script src="throwables.js"></script>
+    <script src="js/throwables.js"></script>
     <script>
       // drag and throw the social icons, the letters of "ren" and every word on
       // the landing; they land on the water
@@ -165,8 +165,8 @@
     </script>
 
     <!-- shooting stars on every .shooting-stars canvas (shared with academics.html) -->
-    <script src="shooting-stars.js"></script>
-    <script src="fish-cursor.js"></script>
+    <script src="js/shooting-stars.js"></script>
+    <script src="js/fish-cursor.js"></script>
 
     <div class="main">
       <!-- twinkling pixel sparkles behind the sections (drawn by the script below) -->
@@ -188,13 +188,13 @@
           </a>
         </div>
         <div class="section-image">
-          <img class="window1" src="img/happy.png" alt="window 01" />
+          <img class="window1" src="img/gallery/happy.jpg" alt="window 01" />
         </div>
       </div>
 
       <div class="section">
         <div class="section-image">
-          <img class="window3" src="img/hack 003.png" alt="jpeg photo" />
+          <img class="window3" src="img/gallery/hack-003.jpg" alt="jpeg photo" />
         </div>
         <div class="section-text">
           <div class="h1">event organizer</div>
@@ -210,7 +210,7 @@
           <a class="forward-button" href="portfolio.html"> My portfolio!</a>
         </div>
         <div class="section-image">
-          <img class="window2" src="img/art 001.png" alt="window 02" />
+          <img class="window2" src="img/gallery/art-001.png" alt="window 02" />
         </div>
         <div class="section-image"></div>
       </div>
@@ -220,11 +220,11 @@
       </div>
       <div class="section">
         <div class="column">
-          <img class="reads" src="img/book 02.jpg" alt="book 02" />
+          <img class="reads" src="img/gallery/book-02.jpg" alt="book 02" />
           <div class="body" style="margin-top: 0.5em">recent reads</div>
         </div>
         <div class="column">
-          <img class="hobby" src="img/hobby 001.png" alt="random 03" />
+          <img class="hobby" src="img/gallery/hobby-001.jpg" alt="random 03" />
           <div class="body" style="margin-top: 0.5em">in my free time!</div>
         </div>
       </div>
@@ -234,20 +234,20 @@
       </div>
       <div class="section">
         <div class="column">
-          <img class="friends" src="img/friends 04.png" alt="singapore!" />
+          <img class="friends" src="img/gallery/friends-04.jpg" alt="singapore!" />
           <div class="body" style="margin-top: 0.5em">friends!</div>
         </div>
         <div class="column">
           <img
             class="summer"
             style="min-width: 4em"
-            src="img/summer 008.png"
+            src="img/gallery/summer-008.jpg"
             alt="busan, seoul, hokkaido, tokyo, osaka, singapore"
           />
           <div class="body" style="margin-top: 0.5em">this summer!</div>
         </div>
         <div class="column">
-          <img class="food" src="img/food 01.png" alt="yum food" />
+          <img class="food" src="img/gallery/food-01.jpg" alt="yum food" />
           <div class="body" style="margin-top: 0.5em">food</div>
         </div>
       </div>
@@ -260,17 +260,17 @@
           aria-hidden="true"
         ></canvas>
         <!-- 768px and wider (desktop, laptop, iPad upright) get the wide hill made
-             from img/bottomfooter.gif; phones keep the narrower deer GIF -->
+             from bottomfooter.gif; phones keep the narrower deer GIF -->
         <picture>
           <source
             media="(min-width: 768px)"
-            srcset="img/footer-hill.webp"
+            srcset="img/footer/footer-hill.webp"
             type="image/webp"
           />
-          <source media="(min-width: 768px)" srcset="img/footer-hill.gif" />
+          <source media="(min-width: 768px)" srcset="img/footer/footer-hill.gif" />
           <img
             class="footer-deer"
-            src="img/deer.gif"
+            src="img/footer/deer.gif"
             alt="a deer standing on a grassy hill with fireflies"
           />
         </picture>
@@ -308,80 +308,80 @@
         // click an image to cycle through its photos
         const galleries = {
           ".window1": [
-            "img/happy.png",
-            "img/student 01.png",
-            "img/student 03.png",
-            "img/student 04.png",
-            "img/student 05.png",
-            "img/student 11.png",
+            "img/gallery/happy.jpg",
+            "img/gallery/student-01.jpg",
+            "img/gallery/student-03.jpg",
+            "img/gallery/student-04.jpg",
+            "img/gallery/student-05.jpg",
+            "img/gallery/student-11.jpg",
           ],
           ".window2": [
-            "img/art 001.png",
-            "img/art 002.png",
-            "img/art 003.png",
-            "img/art 004.png",
-            "img/art 005.png",
-            "img/art 006.png",
+            "img/gallery/art-001.png",
+            "img/gallery/art-002.png",
+            "img/gallery/art-003.png",
+            "img/gallery/art-004.png",
+            "img/gallery/art-005.png",
+            "img/gallery/art-006.png",
           ],
           ".window3": [
-            "img/hack 003.png",
-            "img/hack 002.png",
-            "img/hack 001.png",
-            "img/hack 004.png",
-            "img/hack 005.png",
-            "img/hack 000.png",
+            "img/gallery/hack-003.jpg",
+            "img/gallery/hack-002.jpg",
+            "img/gallery/hack-001.jpg",
+            "img/gallery/hack-004.jpg",
+            "img/gallery/hack-005.jpg",
+            "img/gallery/hack-000.png",
           ],
           ".reads": [
-            "img/book 02.jpg",
-            "img/book 01.jpeg",
-            "img/book 03.jpg",
-            "img/book 04.jpg",
-            "img/book 06.jpeg",
-            "img/book 07.jpg",
-            "img/book 08.jpg",
-            "img/book 09.jpg",
+            "img/gallery/book-02.jpg",
+            "img/gallery/book-01.jpg",
+            "img/gallery/book-03.jpg",
+            "img/gallery/book-04.jpg",
+            "img/gallery/book-06.jpg",
+            "img/gallery/book-07.jpg",
+            "img/gallery/book-08.jpg",
+            "img/gallery/book-09.jpg",
           ],
           ".obsessions": [
-            "img/anime 01.jpg",
-            "img/anime 02.jpg",
-            "img/anime 03.jpg",
-            "img/movie 01.jpeg",
+            "img/gallery/anime-01.jpg",
+            "img/gallery/anime-02.jpg",
+            "img/gallery/anime-03.jpg",
+            "img/gallery/movie-01.jpg",
           ],
           ".hobby": [
-            "img/hobby 001.png",
-            "img/hobby 002.png",
-            "img/hobby 003.png",
-            "img/hobby 004.png",
-            "img/hobby 005.png",
+            "img/gallery/hobby-001.jpg",
+            "img/gallery/hobby-002.jpg",
+            "img/gallery/hobby-003.jpg",
+            "img/gallery/hobby-004.jpg",
+            "img/gallery/hobby-005.jpg",
           ],
           ".summer": [
-            "img/summer 003.png",
-            "img/summer 002.png",
-            "img/summer 004.png",
-            "img/summer 005.png",
-            "img/summer 006.png",
-            "img/summer 007.png",
-            "img/summer 008.png",
-            "img/summer 010.png",
+            "img/gallery/summer-003.jpg",
+            "img/gallery/summer-002.jpg",
+            "img/gallery/summer-004.jpg",
+            "img/gallery/summer-005.jpg",
+            "img/gallery/summer-006.jpg",
+            "img/gallery/summer-007.jpg",
+            "img/gallery/summer-008.jpg",
+            "img/gallery/summer-010.jpg",
           ],
           ".food": [
-            "img/food 01.png",
-            "img/food 02.png",
-            "img/food 04.png",
-            "img/food 05.png",
-            "img/food 06.png",
-            "img/food 07.png",
-            "img/food 08.png",
-            "img/food 04.png",
+            "img/gallery/food-01.jpg",
+            "img/gallery/food-02.jpg",
+            "img/gallery/food-04.jpg",
+            "img/gallery/food-05.jpg",
+            "img/gallery/food-06.jpg",
+            "img/gallery/food-07.jpg",
+            "img/gallery/food-08.jpg",
+            "img/gallery/food-04.jpg",
           ],
           ".friends": [
-            "img/friends 04.png",
-            "img/friends 01.png",
-            "img/friends 02.png",
-            "img/friends 05.png",
-            "img/friends 06.png",
-            "img/friends 07.png",
-            "img/friends 08.png",
+            "img/gallery/friends-04.jpg",
+            "img/gallery/friends-01.jpg",
+            "img/gallery/friends-02.jpg",
+            "img/gallery/friends-05.jpg",
+            "img/gallery/friends-06.jpg",
+            "img/gallery/friends-07.jpg",
+            "img/gallery/friends-08.jpg",
           ],
         };
 
@@ -389,7 +389,7 @@
           "(prefers-reduced-motion: reduce)",
         ).matches;
 
-        const swooshSound = new Audio("swoosh.mp3");
+        const swooshSound = new Audio("audio/swoosh.mp3");
         swooshSound.preload = "auto";
         const playSwoosh = () => {
           swooshSound.currentTime = 0;

@@ -1,0 +1,7 @@
+# macOS
+.DS_Store
+
+# editor / tool settings
+.claude/
+.vscode/
+.idea/
