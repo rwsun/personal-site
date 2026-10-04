@@ -1279,7 +1279,7 @@ gap:1.5em;
 /* ---------- Subpages: academics.html, events.html ----------
    both use the .acad-* layout below (hero, headings, outlined cards) */
 .academics-page{
-    background:#5DB587;
+    background:#4a956e;
 }
 
 .acad-hero{
@@ -1390,6 +1390,39 @@ gap:1.5em;
     line-height:1.4;
 }
 
+/* academics + events: a card shows the name, dates (and role); its notes slide
+   open on hover (or a tap / keyboard focus, via tabindex on the card) */
+:is(.academics-page, .events-page) .acad-card .acad-note{
+    max-height:0;
+    margin-top:0;
+    overflow:hidden;
+    opacity:0;
+    transition:max-height 0.35s ease, margin-top 0.35s ease, opacity 0.2s ease;
+}
+
+:is(.academics-page, .events-page) .acad-card:is(:hover, :focus-within) .acad-note{
+    max-height:12em;
+    margin-top:1.75rem;
+    opacity:1;
+    transition:max-height 0.5s ease, margin-top 0.4s ease, opacity 0.4s ease 0.1s;
+}
+
+:is(.academics-page, .events-page) .acad-card:focus{
+    outline:none;
+}
+
+:is(.academics-page, .events-page) .acad-card:focus-visible{
+    outline:2px solid #fffde3;
+    outline-offset:4px;
+}
+
+@media (prefers-reduced-motion: reduce){
+    :is(.academics-page, .events-page) .acad-card .acad-note,
+    :is(.academics-page, .events-page) .acad-card:is(:hover, :focus-within) .acad-note{
+        transition:none;
+    }
+}
+
 .acad-back{
     margin-top:4rem;
     text-align:center;
@@ -1400,9 +1433,9 @@ gap:1.5em;
     color:#fffde3;
 }
 
-/* ---------- Events page (events.html): blue version of the same layout ---------- */
+
 .events-page{
-    background:#5F9BC5;
+    background:#372e68;
 }
 
 .events-intro{
@@ -1415,7 +1448,7 @@ gap:1.5em;
 }
 
 .events-intro p{
-    margin:0 0 1.1rem;
+    margin:0 0 1.6rem;
 }
 
 .events-heading{
@@ -1431,6 +1464,135 @@ gap:1.5em;
 /* cards read from the right */
 .acad-card-right{
     text-align:right;
+}
+
+/* event cards: text on one side, the video cover / photo on the other
+   (mirrored on the right-aligned cards). The cover is tucked away until the
+   card is hovered (or tapped / focused), then grows open with the notes */
+.events-page .acad-card{
+    display:flex;
+    align-items:center;
+}
+
+.events-page .acad-card-right{
+    flex-direction:row-reverse;
+}
+
+.event-text{
+    flex:1;
+    min-width:0;
+}
+
+.event-media{
+    --media-gap:2rem;
+    position:relative;
+    flex:0 0 0%;
+    aspect-ratio:16 / 9;
+    overflow:hidden;
+    background:#d9d9d9;
+    opacity:0;
+    transition:flex-basis 0.4s ease, margin 0.4s ease, opacity 0.2s ease;
+}
+
+.events-page .acad-card:is(:hover, :focus-within) .event-media{
+    flex-basis:40%;
+    margin-left:var(--media-gap);
+    opacity:1;
+    transition:flex-basis 0.5s ease, margin 0.5s ease, opacity 0.4s ease 0.15s;
+}
+
+.events-page .acad-card-right:is(:hover, :focus-within) .event-media{
+    margin-left:0;
+    margin-right:var(--media-gap);
+}
+
+.event-media img{
+    display:block;
+    width:100%;
+    height:100%;
+    max-width:none;
+    object-fit:cover; /* YouTube's covers are 4:3 with black bars; this crops them */
+    transition:transform 0.4s ease;
+}
+
+.event-play{
+    position:absolute;
+    top:50%;
+    left:50%;
+    width:clamp(44px, 18%, 68px);
+    translate:-50% -50%;
+    transition:scale 0.2s ease;
+}
+
+.event-play rect{
+    fill:rgba(33, 33, 33, 0.8);
+    transition:fill 0.2s ease;
+}
+
+.event-play path{
+    fill:#fff;
+}
+
+.event-media:hover img,
+.event-media:focus-visible img{
+    transform:scale(1.05);
+}
+
+.event-media:hover .event-play,
+.event-media:focus-visible .event-play{
+    scale:1.1;
+}
+
+.event-media:hover .event-play rect,
+.event-media:focus-visible .event-play rect{
+    fill:#f00;
+}
+
+/* label on a photo that links somewhere other than a video (JPEG's news story) */
+.event-tag{
+    position:absolute;
+    right:0.5rem;
+    bottom:0.5rem;
+    padding:0.3em 0.6em;
+    border-radius:999px;
+    background:rgba(255, 253, 227, 0.9);
+    color:#2b4a63;
+    font-size:0.7rem;
+    font-weight:700;
+    white-space:nowrap;
+}
+
+/* phones: the cover opens full width under the text */
+@media (max-width: 600px){
+    .events-page .acad-card,
+    .events-page .acad-card-right{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .event-media,
+    .events-page .acad-card:is(:hover, :focus-within) .event-media{
+        flex-basis:auto;
+        margin:0;
+    }
+
+    .event-media{
+        max-height:0;
+        transition:max-height 0.4s ease, margin 0.4s ease, opacity 0.2s ease;
+    }
+
+    .events-page .acad-card:is(:hover, :focus-within) .event-media{
+        max-height:60vw;
+        margin-top:1.25rem;
+        transition:max-height 0.5s ease, margin 0.5s ease, opacity 0.4s ease 0.15s;
+    }
+}
+
+@media (prefers-reduced-motion: reduce){
+    .event-media,
+    .events-page .acad-card:is(:hover, :focus-within) .event-media{
+        transition:none;
+    }
 }
 
 /* ---------- Portfolio page (portfolio.html) ---------- */
