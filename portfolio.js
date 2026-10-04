@@ -176,18 +176,37 @@ let commenter = remember.get("commenter"); // { username, email } or null
 
 // ---------- like animations ----------
 
-// after 99 likes on one post in one visit: an error pops up, then the tab "closes"
+// after 99 likes on one post in one visit: a glitchy black error screen with
+// VHS sound stays up for 7 seconds, then the tab "closes"
 const LOVE_LIMIT = 99;
+const LOVE_SCREEN_MS = 7000;
+const vhsSound = new Audio("vhs.mp3");
+vhsSound.preload = "auto";
+let heartbroken = false;
 const tooMuchLove = () => {
-  // let the 99 show on screen before the alert blocks the page
+  if (heartbroken) return;
+  heartbroken = true;
+  sendLikes();
+
+  const message = "sorry, you can’t love someone so much";
+  const screen = el("div", "love-error");
+  screen.setAttribute("role", "alertdialog");
+  screen.setAttribute("aria-label", message);
+  const text = el("p", "love-error-text", message);
+  text.dataset.text = message; // the glitch layers copy this
+  screen.append(text);
+  // let the 99 show on screen for a moment first
   setTimeout(() => {
-    sendLikes();
-    alert("sorry, you can't love someone so much");
+    document.body.append(screen);
+    vhsSound.play().catch(() => {}); // allowed: it follows the visitor's click
+  }, 150);
+
+  setTimeout(() => {
     window.close();
     // browsers only let a script close tabs it opened itself, so if the tab
     // is still here, leave the site for a blank page instead
     setTimeout(() => location.replace("about:blank"), 100);
-  }, 50);
+  }, 150 + LOVE_SCREEN_MS);
 };
 
 const BURST_COLORS = ["#e8336d", "#ff7a59", "#ffc83d", "#ff5fa2"];

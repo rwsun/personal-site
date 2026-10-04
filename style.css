@@ -449,6 +449,45 @@ gap:1.5em;
 }
 
 
+/* "click me!" pill over the polaroids, like Shopify Editions' hover buttons */
+.click-bubble{
+    position:absolute;
+    top:50%;
+    left:50%;
+    z-index:3;
+    padding:0.7em 1.1em;
+    border-radius:999px;
+    background:rgba(255, 255, 255, 0.7);
+    -webkit-backdrop-filter:blur(8px);
+    backdrop-filter:blur(8px);
+    color:#000;
+    font-size:0.8rem;
+    line-height:1;
+    white-space:nowrap;
+    pointer-events:none; /* clicks go through to the photo */
+    opacity:0;
+    visibility:hidden;
+    transform:translate(-50%, -50%);
+    transition:opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (hover: hover){
+    .stack:hover > .click-bubble{
+        opacity:1;
+        visibility:visible;
+    }
+}
+
+/* out of the way while the top photo is flying to the back */
+.stack.is-shuffling > .click-bubble{
+    opacity:0;
+    transition:none;
+}
+
+/* the merch art isn't a polaroid */
+.stack:has(.window2) > .click-bubble{
+    display:none;
+}
 
 .stack > img{
     box-sizing:border-box;
@@ -504,6 +543,14 @@ gap:1.5em;
 
 /* the artist / merch designer artwork goes without the polaroid frame */
 .stack:has(.window2) > img{
+    padding:0;
+    background:none;
+    border-radius:0.4em;
+}
+
+/* the photos in the side-by-side rows ("random things", "favorite memories")
+   have no polaroid frame */
+.column .stack > img{
     padding:0;
     background:none;
     border-radius:0.4em;
@@ -946,6 +993,25 @@ gap:1.5em;
     height:auto;
     position:relative;
     z-index:1;
+}
+
+/* "Blog!" button: on phones it sits just above the deer art (whose antlers
+   reach the top edge); from 768px up it sits in the wide hill art's sky.
+   vw keeps it the same spot on the art, since the art is full width */
+.footer-blog{
+    position:absolute;
+    bottom:100%;
+    left:50%;
+    z-index:2;
+    margin-top:0;
+    translate:-50% 0; /* separate from transform, so the hover scale still works */
+}
+
+@media (min-width: 768px){
+    .footer-blog{
+        top:2.5vw;
+        bottom:auto;
+    }
 }
 
 .footer-bar{
@@ -1832,6 +1898,9 @@ html.is-arriving .loader{
 .loader-answer{
     display:block;
     font-style:normal;
+    margin-top:1em;
+    color:rgb(255, 249, 161);
+    font-size:calc(clamp(0.8rem, 3.5vw, 1.4rem) - 4px);
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -1840,4 +1909,146 @@ html.is-arriving .loader{
     .loader-text{
         transition:none;
     }
+}
+
+/* ---------- "too much love" error screen (portfolio.js, at 99 likes) ---------- */
+
+.love-error{
+    position:fixed;
+    inset:0;
+    z-index:10001; /* above the fish cursor and the loading screen */
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0 16px;
+    background:#000;
+    cursor:default;
+}
+
+.love-error-text{
+    position:relative;
+    margin:0;
+    font-family:"Libertinus Serif", Georgia, serif;
+    font-size:clamp(1.3rem, 2.6vw, 2.1rem);
+    letter-spacing:0.06em;
+    color:#fff;
+    text-align:center;
+    animation:love-shake 2.6s steps(1) infinite;
+}
+
+/* two copies of the text, red and cyan, sliced up and jumping sideways */
+.love-error-text::before,
+.love-error-text::after{
+    content:attr(data-text);
+    position:absolute;
+    inset:0;
+    background:#000;
+    clip-path:inset(0 0 100% 0);
+}
+
+.love-error-text::before{
+    text-shadow:-2px 0 #ff2a55;
+    animation:love-slice-1 2.2s steps(1) infinite;
+}
+
+.love-error-text::after{
+    text-shadow:2px 0 #2af0ff;
+    animation:love-slice-2 1.7s steps(1) infinite;
+}
+
+@keyframes love-slice-1{
+    0%, 100%{ clip-path:inset(0 0 100% 0); transform:none; }
+    8%{ clip-path:inset(10% 0 60% 0); transform:translateX(-6px); }
+    10%{ clip-path:inset(55% 0 20% 0); transform:translateX(5px); }
+    12%{ clip-path:inset(0 0 100% 0); transform:none; }
+    46%{ clip-path:inset(30% 0 45% 0); transform:translateX(9px); }
+    48%{ clip-path:inset(70% 0 5% 0); transform:translateX(-4px); }
+    50%{ clip-path:inset(0 0 100% 0); transform:none; }
+    81%{ clip-path:inset(0 0 65% 0); transform:translateX(-10px); }
+    83%{ clip-path:inset(0 0 100% 0); transform:none; }
+}
+
+@keyframes love-slice-2{
+    0%, 100%{ clip-path:inset(0 0 100% 0); transform:none; }
+    20%{ clip-path:inset(60% 0 10% 0); transform:translateX(7px); }
+    22%{ clip-path:inset(15% 0 70% 0); transform:translateX(-8px); }
+    24%{ clip-path:inset(0 0 100% 0); transform:none; }
+    63%{ clip-path:inset(40% 0 35% 0); transform:translateX(-5px); }
+    65%{ clip-path:inset(0 0 100% 0); transform:none; }
+    90%{ clip-path:inset(5% 0 80% 0); transform:translateX(11px); }
+    92%{ clip-path:inset(0 0 100% 0); transform:none; }
+}
+
+@keyframes love-shake{
+    0%, 100%{ transform:none; text-shadow:none; }
+    30%{ transform:translate(-2px, 1px) skewX(-8deg); text-shadow:-2px 0 #ff2a55, 2px 0 #2af0ff; }
+    32%{ transform:translate(3px, -1px); text-shadow:2px 0 #ff2a55, -2px 0 #2af0ff; }
+    34%{ transform:none; text-shadow:none; }
+    71%{ transform:translateX(4px) skewX(10deg); text-shadow:-3px 0 #ff2a55, 3px 0 #2af0ff; }
+    73%{ transform:none; text-shadow:none; }
+}
+
+@media (prefers-reduced-motion: reduce){
+    .love-error-text,
+    .love-error-text::before,
+    .love-error-text::after{
+        animation:none;
+    }
+}
+
+/* ---------- drag-and-throw (throwables.js) ---------- */
+
+/* landing words and letters you can pick up and throw */
+.throw-word{
+    display:inline-block;
+}
+
+.throw-word,
+.title-letter{
+    cursor:grab;
+    touch-action:none;
+    -webkit-user-select:none;
+    user-select:none;
+}
+
+.thrown-word{
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:5;
+    white-space:nowrap;
+    will-change:transform;
+}
+
+/* photos you can throw: sideways drags pick them up, up/down still scrolls */
+.throwable-photo{
+    touch-action:pan-y;
+}
+
+.throwable-photo.is-thrown{
+    position:relative;
+    will-change:transform;
+}
+
+/* no hover easing on a thrown photo, so it keeps up with the pointer */
+.scroll-photo.is-thrown{
+    transition:filter 0.4s ease !important;
+}
+
+/* a column's z-index (it's a flex item) would trap its thrown photo underneath
+   the footer's deer */
+.column:has(.is-thrown){
+    z-index:auto;
+}
+
+/* desktop photo columns: click a photo and it flips over to the next one.
+   `scale` (not transform) so it works on a photo that's been thrown too */
+.scroll-photo.is-flipping{
+    animation:photo-flip 0.36s ease-in-out;
+}
+
+@keyframes photo-flip{
+    0%{ scale:1 1; }
+    50%{ scale:0 1; }
+    100%{ scale:1 1; }
 }

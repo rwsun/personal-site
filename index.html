@@ -36,7 +36,10 @@
       <canvas class="shooting-stars" aria-hidden="true"></canvas>
 
       <div class="landing-text">
-        <div class="subtitle">hi, I'm</div>
+        <div class="subtitle">
+          <span class="throw-word">hi,</span>
+          <span class="throw-word">I'm</span>
+        </div>
         <div class="title">
           <span class="sr-only">ren</span>
           <span aria-hidden="true"
@@ -45,7 +48,12 @@
             ><span class="title-letter">n</span></span
           >
         </div>
-        <div class="body">event organizer, artist, developer!</div>
+        <div class="body">
+          <span class="throw-word">event</span>
+          <span class="throw-word">organizer,</span>
+          <span class="throw-word">artist,</span>
+          <span class="throw-word">developer!</span>
+        </div>
 
         <div class="icons">
           <div class="icon-wrapper">
@@ -86,201 +94,73 @@
       </div>
     </div>
 
+    <script src="throwables.js"></script>
     <script>
-      // drag the social icons anywhere on the landing
+      // drag and throw the social icons, the letters of "ren" and every word on
+      // the landing; they land on the water
       (() => {
         const landing = document.querySelector(".landing");
         const waterEdge = document.querySelector(".cloud2");
-        const GRAVITY = 2400;
-        const BOUNCE = 0.55;
-        const SINK = 0.75;
-        const DRAG_START = 6;
-        const MAX_THROW = 2500;
-        const bodies = new Map();
-        let frame = null;
-        let lastTime = 0;
-
-        const floorFor = (body) =>
-          waterEdge.getBoundingClientRect().bottom -
-          landing.getBoundingClientRect().top +
-          body.w * SINK -
-          body.h;
-
-        const place = (body) => {
-          body.el.style.transform = `translate(${body.x}px, ${body.y}px) rotate(${body.angle}deg)`;
-        };
-
-        const step = (now) => {
-          const dt = Math.min((now - lastTime) / 1000, 1 / 30);
-          lastTime = now;
-          let moving = false;
-
-          bodies.forEach((body) => {
-            if (body.held || body.resting) return;
-            moving = true;
-            body.vy += GRAVITY * dt;
-            body.x += body.vx * dt;
-            body.y += body.vy * dt;
-            body.angle += body.vx * dt * 0.4;
-
-            const maxX = landing.clientWidth - body.w;
-            if (body.x < 0) {
-              body.x = 0;
-              body.vx = -body.vx * BOUNCE;
-            } else if (body.x > maxX) {
-              body.x = maxX;
-              body.vx = -body.vx * BOUNCE;
-            }
-            if (body.y < -body.h) body.vy = Math.abs(body.vy) * BOUNCE;
-
-            const floor = floorFor(body);
-            if (body.y >= floor) {
-              body.y = floor;
-              body.vy = Math.abs(body.vy) < 90 ? 0 : -body.vy * BOUNCE;
-              body.vx *= body.vy === 0 ? Math.pow(0.03, dt) : 0.85; // slide to a stop
-              if (body.vy === 0 && Math.abs(body.vx) < 8) {
-                body.vx = 0;
-                body.resting = true;
-              }
-            }
-            place(body);
-          });
-
-          frame = moving ? requestAnimationFrame(step) : null;
-        };
-
-        const wake = () => {
-          if (frame) return;
-          lastTime = performance.now();
-          frame = requestAnimationFrame(step);
-        };
+        const world = createThrowWorld({
+          container: landing,
+          floor: () =>
+            waterEdge.getBoundingClientRect().bottom -
+            landing.getBoundingClientRect().top,
+        });
 
         // lift an icon out of its row (its empty slot keeps the row in place)
-        const detach = (link) => {
-          const img = link.querySelector("img");
-          const wrapper = link.closest(".icon-wrapper");
-          const box = img.getBoundingClientRect();
-          const landingBox = landing.getBoundingClientRect();
-          const w = img.offsetWidth;
-          const h = img.offsetHeight;
-
-          wrapper.style.width = `${wrapper.offsetWidth}px`;
-          wrapper.style.height = `${wrapper.offsetHeight}px`;
-          wrapper.classList.add("is-empty");
-
-          const holder = document.createElement("div");
-          holder.className = "icons falling-icon";
-          holder.appendChild(link);
-          landing.appendChild(holder);
-
-          const body = {
-            el: holder,
-            x: box.left + box.width / 2 - w / 2 - landingBox.left,
-            y: box.top + box.height / 2 - h / 2 - landingBox.top,
-            vx: 0,
-            vy: 0,
-            w,
-            h,
-            angle: 0,
-            held: false,
-            resting: false,
-          };
-          bodies.set(link, body);
-          place(body);
-          return body;
-        };
-
         document.querySelectorAll(".icons a").forEach((link) => {
-          let press = null; // { id, x, y, dragging, offsetX, offsetY, samples }
-          let justDragged = false;
+          const img = link.querySelector("img");
+          world.add(link, {
+            measure: img,
+            lift: () => {
+              const wrapper = link.closest(".icon-wrapper");
+              const w = img.offsetWidth;
+              const h = img.offsetHeight;
+              wrapper.style.width = `${wrapper.offsetWidth}px`;
+              wrapper.style.height = `${wrapper.offsetHeight}px`;
+              wrapper.classList.add("is-empty");
 
-          link.addEventListener("dragstart", (e) => e.preventDefault());
-
-          link.addEventListener("pointerdown", (e) => {
-            if (e.button !== 0) return;
-            press = {
-              id: e.pointerId,
-              x: e.clientX,
-              y: e.clientY,
-              dragging: false,
-              samples: [],
-            };
-            link.setPointerCapture(e.pointerId);
-          });
-
-          // move/release are watched on the whole window: lifting the icon into its
-          // floating holder moves it in the page, which drops the pointer capture
-          addEventListener("pointermove", (e) => {
-            if (!press || e.pointerId !== press.id) return;
-            const landingBox = landing.getBoundingClientRect();
-
-            if (!press.dragging) {
-              if (
-                Math.hypot(e.clientX - press.x, e.clientY - press.y) <
-                DRAG_START
-              )
-                return;
-              const body = bodies.get(link) || detach(link);
-              try {
-                link.setPointerCapture(press.id);
-              } catch {}
-              body.held = true;
-              body.resting = false;
-              press.dragging = true;
-              press.offsetX = press.x - landingBox.left - body.x;
-              press.offsetY = press.y - landingBox.top - body.y;
-              document.documentElement.classList.add("is-grabbing");
-            }
-
-            const body = bodies.get(link);
-            body.x = e.clientX - landingBox.left - press.offsetX;
-            body.y = e.clientY - landingBox.top - press.offsetY;
-            body.angle *= 0.9;
-            place(body);
-
-            // remember the last ~100ms of movement to throw with the right speed
-            const now = performance.now();
-            press.samples.push({ t: now, x: body.x, y: body.y });
-            while (press.samples.length > 2 && now - press.samples[0].t > 100)
-              press.samples.shift();
-          });
-
-          const release = (e) => {
-            if (!press || e.pointerId !== press.id) return;
-            if (press.dragging) {
-              const body = bodies.get(link);
-              const first = press.samples[0];
-              const last = press.samples[press.samples.length - 1];
-              const dt =
-                first && last && last.t > first.t
-                  ? (last.t - first.t) / 1000
-                  : 0;
-              const clamp = (v) => Math.max(-MAX_THROW, Math.min(MAX_THROW, v));
-              body.vx = dt ? clamp((last.x - first.x) / dt) : 0;
-              body.vy = dt ? clamp((last.y - first.y) / dt) : 0;
-              body.held = false;
-              justDragged = true;
-              document.documentElement.classList.remove("is-grabbing");
-              wake();
-            }
-            press = null;
-          };
-          addEventListener("pointerup", release);
-          addEventListener("pointercancel", release);
-
-          // a drag shouldn't also open the link
-          link.addEventListener("click", (e) => {
-            if (!justDragged) return;
-            e.preventDefault();
-            justDragged = false;
+              const holder = document.createElement("div");
+              holder.className = "icons falling-icon";
+              holder.appendChild(link);
+              landing.appendChild(holder);
+              return { el: holder, w, h, sink: w * 0.75 };
+            },
           });
         });
 
-        // the water line moves when the window is resized: let resting icons re-settle
-        addEventListener("resize", () => {
-          bodies.forEach((body) => (body.resting = false));
-          wake();
-        });
+        // words and letters: a copy flies off while the original stays behind,
+        // invisible, so the rest of the line doesn't shift
+        document
+          .querySelectorAll(".landing .throw-word, .landing .title-letter")
+          .forEach((word) => {
+            world.add(word, {
+              lift: () => {
+                const style = getComputedStyle(word);
+                const holder = document.createElement("div");
+                holder.className = "thrown-word";
+                holder.setAttribute("aria-hidden", "true");
+                [
+                  "fontFamily",
+                  "fontSize",
+                  "fontStyle",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing",
+                  "color",
+                ].forEach((prop) => (holder.style[prop] = style[prop]));
+                const copy = word.cloneNode(true);
+                holder.appendChild(copy);
+                const w = word.offsetWidth;
+                const h = word.offsetHeight;
+                word.style.visibility = "hidden";
+                landing.appendChild(holder);
+                // they sink a little into the water
+                return { el: holder, w, h, sink: h * 0.3, grab: copy };
+              },
+            });
+          });
       })();
     </script>
 
@@ -398,6 +278,8 @@
             alt="a deer standing on a grassy hill with fireflies"
           />
         </picture>
+
+        <a class="forward-button footer-blog" href="blog.html">Blog!</a>
         <div class="footer-bar">
           <a
             class="footer-credit"
@@ -528,13 +410,37 @@
           column.className = "scroll-gallery";
           // the merch artwork stays unframed
           column.classList.toggle("no-frame", selector === ".window2");
-          galleries[selector].forEach((src) => {
+          const images = galleries[selector];
+          images.forEach((src, start) => {
             const photo = document.createElement("img");
             photo.loading = "lazy";
             photo.src = src;
             photo.alt = img.alt;
             photo.className = "scroll-photo";
             column.appendChild(photo);
+
+            // click: swoosh, and the photo flips over to the next one in the
+            // gallery (the swap happens while it's edge-on)
+            let index = start;
+            let flipTimer = null;
+            photo.addEventListener("click", () => {
+              playSwoosh();
+              index = (index + 1) % images.length;
+              const next = images[index];
+              new Image().src = next; // start loading it during the flip
+              if (reduceMotionGallery) {
+                photo.src = next;
+                return;
+              }
+              clearTimeout(flipTimer);
+              photo.classList.remove("is-flipping");
+              void photo.offsetWidth; // restart the animation on quick clicks
+              photo.classList.add("is-flipping");
+              flipTimer = setTimeout(() => (photo.src = next), 180);
+            });
+            photo.addEventListener("animationend", () =>
+              photo.classList.remove("is-flipping"),
+            );
           });
           img.closest(".section-image").appendChild(column);
         });
@@ -563,6 +469,13 @@
             return [offset, back];
           });
           stack.appendChild(img);
+
+          // "click me!" pill that fades in over the photo on hover (CSS)
+          const bubble = document.createElement("span");
+          bubble.className = "click-bubble";
+          bubble.textContent = "click me!";
+          bubble.setAttribute("aria-hidden", "true");
+          stack.appendChild(bubble);
 
           // back photos load once the pile is about a screen away (done here rather
           // than with loading="lazy", which some phone browsers hold back)
@@ -622,6 +535,39 @@
             shuffleTimer = setTimeout(settle, SHUFFLE_MS);
           });
         });
+      </script>
+      <script>
+        // drag and throw the photos: they tumble down the page and bounce on the
+        // bottom of the footer, in front of the deer
+        (() => {
+          const main = document.querySelector(".main");
+          const footer = document.querySelector(".site-footer");
+          const world = createThrowWorld({
+            container: main,
+            floor: () =>
+              footer.getBoundingClientRect().bottom -
+              main.getBoundingClientRect().top,
+          });
+
+          // each pile moves as a whole, so it can still be clicked through
+          // after it lands; the empty spot it left keeps the layout in place
+          document
+            .querySelectorAll(".main .stack, .main .scroll-photo")
+            .forEach((photo) => {
+              photo.classList.add("throwable-photo");
+              world.add(photo, {
+                lift: () => {
+                  photo.classList.add("is-thrown");
+                  return {
+                    el: photo,
+                    w: photo.offsetWidth,
+                    h: photo.offsetHeight,
+                    inPlace: true,
+                  };
+                },
+              });
+            });
+        })();
       </script>
       <script>
         // scroll fading: reveal each block as it enters the viewport
