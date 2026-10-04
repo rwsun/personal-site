@@ -633,6 +633,12 @@
               return span;
             });
             el.replaceChildren(label, shown);
+            // a button's box stays hidden until its text starts typing, then
+            // fades in (instead of sitting there empty while the lines above type)
+            if (el.classList.contains("forward-button") && chars.length) {
+              el.classList.add("tw-box");
+              chars[0].box = el;
+            }
             return chars;
           };
 
@@ -642,6 +648,7 @@
               if (i > 0) chars[i - 1].classList.remove("tw-current");
               if (i === chars.length) return;
               chars[i].classList.add("tw-shown", "tw-current");
+              if (chars[i].box) chars[i].box.classList.add("is-typed");
               i++;
               setTimeout(step, TYPE_DELAY);
             };

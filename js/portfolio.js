@@ -1,22 +1,29 @@
 // portfolio.html: Instagram-style posts with likes and comments.
 
 // ---------------------------------------------------------------------------
-// Your art. Add a line per piece: put the image in the img/art folder, then give
-// it a unique id (that's what likes and comments are attached to, so never
-// reuse or rename one), the file path, a short description, and the number of
-// likes it starts with. Posts with no image show a grey placeholder.
+// Your art. Add a line per piece: put the image in the img/portfolio folder,
+// then give it a unique id (that's what likes and comments are attached to, so
+// never reuse or rename one), the file path, the caption shown under the post,
+// a short description for screen readers (alt), and the number of likes it
+// starts with. Posts with no image show a grey placeholder.
 // ---------------------------------------------------------------------------
 const POSTS = [
-  { id: "post-1", image: "", alt: "", likes: 0 },
-  { id: "post-2", image: "", alt: "", likes: 0 },
-  { id: "post-3", image: "", alt: "", likes: 0 },
-  { id: "post-4", image: "", alt: "", likes: 0 },
-  { id: "post-5", image: "", alt: "", likes: 0 },
-  { id: "post-6", image: "", alt: "", likes: 0 },
-  { id: "post-7", image: "", alt: "", likes: 0 },
-  { id: "post-8", image: "", alt: "", likes: 0 },
-  { id: "post-9", image: "", alt: "", likes: 0 },
-  { id: "post-10", image: "", alt: "", likes: 0 },
+  { id: "campfire-shirt-back", image: "img/portfolio/campfire-shirt-back.png", caption: "campfire shirt back", alt: "campfire shirt back", likes: 0 },
+  { id: "counterspell-ottawa-postcard", image: "img/portfolio/counterspell-ottawa-postcard.png", caption: "counterspell ottawa postcard", alt: "counterspell ottawa postcard", likes: 0 },
+  { id: "daydream-landing-ui", image: "img/portfolio/daydream-landing-ui.png", caption: "daydream landing ui", alt: "daydream landing ui", likes: 0 },
+  { id: "daydream-shirt", image: "img/portfolio/daydream-shirt.png", caption: "daydream shirt", alt: "daydream shirt", likes: 0 },
+  { id: "daydream-sticker-sheet", image: "img/portfolio/daydream-sticker-sheet.png", caption: "daydream sticker sheet", alt: "daydream sticker sheet", likes: 0 },
+  { id: "fallout-animatic", image: "img/portfolio/fallout-animatic.png", caption: "fallout animatic", alt: "fallout animatic", likes: 0 },
+  { id: "fallout-landing-page-ui", image: "img/portfolio/fallout-landing-page-ui.png", caption: "fallout landing page ui", alt: "fallout landing page ui", likes: 0 },
+  { id: "fallout-platform-ui", image: "img/portfolio/fallout-platform-ui.png", caption: "fallout platform ui", alt: "fallout platform ui", likes: 0 },
+  { id: "fallout-postcard-and-stickers", image: "img/portfolio/fallout-postcard-and-stickers.png", caption: "fallout postcard and stickers", alt: "fallout postcard and stickers", likes: 0 },
+  { id: "midnight-sticker", image: "img/portfolio/midnight-sticker.png", caption: "midnight sticker", alt: "midnight sticker", likes: 0 },
+  { id: "scrapyard-hoodie", image: "img/portfolio/scrapyard-hoodie.png", caption: "scrapyard hoodie", alt: "scrapyard hoodie", likes: 0 },
+  { id: "scrapyard-postcard", image: "img/portfolio/scrapyard-postcard.png", caption: "scrapyard postcard", alt: "scrapyard postcard", likes: 0 },
+  { id: "shipwrecked-hoodie", image: "img/portfolio/shipwrecked-hoodie.png", caption: "shipwrecked hoodie", alt: "shipwrecked hoodie", likes: 0 },
+  { id: "shipwrecked-sticker-sheet", image: "img/portfolio/shipwrecked-sticker-sheet.png", caption: "shipwrecked sticker sheet", alt: "shipwrecked sticker sheet", likes: 0 },
+  { id: "shirt-fallout", image: "img/portfolio/shirt-fallout.png", caption: "shirt fallout", alt: "shirt fallout", likes: 0 },
+  { id: "sticker-fallout", image: "img/portfolio/sticker-fallout.png", caption: "sticker fallout", alt: "sticker fallout", likes: 0 },
 ];
 
 // ---------------------------------------------------------------------------
@@ -301,6 +308,10 @@ const buildPost = (post) => {
   commentButton.append(icon(BUBBLE_PATH, "bubble"), commentCount);
   actions.append(likeButton, commentButton);
 
+  // caption, Instagram style: "ren  caption text"
+  const caption = el("p", "post-caption");
+  if (post.caption) caption.append(el("strong", "comment-user", "ren"), " " + post.caption);
+
   // comments
   const viewAll = el("button", "view-all");
   viewAll.type = "button";
@@ -346,7 +357,7 @@ const buildPost = (post) => {
   error.setAttribute("role", "alert");
   form.append(identity, row, meta, error);
 
-  article.append(photo, actions, viewAll, list, form);
+  article.append(photo, actions, ...(post.caption ? [caption] : []), viewAll, list, form);
 
   // ---- render this copy from the shared state ----
   const render = () => {

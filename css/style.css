@@ -1244,6 +1244,14 @@ gap:1.5em;
 }
 
 /* Typewriter text (spans added by the script in index.html, desktop only) */
+.forward-button.tw-box{
+    transition:border-color 0.8s ease, transform 0.3s ease-out;
+}
+
+.forward-button.tw-box:not(.is-typed){
+    border-color:transparent;
+}
+
 .tw-char{
     visibility:hidden;
 }
@@ -1659,7 +1667,20 @@ gap:1.5em;
     display:block;
     width:100%;
     height:100%;
-    object-fit:cover;
+    object-fit:contain; /* show each piece whole, whatever its shape */
+}
+
+/* a real image sits on the card's own white instead of the placeholder grey */
+.post-photo:has(img){
+    background:none;
+}
+
+.post-caption{
+    margin:0.5rem 0 0;
+    color:#111;
+    font-size:0.9rem;
+    line-height:1.4;
+    white-space:pre-line; /* line breaks in a caption show up */
 }
 
 .like-button{
