@@ -2055,7 +2055,7 @@ html.is-arriving .loader{
 }
 
 .loader-fish{
-    width:min(160px, 40vw);
+    width:min(110px, 28vw);
     max-width:none;
 }
 
@@ -2234,4 +2234,348 @@ html.is-arriving .loader{
     0%{ scale:1 1; }
     50%{ scale:0 1; }
     100%{ scale:1 1; }
+}
+
+/* ---------- Blog page (blog.html + js/blog.js) ---------- */
+.blog-page{
+    min-height:100vh;
+    margin:0;
+    padding:0 16px 4rem;
+    background:linear-gradient(#2597E6, #7FD4FF);
+    background-attachment:fixed;
+}
+
+.blog-home{
+    position:absolute;
+    top:1.25rem;
+    left:1.25rem;
+    z-index:1;
+    color:#fffde3;
+    font-family:"Libertinus Serif", serif;
+    font-style:italic;
+    font-size:1.1rem;
+}
+
+.blog-title{
+    margin:0;
+    padding:clamp(5rem, 10vw, 7.5rem) 0 clamp(2rem, 5vw, 3.5rem);
+    color:#fff;
+    font-family:"Libertinus Serif", Georgia, serif;
+    font-style:italic;
+    font-weight:700;
+    font-size:clamp(4rem, 11vw, 7.5rem);
+    letter-spacing:0.02em;
+    line-height:1;
+    text-align:center;
+}
+
+.blog-list{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:clamp(2rem, 4vw, 3.75rem);
+}
+
+.blog-empty{
+    color:#fff;
+    font-family:"Libertinus Serif", Georgia, serif;
+    font-style:italic;
+    font-size:1.4rem;
+}
+
+/* the card: fades in, and gives its flipper the 3D space to tilt and turn in */
+.blog-card{
+    --tilt-x:0deg;
+    --tilt-y:0deg;
+    --flip:0deg;
+    width:min(85%, 68rem);
+    perspective:1400px;
+    outline:none;
+}
+
+@media (max-width: 600px){
+    .blog-card{
+        width:100%;
+    }
+}
+
+.blog-card.is-flipped{
+    --flip:180deg;
+}
+
+.blog-flipper{
+    display:grid;
+    transform-style:preserve-3d;
+    transform:rotateX(var(--tilt-x)) rotateY(calc(var(--tilt-y) + var(--flip)));
+    transition:transform 0.5s ease;
+    -webkit-user-select:none;
+    user-select:none;
+}
+
+.blog-card.is-tilting .blog-flipper{
+    transform:rotateX(var(--tilt-x)) rotateY(calc(var(--tilt-y) + var(--flip))) scale(1.02);
+    transition:transform 0.12s ease-out;
+}
+
+/* after the tilt rule, so a flip turns slowly even while tilting */
+.blog-card.is-flipping .blog-flipper{
+    transition:transform 0.7s cubic-bezier(0.3, 0.7, 0.3, 1);
+}
+
+.blog-face{
+    position:relative;
+    grid-area:1 / 1;
+    box-sizing:border-box;
+    padding:clamp(1.75rem, 4vw, 3rem) clamp(1.25rem, 4.5vw, 3.5rem);
+    border-radius:10px;
+    background:#fff;
+    color:#222;
+    box-shadow:var(--shadow-x, 0px) var(--shadow-y, 10px) 30px rgba(10, 60, 110, 0.18);
+    -webkit-backface-visibility:hidden;
+    backface-visibility:hidden;
+    transition:box-shadow 0.2s ease-out;
+}
+
+/* shine that follows the cursor across the tilted card */
+.blog-face::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:inherit;
+    background:radial-gradient(circle at var(--glare-x, 50%) var(--glare-y, 50%), rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0) 55%);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.3s ease;
+}
+
+.blog-card.is-tilting .blog-face::after{
+    opacity:1;
+}
+
+.blog-card:focus-visible .blog-face{
+    box-shadow:0 0 0 3px #fffde3, 0 10px 30px rgba(10, 60, 110, 0.18);
+}
+
+/* both sides are as tall as the taller one; the front centers its content */
+.blog-front{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    text-align:center;
+}
+
+.blog-back{
+    transform:rotateY(180deg);
+}
+
+.blog-card-title{
+    margin:0;
+    font-family:"Libertinus Serif", Georgia, serif;
+    font-style:italic;
+    font-weight:700;
+    font-size:clamp(1.6rem, 3.6vw, 2.5rem);
+    line-height:1.15;
+}
+
+.blog-card-date{
+    margin:0.5rem 0 0;
+    font-family:"Libertinus Serif", Georgia, serif;
+    font-style:italic;
+    font-size:clamp(1.1rem, 2.2vw, 1.5rem);
+}
+
+.blog-photo{
+    margin-top:1.25rem;
+    aspect-ratio:16 / 7;
+    border-radius:8px;
+    overflow:hidden;
+    background:#9b9b9b;
+}
+
+.blog-photo img{
+    display:block;
+    width:100%;
+    height:100%;
+    max-width:none;
+    object-fit:cover;
+}
+
+.blog-journal{
+    margin:clamp(1.5rem, 4vw, 3rem) 0 0;
+    font-size:clamp(0.95rem, 1.8vw, 1.15rem);
+    line-height:1.55;
+    white-space:pre-line; /* keep line breaks from the form */
+    overflow-wrap:anywhere;
+}
+
+.blog-footer{
+    margin:3.5rem 0 0;
+    text-align:center;
+}
+
+.blog-write{
+    color:#fffde3;
+    font-family:"Libertinus Serif", Georgia, serif;
+    font-style:italic;
+    font-size:1rem;
+    opacity:0.75;
+}
+
+.blog-write:hover{
+    opacity:1;
+}
+
+@media (prefers-reduced-motion: reduce){
+    .blog-flipper,
+    .blog-card.is-flipping .blog-flipper{
+        transition:none;
+    }
+}
+
+/* ---------- blog-admin.html: the "new entry" form ---------- */
+.blog-admin-title{
+    font-size:clamp(2.75rem, 8vw, 4.5rem);
+}
+
+.blog-admin{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:1.5rem;
+}
+
+.admin-note,
+.admin-panel{
+    box-sizing:border-box;
+    width:min(100%, 40rem);
+    margin:0;
+    border-radius:10px;
+}
+
+/* display:flex below would otherwise override the hidden attribute */
+.admin-panel[hidden],
+.admin-note[hidden],
+.admin-preview[hidden]{
+    display:none;
+}
+
+.admin-note{
+    padding:1rem 1.25rem;
+    background:rgba(255, 253, 227, 0.92);
+    color:#2b4a63;
+    font-size:0.9rem;
+    line-height:1.5;
+}
+
+.admin-panel{
+    display:flex;
+    flex-direction:column;
+    gap:1.1rem;
+    padding:clamp(1.25rem, 4vw, 2.25rem);
+    background:#fff;
+    color:#222;
+    box-shadow:0 10px 30px rgba(10, 60, 110, 0.18);
+}
+
+.admin-panel h2{
+    margin:0;
+    font-family:"Libertinus Serif", Georgia, serif;
+    font-style:italic;
+    font-size:1.6rem;
+}
+
+.admin-field{
+    display:flex;
+    flex-direction:column;
+    gap:0.4rem;
+    font-size:0.95rem;
+    font-weight:700;
+}
+
+.admin-field small{
+    font-weight:400;
+    color:#777;
+}
+
+.admin-field input,
+.admin-field textarea{
+    padding:0.65rem 0.75rem;
+    border:1px solid #cfd8e3;
+    border-radius:6px;
+    font:inherit;
+    font-weight:400;
+    color:#222;
+}
+
+.admin-field input[type="file"]{
+    padding:0.5rem;
+}
+
+.admin-field textarea{
+    resize:vertical;
+}
+
+.admin-count{
+    align-self:flex-end;
+}
+
+.admin-preview{
+    max-height:14rem;
+    width:auto;
+    max-width:100%;
+    align-self:flex-start;
+    border-radius:6px;
+}
+
+.admin-submit{
+    align-self:flex-start;
+    padding:0.75rem 1.75rem;
+    border:none;
+    border-radius:6px;
+    background:#2597E6;
+    color:#fff;
+    font:inherit;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.admin-submit:disabled{
+    opacity:0.6;
+    cursor:default;
+}
+
+.admin-status,
+.admin-who{
+    margin:0;
+    font-size:0.9rem;
+}
+
+.admin-link,
+.admin-delete{
+    padding:0;
+    border:none;
+    background:none;
+    color:#2597E6;
+    font:inherit;
+    text-decoration:underline;
+    cursor:pointer;
+}
+
+.admin-entries{
+    list-style:none;
+    margin:0;
+    padding:0;
+}
+
+.admin-entries li{
+    display:flex;
+    justify-content:space-between;
+    gap:1rem;
+    padding:0.6rem 0;
+    border-top:1px solid #eef1f5;
+    font-size:0.9rem;
+}
+
+.admin-delete{
+    color:#c0392b;
 }

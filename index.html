@@ -23,12 +23,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="css/style.css" />
-    <script src="js/loading.js"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Libertinus+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap"
       rel="stylesheet"
     />
+    <script src="js/loading.js"></script>
   </head>
 
   <body>
@@ -287,6 +287,59 @@
           • Still a work in progress!
         </div>
       </footer>
+
+      <script>
+        // a gust of winter wind when you scroll down to the deer; it fades out
+        // if you scroll away before it ends
+        (() => {
+          const wind = new Audio("audio/winter-wind.mp3");
+          wind.preload = "auto";
+          wind.volume = 0.6;
+          let fadeTimer = null;
+          let waitingForTap = false;
+          let deerInView = false;
+
+          // browsers only allow sound after the visitor has clicked or typed
+          // something; if they haven't yet, play it on their first tap here
+          const playOnTap = () => {
+            waitingForTap = false;
+            removeEventListener("pointerdown", playOnTap);
+            removeEventListener("keydown", playOnTap);
+            if (deerInView) play();
+          };
+
+          const play = () => {
+            clearInterval(fadeTimer);
+            wind.volume = 0.6;
+            wind.currentTime = 0;
+            wind.play().catch(() => {
+              if (waitingForTap) return;
+              waitingForTap = true;
+              addEventListener("pointerdown", playOnTap);
+              addEventListener("keydown", playOnTap);
+            });
+          };
+
+          const fadeOut = () => {
+            clearInterval(fadeTimer);
+            fadeTimer = setInterval(() => {
+              wind.volume = Math.max(0, wind.volume - 0.06);
+              if (wind.volume > 0) return;
+              clearInterval(fadeTimer);
+              wind.pause();
+            }, 50);
+          };
+
+          new IntersectionObserver(
+            ([entry]) => {
+              deerInView = entry.isIntersecting;
+              if (deerInView) play();
+              else if (!wind.paused) fadeOut();
+            },
+            { threshold: 0.4 },
+          ).observe(document.querySelector(".footer-deer"));
+        })();
+      </script>
 
       <script>
         const cloud = document.querySelector(".cloud");

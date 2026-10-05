@@ -34,9 +34,11 @@
     { question: "What’s your favorite podcast?" },
   ];
 
-  const MIN_SHOWN_MS = 3000; 
+  const MIN_SHOWN_MS = 3000;
   const ROTATE_MS = 3200;
   const FADE_MS = 400;
+  const FONT_WAIT_MS = 800; // longest the text waits for its font
+  const SAVED_KEY = "loader-question";
 
   const root = document.documentElement;
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -50,8 +52,30 @@
   const shownAt = performance.now();
   if (arriving) root.classList.add("is-loading", "is-arriving");
 
-  let screen, text, rotateTimer;
+  // keep showing the question the last page was on (and for the rest of its
+  // turn), so the text doesn't jump to a different one mid-way through
   let index = Math.floor(Math.random() * QUESTIONS.length);
+  let questionAt = Date.now(); // when the current question first appeared
+  try {
+    const saved = JSON.parse(sessionStorage.getItem(SAVED_KEY));
+    sessionStorage.removeItem(SAVED_KEY);
+    if (arriving && saved && Date.now() - saved.at < 10000) {
+      index = saved.index % QUESTIONS.length;
+      questionAt = saved.at;
+    }
+  } catch {}
+
+  // the text waits (briefly) for its font: showing it in the fallback font
+  // first and then swapping makes the lines jump around
+  const fontReady = Promise.race([
+    Promise.all([
+      document.fonts.load('italic 1em "Libertinus Serif"'),
+      document.fonts.load('1em "Libertinus Serif"'),
+    ]),
+    new Promise((resolve) => setTimeout(resolve, FONT_WAIT_MS)),
+  ]).catch(() => {});
+
+  let screen, text, rotateTimer;
 
   const showQuestion = () => {
     const { question, answer } = QUESTIONS[index];
@@ -72,6 +96,7 @@
     setTimeout(
       () => {
         index = (index + 1) % QUESTIONS.length;
+        questionAt = Date.now();
         showQuestion();
         text.classList.remove("is-changing");
       },
@@ -79,6 +104,8 @@
     );
   };
 
+  // built straight away (this runs in <head>, before <body> exists), so the
+  // screen covers the page from the very first paint
   const build = () => {
     screen = document.createElement("div");
     screen.className = "loader";
@@ -89,32 +116,41 @@
     fish.src = "img/cursor/fish-cursor.gif";
     fish.alt = "";
     text = document.createElement("p");
-    text.className = "loader-text";
+    text.className = "loader-text is-changing";
     screen.append(fish, text);
-    document.body.append(screen);
+    root.append(screen);
+    showQuestion();
+    fontReady.then(() => text.classList.remove("is-changing"));
   };
 
-  const start = () => {
+  const stopRotating = () => {
+    clearTimeout(rotateTimer);
     clearInterval(rotateTimer);
-    showQuestion();
-    rotateTimer = setInterval(nextQuestion, ROTATE_MS);
+  };
+
+  // rotate on from wherever the current question's turn is up to
+  const start = () => {
+    stopRotating();
+    const left = Math.max(0, ROTATE_MS - (Date.now() - questionAt));
+    rotateTimer = setTimeout(() => {
+      nextQuestion();
+      rotateTimer = setInterval(nextQuestion, ROTATE_MS);
+    }, left);
   };
 
   const hide = () => {
     root.classList.remove("is-loading", "is-arriving");
-    clearInterval(rotateTimer);
+    stopRotating();
   };
 
-  document.addEventListener("DOMContentLoaded", () => {
-    build();
-    if (!arriving) return;
+  build();
+  if (arriving) {
     start();
     const finish = () =>
       setTimeout(hide, Math.max(0, MIN_SHOWN_MS - (performance.now() - shownAt)));
     if (document.readyState === "complete") finish();
     else addEventListener("load", finish, { once: true });
-  });
-
+  }
 
   document.addEventListener("click", (e) => {
     const link = e.target.closest("a[href]");
@@ -126,11 +162,19 @@
     if (url.pathname === location.pathname && url.hash) return; // same-page jump
 
     e.preventDefault();
+    // a fresh question for this trip, unless the screen is still up from arriving
+    if (!root.classList.contains("is-loading")) {
+      index = (index + 1) % QUESTIONS.length;
+      questionAt = Date.now();
+      showQuestion();
+    }
     root.classList.add("is-loading");
     start();
+    try {
+      sessionStorage.setItem(SAVED_KEY, JSON.stringify({ index, at: questionAt }));
+    } catch {}
     setTimeout(() => (location.href = url.href), reduceMotion ? 0 : FADE_MS);
   });
-
 
   addEventListener("pageshow", (e) => {
     if (e.persisted) hide();

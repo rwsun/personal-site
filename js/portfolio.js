@@ -26,13 +26,8 @@ const POSTS = [
   { id: "sticker-fallout", image: "img/portfolio/sticker-fallout.png", caption: "Fallout custom stickers <3 My fav's the koi fish!", alt: "sticker fallout", likes: 0 },
 ];
 
-// ---------------------------------------------------------------------------
-// Shared likes + comments (Supabase). Until both are filled in, they're only
-// saved in each visitor's own browser. See SUPABASE-SETUP.md for the steps. The
-// "anon" key is meant to be public, so it's fine for it to live in this file.
-// ---------------------------------------------------------------------------
-const SUPABASE_URL = ""; // e.g. "https://abcdefgh.supabase.co"
-const SUPABASE_ANON_KEY = "";
+// Shared likes + comments use the Supabase settings in js/supabase-config.js
+// (loaded before this file).
 
 const MAX_COMMENT = 1000; // characters
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -76,8 +71,7 @@ const BUBBLE_PATH =
 
 const shared = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
 const supabaseHeaders = {
-  apikey: SUPABASE_ANON_KEY,
-  Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+  ...supabaseKeyHeaders(),
   "Content-Type": "application/json",
 };
 

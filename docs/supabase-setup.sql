@@ -1,19 +1,10 @@
-# Turning on shared likes and comments (portfolio page)
+-- Everything the site needs in Supabase, in one go.
+-- In your Supabase project: SQL Editor -> New query -> paste ALL of this -> Run.
+-- (Run it once. Running it a second time gives "already exists" errors, which
+-- just means it's already set up.)
 
-Until this is done, likes and comments on `portfolio.html` are only saved in
-each visitor's own browser. These steps connect a free Supabase database so
-everyone sees each other's likes and comments. It takes about 10 minutes.
+-- ===================== comments (portfolio page) =====================
 
-## 1. Create the project
-
-1. Sign up at [supabase.com](https://supabase.com) and click **New project**.
-2. Pick any name and database password, choose a region near you, and create it.
-
-## 2. Create the comments table
-
-In your project, open **SQL Editor**, paste all of this, and click **Run**:
-
-```sql
 create table public.comments (
   id bigint generated always as identity primary key,
   post_id text not null check (char_length(post_id) between 1 and 50),
@@ -37,13 +28,9 @@ create policy "anyone can add a comment"
 revoke all on public.comments from anon, authenticated;
 grant select (id, post_id, username, body, created_at) on public.comments to anon;
 grant insert (post_id, username, email, body) on public.comments to anon;
-```
 
-## 3. Create the likes table
+-- ===================== likes (portfolio page) =====================
 
-Still in **SQL Editor**, open a new query, paste this, and click **Run**:
-
-```sql
 create table public.post_likes (
   post_id text primary key check (char_length(post_id) between 1 and 50),
   likes bigint not null default 0 check (likes >= 0)
@@ -72,49 +59,9 @@ $$;
 
 revoke execute on function public.add_likes(text, int) from public;
 grant execute on function public.add_likes(text, int) to anon;
-```
 
-## 4. Connect the site
+-- ===================== blog posts + photo storage (blog-admin.html) =====================
 
-1. In Supabase, open **Project Settings → API**.
-2. Copy the **Project URL** (just `https://xxxx.supabase.co`, nothing after
-   it), and the **Publishable key** (starts with `sb_publishable_`). Older
-   projects call it the **anon public** key; that works too. **Not** the
-   secret key (`sb_secret_...`).
-3. Paste them into `js/supabase-config.js`:
-
-```js
-const SUPABASE_URL = "https://your-project.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_...";
-```
-
-The publishable key is designed to be public, so it's safe to commit. Never put
-the **secret** (or **service_role**) key in the site: that one bypasses all the rules above.
-
-## Looking after likes and comments
-
-- **Change a like count:** Table Editor → `post_likes`, edit the `likes` cell.
-
-- **See commenters' emails:** Table Editor → `comments`. Only you, logged in to
-  Supabase, can see the email column.
-- **Delete a comment:** select its row in the Table Editor and delete it.
-  Visitors can't edit or delete comments themselves.
-- **Spam:** there's no captcha. If spam shows up, delete it in the Table Editor,
-  and ask Claude to add rate limiting or a captcha.
-- **Privacy:** you're storing commenters' email addresses, so only use them to
-  reply to people, and delete them if someone asks.
-
-## Blog: posting from blog-admin.html
-
-Do the steps above first (the project and `js/supabase-config.js`). Then:
-
-### 1. Create the blog table and photo storage
-
-In **SQL Editor**, open a new query, paste this, and click **Run**. If your
-email isn't `renran@hackclub.com`, change it everywhere in this SQL and in
-`BLOG_OWNER_EMAIL` in `js/supabase-config.js`.
-
-```sql
 create table public.blog_posts (
   id bigint generated always as identity primary key,
   title text not null check (char_length(title) between 1 and 100),
@@ -144,26 +91,3 @@ create policy "only ren can upload blog photos"
 create policy "only ren can delete blog photos"
   on storage.objects for delete to authenticated
   using (bucket_id = 'blog-photos' and auth.jwt() ->> 'email' = 'renran@hackclub.com');
-```
-
-### 2. Make yourself the only account
-
-1. **Authentication → Users → Add user → Create new user**: enter your email
-   (any password; you'll sign in with emailed links instead).
-2. **Authentication → Sign In / Providers**: turn off **Allow new users to sign
-   up**, so nobody else can make an account.
-3. **Authentication → URL Configuration**: set **Site URL** to your site (e.g.
-   `https://rwsun.github.io/personal-site/`) and add
-   `https://rwsun.github.io/personal-site/blog-admin.html` under **Redirect
-   URLs**. Add `http://localhost:8765/blog-admin.html` too if you test locally.
-
-### 3. Write
-
-Open `blog-admin.html` (there's a "write an entry" link at the bottom of the
-blog), click **Email me a sign-in link**, and open the link from your email.
-You stay signed in on that browser. Fill in the title, date, photo and journal,
-and the card appears on the blog straight away. "Your entries" at the bottom
-lets you delete one.
-
-Photos are shrunk to 1600px before uploading. iPhone HEIC photos only work in
-Safari, so if one won't upload, export it as JPEG first.
