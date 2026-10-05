@@ -158,7 +158,9 @@
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     if (link.target || link.hasAttribute("download")) return; // new tabs load their own
     const url = new URL(link.href, location.href);
-    if (url.origin !== location.origin || !/\.html$|\/$/.test(url.pathname)) return;
+    // pages: "/", "/portfolio" (GitHub Pages adds the .html) or "/portfolio.html"
+    const isPage = /\.html$|\/$/.test(url.pathname) || !/\.[^/]*$/.test(url.pathname);
+    if (url.origin !== location.origin || !isPage) return;
     if (url.pathname === location.pathname && url.hash) return; // same-page jump
 
     e.preventDefault();

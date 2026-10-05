@@ -172,7 +172,7 @@ form.addEventListener("submit", async (e) => {
   count.textContent = `0 / ${MAX_JOURNAL}`;
   status.replaceChildren("Added! ");
   const view = document.createElement("a");
-  view.href = "blog.html";
+  view.href = "blog";
   view.textContent = "See it on the blog →";
   status.append(view);
   showEntries();
