@@ -1,11 +1,6 @@
 // Supabase settings shared by the portfolio (likes + comments) and the blog.
 // Until both are filled in, those only save in each visitor's own browser.
 // See docs/SUPABASE-SETUP.md for the steps.
-//
-// The key is the PUBLISHABLE key (sb_publishable_...), or the older "anon"
-// key. Both are meant to be public, so it's fine for it to live in this file.
-// NEVER put the secret key (sb_secret_...) or service_role key here: those
-// bypass every rule and would let anyone change or delete everything.
 const SUPABASE_URL = "https://wvrcivqjxhdzungifrlf.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_sabK0q2_2t8c_xOfU_kisw_CpnPdC-S"; // publishable key (safe to be public)
 
