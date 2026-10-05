@@ -24,31 +24,35 @@
     <h1 class="blog-title blog-admin-title">new entry</h1>
 
     <main class="blog-admin">
-      <!-- shown when Supabase isn't set up yet -->
       <p class="admin-note" id="local-note" hidden>
         Supabase isn't set up yet, so entries you add here are only saved in
         this browser (handy for trying it out). Follow
         <code>docs/SUPABASE-SETUP.md</code> to publish them for everyone.
       </p>
 
-      <!-- sign in: Supabase emails you a one-time link -->
       <form class="admin-panel" id="sign-in" hidden>
         <h2>Sign in to write</h2>
         <label class="admin-field">
           <span>Email</span>
           <input type="email" name="email" required autocomplete="email" />
         </label>
-        <button class="admin-submit" type="submit">Email me a sign-in link</button>
+        <button class="admin-submit" type="submit">
+          Email me a sign-in link
+        </button>
         <p class="admin-status" role="status"></p>
       </form>
 
-      <!-- the entry form -->
       <form class="admin-panel" id="entry-form" hidden>
         <p class="admin-who" id="who"></p>
 
         <label class="admin-field">
           <span>Title</span>
-          <input name="title" required maxlength="100" placeholder="What happened" />
+          <input
+            name="title"
+            required
+            maxlength="100"
+            placeholder="What happened"
+          />
         </label>
 
         <label class="admin-field">
@@ -72,7 +76,6 @@
         <p class="admin-status" role="status"></p>
       </form>
 
-      <!-- what's on the blog, with delete -->
       <section class="admin-panel" id="entries" hidden>
         <h2>Your entries</h2>
         <ul class="admin-entries"></ul>

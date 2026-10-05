@@ -2263,9 +2263,9 @@ html.is-arriving .loader{
     font-family:"Libertinus Serif", Georgia, serif;
     font-style:italic;
     font-weight:700;
-    font-size:clamp(4rem, 11vw, 7.5rem);
+    letter-spacing: -1%;
+    font-size:clamp(3rem, 8vw, 7rem);
     letter-spacing:0.02em;
-    line-height:1;
     text-align:center;
 }
 
@@ -2434,22 +2434,23 @@ html.is-arriving .loader{
 
 /* ---------- blog-admin.html: the "new entry" form ---------- */
 .blog-admin-title{
-    font-size:clamp(2.75rem, 8vw, 4.5rem);
+    font-size:clamp(1rem, 3.5vw, 4rem);
 }
 
 .blog-admin{
     display:flex;
     flex-direction:column;
     align-items:center;
-    gap:1.5rem;
+    gap:1rem;
 }
 
 .admin-note,
 .admin-panel{
     box-sizing:border-box;
-    width:min(100%, 40rem);
+    border: solid 0.1rem #153987;
+    width:min(100%, 35rem);
     margin:0;
-    border-radius:10px;
+    border-radius:0.2rem;
 }
 
 /* display:flex below would otherwise override the hidden attribute */
@@ -2460,7 +2461,7 @@ html.is-arriving .loader{
 }
 
 .admin-note{
-    padding:1rem 1.25rem;
+    padding:1rem 10rem;
     background:rgba(255, 253, 227, 0.92);
     color:#2b4a63;
     font-size:0.9rem;
@@ -2470,7 +2471,7 @@ html.is-arriving .loader{
 .admin-panel{
     display:flex;
     flex-direction:column;
-    gap:1.1rem;
+    gap:1.5rem;
     padding:clamp(1.25rem, 4vw, 2.25rem);
     background:#fff;
     color:#222;
@@ -2489,7 +2490,7 @@ html.is-arriving .loader{
     flex-direction:column;
     gap:0.4rem;
     font-size:0.95rem;
-    font-weight:700;
+    font-weight:400;
 }
 
 .admin-field small{
@@ -2502,7 +2503,7 @@ html.is-arriving .loader{
     padding:0.65rem 0.75rem;
     border:1px solid #cfd8e3;
     border-radius:6px;
-    font:inherit;
+    font:verdana;
     font-weight:400;
     color:#222;
 }
@@ -2520,7 +2521,7 @@ html.is-arriving .loader{
 }
 
 .admin-preview{
-    max-height:14rem;
+    max-height:12rem;
     width:auto;
     max-width:100%;
     align-self:flex-start;
@@ -2535,7 +2536,7 @@ html.is-arriving .loader{
     background:#2597E6;
     color:#fff;
     font:inherit;
-    font-weight:700;
+    font-weight:400;
     cursor:pointer;
 }
 

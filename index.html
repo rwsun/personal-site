@@ -194,7 +194,11 @@
 
       <div class="section">
         <div class="section-image">
-          <img class="window3" src="img/gallery/hack-003.jpg" alt="jpeg photo" />
+          <img
+            class="window3"
+            src="img/gallery/hack-003.jpg"
+            alt="jpeg photo"
+          />
         </div>
         <div class="section-text">
           <div class="h1">event organizer</div>
@@ -234,7 +238,11 @@
       </div>
       <div class="section">
         <div class="column">
-          <img class="friends" src="img/gallery/friends-04.jpg" alt="singapore!" />
+          <img
+            class="friends"
+            src="img/gallery/friends-04.jpg"
+            alt="singapore!"
+          />
           <div class="body" style="margin-top: 0.5em">friends!</div>
         </div>
         <div class="column">
@@ -267,7 +275,10 @@
             srcset="img/footer/footer-hill.webp"
             type="image/webp"
           />
-          <source media="(min-width: 768px)" srcset="img/footer/footer-hill.gif" />
+          <source
+            media="(min-width: 768px)"
+            srcset="img/footer/footer-hill.gif"
+          />
           <img
             class="footer-deer"
             src="img/footer/deer.gif"
@@ -978,144 +989,58 @@
     </script>
     <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
     <script>
-      // sparkles
-      (() => {
-        if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        // sparkles
+        (() => {
+          if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-        const canvas = document.querySelector(".sparkles");
-        const main = document.querySelector(".main");
-        const ctx = canvas.getContext("2d");
-        const RADIUS = 9; // length of the long rays, in CSS px (18px across at full size)
-        const MIN_SPARKLES = 2;
-        const MAX_SPARKLES = 5;
-        const COLORS = ["255, 253, 227", "255, 255, 255", "255, 246, 170"];
-        const sparkles = [];
-        let width = 0;
-        let height = 0;
-        let dpr = 1;
-        let running = false;
-        let lastTime = 0;
-        let nextBurst = 0;
+          const canvas = document.querySelector(".sparkles");
+          const main = document.querySelector(".main");
+          const ctx = canvas.getContext("2d");
+          const RADIUS = 9; // length of the long rays, in CSS px (18px across at full size)
+          const MIN_SPARKLES = 2;
+          const MAX_SPARKLES = 5;
+          const COLORS = ["255, 253, 227", "255, 255, 255", "255, 246, 170"];
+          const sparkles = [];
+          let width = 0;
+          let height = 0;
+          let dpr = 1;
+          let running = false;
+          let lastTime = 0;
+          let nextBurst = 0;
 
-        const resize = () => {
-          dpr = Math.min(devicePixelRatio || 0.8, 1);
-          width = innerWidth;
-          height = innerHeight;
-          canvas.width = Math.round(width * dpr);
-          canvas.height = Math.round(height * dpr);
-          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        };
+          const resize = () => {
+            dpr = Math.min(devicePixelRatio || 0.8, 1);
+            width = innerWidth;
+            height = innerHeight;
+            canvas.width = Math.round(width * dpr);
+            canvas.height = Math.round(height * dpr);
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          };
 
-        const spawn = (count) => {
-          const box = main.getBoundingClientRect();
-          const top = Math.max(box.top, 0);
-          const bottom = Math.min(box.bottom, height);
-          if (bottom - top < 40) return;
-          count = Math.min(count, MAX_SPARKLES - sparkles.length);
-          for (let i = 0; i < count; i++) {
-            sparkles.push({
-              x: Math.round(Math.random() * width),
-              pageY: scrollY + top + Math.random() * (bottom - top),
-              radius: RADIUS,
-              life: 1.3 + Math.random() * 0.5, // seconds to twinkle in and out
-              age: 0,
-              color: COLORS[Math.floor(Math.random() * COLORS.length)],
-            });
-          }
-        };
+          const spawn = (count) => {
+            const box = main.getBoundingClientRect();
+            const top = Math.max(box.top, 0);
+            const bottom = Math.min(box.bottom, height);
+            if (bottom - top < 40) return;
+            count = Math.min(count, MAX_SPARKLES - sparkles.length);
+            for (let i = 0; i < count; i++) {
+              sparkles.push({
+                x: Math.round(Math.random() * width),
+                pageY: scrollY + top + Math.random() * (bottom - top),
+                radius: RADIUS,
+                life: 1.3 + Math.random() * 0.5, // seconds to twinkle in and out
+                age: 0,
+                color: COLORS[Math.floor(Math.random() * COLORS.length)],
+              });
+            }
+          };
 
-        // a smooth eight-point star: four long rays (up, down, left, right)
-        // alternating with four shorter diagonal rays, pinched in between, with a
-        // faint glow behind it. `radius` is the long ray's length.
-        const drawSparkle = (x, y, radius, alpha, color) => {
-          if (radius < 0.5) return;
-          const glow = ctx.createRadialGradient(x, y, 0, x, y, radius);
-          glow.addColorStop(0, `rgba(${color}, ${alpha * 0.35})`);
-          glow.addColorStop(1, `rgba(${color}, 0)`);
-          ctx.fillStyle = glow;
-          ctx.beginPath();
-          ctx.arc(x, y, radius, 0, Math.PI * 2);
-          ctx.fill();
-
-          ctx.fillStyle = `rgba(${color}, ${alpha})`;
-          ctx.beginPath();
-          for (let i = 0; i < 16; i++) {
-            const angle = (i * Math.PI) / 8 - Math.PI / 2;
-            // even steps are ray tips (long, short, long...), odd steps the pinch
-            const length =
-              i % 2 === 1 ? radius * 0.14 : i % 4 === 0 ? radius : radius * 0.5;
-            const px = x + Math.cos(angle) * length;
-            const py = y + Math.sin(angle) * length;
-            i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
-          }
-          ctx.closePath();
-          ctx.fill();
-        };
-
-        const draw = (now) => {
-          const dt = Math.min((now - lastTime) / 1000, 1 / 20);
-          lastTime = now;
-          ctx.clearRect(0, 0, width, height);
-
-          // age the sparkles and drop finished ones first...
-          for (let i = sparkles.length - 1; i >= 0; i--) {
-            sparkles[i].age += dt;
-            if (sparkles[i].age >= sparkles[i].life) sparkles.splice(i, 1);
-          }
-
-          // ...then top back up to the minimum, plus random bursts of 1-2 extra
-          if (sparkles.length < MIN_SPARKLES)
-            spawn(MIN_SPARKLES - sparkles.length);
-          if (now >= nextBurst) {
-            spawn(1 + Math.floor(Math.random() * 2));
-            nextBurst = now + 800 + Math.random() * 1200;
-          }
-
-          // only draw inside .main, so nothing shows over the landing
-          const box = main.getBoundingClientRect();
-          for (const s of sparkles) {
-            const y = Math.round(s.pageY - scrollY);
-            if (y < box.top || y > box.bottom || y < -10 || y > height + 10)
-              continue;
-            // grow, hold briefly, shrink: a sine curve over the sparkle's life
-            const t = Math.sin((s.age / s.life) * Math.PI);
-            drawSparkle(s.x, y, t * s.radius, 0.35 + t * 0.65, s.color);
-          }
-
-          if (running) requestAnimationFrame(draw);
-        };
-
-        const start = () => {
-          if (running) return;
-          running = true;
-          lastTime = performance.now();
-          requestAnimationFrame(draw);
-        };
-        const stop = () => {
-          running = false;
-          ctx.clearRect(0, 0, width, height);
-        };
-
-        resize();
-        addEventListener("resize", resize);
-
-        let onScreen = false;
-        new IntersectionObserver(([entry]) => {
-          onScreen = entry.isIntersecting;
-          onScreen && !document.hidden ? start() : stop();
-        }).observe(main);
-        document.addEventListener("visibilitychange", () => {
-          onScreen && !document.hidden ? start() : stop();
+      <script>
+        // images can't be dragged out as a see-through "ghost" copy (the CSS rule
+        // covers Chrome, Safari and Edge; this covers Firefox)
+        document.addEventListener("dragstart", (e) => {
+          if (e.target instanceof HTMLImageElement) e.preventDefault();
         });
-      })();
-    </script>
-
-    <script>
-      // images can't be dragged out as a see-through "ghost" copy (the CSS rule
-      // covers Chrome, Safari and Edge; this covers Firefox)
-      document.addEventListener("dragstart", (e) => {
-        if (e.target instanceof HTMLImageElement) e.preventDefault();
-      });
     </script>
   </body>
 </html>

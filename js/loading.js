@@ -5,39 +5,39 @@
 (() => {
   // Add more here. Leave "answer" out to show just the question.
   const QUESTIONS = [
-    { question: "What's your favorite drink?", answer: "Mine's Diet Coke!" },
-    { question: "What superpower would you want?", answer: "Definitely teleportation for me." },
-    { question: "If you could have any job, what would it be?", answer: "I want to try my hand at bartending." },
-    { question: "What's your biggest non-academic, non work-related accomplishment?", answer: "I love writing." },
-    { question: "If you were a character, what genre would you live in?" },
+    { question: "What's your favorite drink?", answer: "A: Mine's Diet Coke!" },
+    { question: "What superpower would you want?", answer: "A: Definitely teleportation for me." },
+    { question: "If you could have any job, what would it be?", answer: "A: I want to try my hand at bartending!" },
+    { question: "What's your biggest non-academic, non work-related accomplishment?", answer: "A: I love writing." },
+    { question: "If you were a character, what genre would you live in?", answer: "A: Probably fantasy?" },
     { question: "What's your MBTI?", answer: "I'm ENFJ!" },
-    { question: "What's the closest you've ever come to dying?" },
-    { question: "What's the most memorable meal you've ever had?" },
+    { question: "What's the closest you've ever come to dying?", answer: "A: Almost got hit by a car?" },
+    { question: "What's the most memorable meal you've ever had?", answer: "A: Right now, that one meal in Singapore" },
     { question: "What's your least popular opinion?" },
     { question: "What fictional character do you most relate to?" },
-    { question: "What do you get the most compliments about?", answer: "My eyelashes??" },
-    { question: "What's the most important quality you look for in a friend?" },
+    { question: "What do you get the most compliments about?", answer: "A: My eyelashes, maybe?" },
+    { question: "What's the most important quality you look for in a friend?", answer: "A: Shared interests?" },
     { question: "What's your favorite quote and why?" },
-    { question: "For what would you most like to become famous?" },
-    { question: "What city/country do you never want to go back to?", answer: "EWR for me." },
-    { question: "What songs have you memorized?" },
+    { question: "For what would you most like to become famous?", answer: "Making a cool product" },
+    { question: "What city/country do you never want to go back to?", answer: "EWR for me!" },
+    { question: "What songs have you memorized?", answer: "... None" },
     { question: "Are you usually early or late?", answer: "Right on time." },
     { question: "What’s the best way to start the day?", answer: "Coffee!" },
     { question: "What movie title best describes your life?" },
-    { question: "What song best describes your life right now?" },
-    { question: "What job do you think you’d be really good at?", answer: "I don't know..." },
-    { question: "If you didn’t have to sleep, what would you do with the extra time?" },
-    { question: "What do you do to get rid of stress?" },
-    { question: "What’s the best thing about your work / school?" },
-    { question: "What’s the worst thing about your work / school?" },
-    { question: "What do you wish you knew more about?" },
-    { question: "What’s your favorite podcast?" },
+    { question: "What song best describes your life right now?", answer: "Enough." },
+    { question: "What job do you think you’d be really good at?", answer: "Something creative!" },
+    { question: "If you didn’t have to sleep, what would you do with the extra time?", answer: "Finish my homework" },
+    { question: "What do you do to get rid of stress?", answer: "Call friends / gym / run" },
+    { question: "What’s the best thing about your work / school?", answer: "People + Gym + Roommate + Library" },
+    { question: "What’s the worst thing about your work / school?", answer: "People" },
+    { question: "What do you wish you knew more about?", answer: "Building websites / backend" },
+    { question: "What’s your favorite podcast?", answer: "Right now, Rotten Mango!" },
   ];
 
-  const MIN_SHOWN_MS = 3000;
+  const MIN_SHOWN_MS = 2800;
   const ROTATE_MS = 3200;
   const FADE_MS = 400;
-  const FONT_WAIT_MS = 800; // longest the text waits for its font
+  const FONT_WAIT_MS = 800; 
   const SAVED_KEY = "loader-question";
 
   const root = document.documentElement;
