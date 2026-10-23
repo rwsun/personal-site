@@ -32,5 +32,5 @@ document.addEventListener("mousemove", (e) => {
   dot.style.left = e.pageX + (fish ? FISH_TAIL_X : 0) + "px";
   dot.style.top = e.pageY + (fish ? FISH_TAIL_Y : 0) + "px";
   document.body.appendChild(dot);
-  setTimeout(() => dot.remove(), 400);
+  setTimeout(() => dot.remove(), 8000);
 });

@@ -96,8 +96,6 @@
 
     <script src="js/throwables.js"></script>
     <script>
-      // drag and throw the social icons, the letters of "ren" and every word on
-      // the landing; they land on the water
       (() => {
         const landing = document.querySelector(".landing");
         const waterEdge = document.querySelector(".cloud2");
@@ -228,7 +226,7 @@
           <div class="body" style="margin-top: 0.5em">recent reads</div>
         </div>
         <div class="column">
-          <img class="hobby" src="img/gallery/hobby-001.jpg" alt="random 03" />
+          <img class="hobby" src="img/gallery/hobby-003.jpg" alt="random 03" />
           <div class="body" style="margin-top: 0.5em">in my free time!</div>
         </div>
       </div>
@@ -412,9 +410,9 @@
             "img/gallery/movie-01.jpg",
           ],
           ".hobby": [
+            "img/gallery/hobby-003.jpg",
             "img/gallery/hobby-001.jpg",
             "img/gallery/hobby-002.jpg",
-            "img/gallery/hobby-003.jpg",
             "img/gallery/hobby-004.jpg",
             "img/gallery/hobby-005.jpg",
           ],
@@ -601,6 +599,7 @@
         // bottom of the footer, in front of the deer
         (() => {
           const main = document.querySelector(".main");
+          const mediaQuery = window.matchMedia("(min-width: 768px)");
           const footer = document.querySelector(".site-footer");
           const world = createThrowWorld({
             container: main,
