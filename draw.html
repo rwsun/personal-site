@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Draw a Box - Ren Sun</title>
+    <meta name="robots" content="noindex" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="img/icons/favicon-192.png"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Libertinus+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <!-- found through the hidden "draw a box!" link in the Spotify bar on the
+       home page: a daily perspective drill, 10 boxes a day -->
+  <body class="draw-page">
+    <header class="draw-header">
+      <div>
+        <h1 class="draw-title">draw a box!</h1>
+        <p class="draw-subtitle">10 boxes a day, every day</p>
+      </div>
+
+      <div class="draw-progress" aria-live="polite">
+        <ol class="draw-tally" aria-hidden="true"></ol>
+        <p class="draw-count"></p>
+        <p class="draw-streak"></p>
+      </div>
+    </header>
+
+    <main class="draw-main">
+      <section class="draw-panel draw-reference" aria-labelledby="ref-heading">
+        <div class="draw-panel-head">
+          <h2 id="ref-heading" class="draw-heading">reference</h2>
+          <button class="draw-button" type="button" data-action="new-box">
+            new box
+          </button>
+        </div>
+
+        <svg
+          class="draw-ref-svg"
+          viewBox="0 0 400 300"
+          role="img"
+          aria-label="a box in perspective to copy"
+        ></svg>
+
+        <div class="draw-options">
+          <label>
+            perspective
+            <select class="draw-select" data-option="points">
+              <option value="auto" selected>auto (gets harder)</option>
+              <option value="1">1-point</option>
+              <option value="2">2-point</option>
+              <option value="3">3-point</option>
+            </select>
+          </label>
+          <label class="draw-check">
+            <input type="checkbox" data-option="hidden" checked />
+            hidden edges
+          </label>
+          <label class="draw-check">
+            <input type="checkbox" data-option="guides" />
+            vanishing lines
+          </label>
+        </div>
+
+        <details class="draw-tips">
+          <summary>how to practice</summary>
+          <ul>
+            <li>Draw every line in one confident stroke, moving from your shoulder. Don't go back over it.</li>
+            <li>Draw through the box: add the back edges you can't see, so you can check its shape.</li>
+            <li>Edges that run the same way in 3D should all aim at the same vanishing point.</li>
+            <li>Turn on "vanishing lines", then extend your own edges in your head to check them.</li>
+            <li>Two edges are already on the pad (in gray) so your box starts in the right spot. Build the rest from them.</li>
+            <li>Press "check" to lay the correct box over yours. Each edge turns green, orange or red, and you get a score with tips.</li>
+            <li>On "auto", each of the day's 10 boxes gives you less help, and the perspective moves from 1-point to 2-point to 3-point.</li>
+            <li>Start with 1-point, then move on to 2-point and 3-point.</li>
+          </ul>
+        </details>
+      </section>
+
+      <section class="draw-panel draw-pad-panel" aria-labelledby="pad-heading">
+        <div class="draw-panel-head">
+          <h2 id="pad-heading" class="draw-heading">your box</h2>
+          <div class="draw-tools">
+            <button
+              class="draw-button"
+              type="button"
+              data-action="undo"
+              title="undo (ctrl+z)"
+            >
+              undo
+            </button>
+            <button
+              class="draw-button"
+              type="button"
+              data-action="redo"
+              title="redo (ctrl+shift+z)"
+            >
+              redo
+            </button>
+            <button class="draw-button" type="button" data-action="clear">
+              clear
+            </button>
+          </div>
+        </div>
+
+        <p class="draw-level"></p>
+        <canvas class="draw-pad" aria-label="drawing pad"></canvas>
+        <p class="draw-hint">
+          double-tap a line to erase it · hold still at the end of a line to
+          straighten it
+        </p>
+
+        <div class="draw-feedback" aria-live="polite" hidden>
+          <p class="draw-score"></p>
+          <ul class="draw-tips-list"></ul>
+          <p class="draw-legend">
+            <span class="is-good">good</span>
+            <span class="is-off">a bit off</span>
+            <span class="is-missing">missing</span>
+          </p>
+        </div>
+
+        <div class="draw-actions">
+          <button
+            class="draw-button draw-check-button"
+            type="button"
+            data-action="check"
+            aria-pressed="false"
+            title="lay the correct box over your drawing"
+          >
+            check
+          </button>
+          <button
+            class="draw-button draw-done"
+            type="button"
+            data-action="done"
+            disabled
+          >
+            done, next box
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <section class="draw-today" aria-labelledby="today-heading">
+      <h2 id="today-heading" class="draw-heading">today's boxes</h2>
+      <p class="draw-empty">Nothing yet. Your finished boxes will show up here.</p>
+      <ul class="draw-gallery"></ul>
+    </section>
+
+    <footer class="draw-footer">
+      <a href="index.html">back to the main page</a>
+    </footer>
+
+    <script src="js/draw.js"></script>
+  </body>
+</html>

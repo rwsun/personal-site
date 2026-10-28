@@ -2580,3 +2580,443 @@ html.is-arriving .loader{
 .admin-delete{
     color:#c0392b;
 }
+
+/* ---------- "draw a box!" page (draw.html, js/draw.js) ---------- */
+
+html:has(.draw-page),
+.draw-page{
+    --draw-ink:#1d2b36;
+    --draw-muted:#6b7a86;
+    --draw-line:#dfe6eb;
+    --draw-blue:#238CE2;
+    background:#fff;
+    color:var(--draw-ink);
+}
+
+.draw-page{
+    max-width:1200px;
+    margin:0 auto;
+    padding:2rem 16px 3rem;
+    box-sizing:border-box;
+}
+
+.draw-header{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:1rem 2rem;
+    margin-bottom:1.5rem;
+}
+
+.draw-title{
+    margin:0;
+    font-family:"Bodoni 72 Italics", serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(2.5rem, 8vw, 4rem);
+    line-height:1;
+    color:var(--draw-blue);
+}
+
+.draw-subtitle{
+    margin:0.4rem 0 0;
+    font-family:"Libertinus Serif", Georgia, serif;
+    font-style:italic;
+    font-size:1.2rem;
+    color:var(--draw-muted);
+}
+
+.draw-progress{
+    text-align:right;
+}
+
+.draw-tally{
+    display:flex;
+    gap:6px;
+    justify-content:flex-end;
+    margin:0 0 0.5rem;
+    padding:0;
+    list-style:none;
+}
+
+/* one little box per drawing; filled once it's done */
+.draw-tally li{
+    width:18px;
+    height:18px;
+    border:1.5px solid var(--draw-ink);
+    border-radius:3px;
+    transition:background 0.3s ease, transform 0.3s ease;
+}
+
+.draw-tally li.is-done{
+    background:var(--draw-blue);
+    border-color:var(--draw-blue);
+    transform:rotate(-6deg);
+}
+
+.draw-count,
+.draw-streak{
+    margin:0;
+    font-size:0.9rem;
+}
+
+.draw-streak{
+    margin-top:0.2rem;
+    color:var(--draw-blue);
+}
+
+.draw-main{
+    display:grid;
+    grid-template-columns:minmax(0, 2fr) minmax(0, 3fr);
+    gap:1.5rem;
+    align-items:start;
+}
+
+.draw-panel{
+    border:1px solid var(--draw-line);
+    border-radius:12px;
+    padding:1rem;
+}
+
+.draw-panel-head{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:space-between;
+    gap:0.5rem;
+    margin-bottom:0.75rem;
+}
+
+.draw-heading{
+    margin:0;
+    font-family:"Bodoni 72 Italics", serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:1.6rem;
+}
+
+.draw-tools{
+    display:flex;
+    gap:0.4rem;
+}
+
+.draw-button{
+    padding:0.45rem 0.9rem;
+    border:1px solid var(--draw-ink);
+    border-radius:999px;
+    background:#fff;
+    color:var(--draw-ink);
+    font:inherit;
+    font-size:0.85rem;
+    cursor:pointer;
+    transition:background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+
+.draw-button:hover:not(:disabled){
+    background:var(--draw-ink);
+    color:#fff;
+}
+
+.draw-button:active:not(:disabled){
+    transform:scale(0.96);
+}
+
+.draw-button:disabled{
+    opacity:0.35;
+    cursor:default;
+}
+
+.draw-button:focus-visible,
+.draw-select:focus-visible,
+.draw-check input:focus-visible{
+    outline:2px solid var(--draw-blue);
+    outline-offset:2px;
+}
+
+.draw-actions{
+    display:flex;
+    gap:0.5rem;
+    margin-top:0.75rem;
+}
+
+.draw-check-button{
+    padding:0.75rem 1.4rem;
+    border-color:var(--draw-blue);
+    color:var(--draw-blue);
+    font-size:1rem;
+}
+
+.draw-check-button:hover:not(:disabled){
+    background:var(--draw-blue);
+}
+
+.draw-check-button[aria-pressed="true"]{
+    background:var(--draw-blue);
+    color:#fff;
+}
+
+.draw-done{
+    flex:1;
+    padding:0.75rem;
+    border-color:var(--draw-blue);
+    background:var(--draw-blue);
+    color:#fff;
+    font-size:1rem;
+}
+
+.draw-done:hover:not(:disabled){
+    background:#1b74bd;
+    color:#fff;
+}
+
+.draw-ref-svg{
+    display:block;
+    width:100%;
+    height:auto;
+    background:#fafcfd;
+    border-radius:8px;
+}
+
+.ref-edge{
+    stroke:#000;
+    stroke-width:2.5;
+    stroke-linecap:round;
+}
+
+.ref-hidden{
+    stroke:#9aa8b3;
+    stroke-width:1.5;
+    stroke-dasharray:6 5;
+    stroke-linecap:round;
+}
+
+.ref-guide{
+    stroke:var(--draw-blue);
+    stroke-width:1;
+    opacity:0.45;
+}
+
+.ref-horizon{
+    stroke:var(--draw-blue);
+    stroke-width:1;
+    stroke-dasharray:2 4;
+    opacity:0.7;
+}
+
+.ref-label{
+    fill:var(--draw-blue);
+    font-size:11px;
+    font-family:Verdana, sans-serif;
+}
+
+.draw-options{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:0.5rem 1rem;
+    margin-top:0.75rem;
+    font-size:0.85rem;
+}
+
+.draw-select{
+    margin-left:0.3rem;
+    padding:0.25rem 0.4rem;
+    border:1px solid var(--draw-line);
+    border-radius:6px;
+    background:#fff;
+    color:var(--draw-ink);
+    font:inherit;
+}
+
+.draw-check{
+    display:inline-flex;
+    align-items:center;
+    gap:0.35rem;
+    cursor:pointer;
+}
+
+.draw-check input{
+    accent-color:var(--draw-blue);
+}
+
+.draw-tips{
+    margin-top:1rem;
+    font-family:"Libertinus Serif", Georgia, serif;
+    font-size:1.05rem;
+    line-height:1.4;
+}
+
+.draw-tips summary{
+    cursor:pointer;
+    font-style:italic;
+    color:var(--draw-blue);
+}
+
+.draw-tips ul{
+    margin:0.5rem 0 0;
+    padding-left:1.2rem;
+}
+
+.draw-tips li + li{
+    margin-top:0.3rem;
+}
+
+/* the paper: white, a faint edge, and a pen-tip cursor */
+.draw-pad{
+    display:block;
+    width:100%;
+    aspect-ratio:4 / 3;
+    border:1px solid var(--draw-line);
+    border-radius:8px;
+    background:#fff;
+    cursor:crosshair;
+    touch-action:none;
+}
+
+.draw-level{
+    margin:0 0 0.5rem;
+    font-family:"Libertinus Serif", Georgia, serif;
+    font-style:italic;
+    font-size:1.05rem;
+    color:var(--draw-muted);
+}
+
+.draw-feedback{
+    margin-top:0.75rem;
+    padding:0.75rem 1rem;
+    border-radius:8px;
+    background:#f4f8fb;
+}
+
+.draw-score{
+    margin:0;
+    font-family:"Bodoni 72 Italics", serif;
+    font-style:italic;
+    font-size:1.4rem;
+    color:var(--draw-blue);
+}
+
+.draw-tips-list{
+    margin:0.4rem 0 0;
+    padding-left:1.2rem;
+    font-size:0.9rem;
+    line-height:1.45;
+}
+
+.draw-tips-list li + li{
+    margin-top:0.25rem;
+}
+
+.draw-legend{
+    display:flex;
+    flex-wrap:wrap;
+    gap:0.4rem 1rem;
+    margin:0.6rem 0 0;
+    font-size:0.75rem;
+    color:var(--draw-muted);
+}
+
+.draw-legend span::before{
+    content:"";
+    display:inline-block;
+    width:14px;
+    height:3px;
+    margin-right:0.35rem;
+    vertical-align:middle;
+    border-radius:2px;
+}
+
+.draw-legend .is-good::before{ background:#2e9d5b; }
+.draw-legend .is-off::before{ background:#e08a1e; }
+.draw-legend .is-missing::before{ background:#d64545; }
+
+.draw-gallery li{
+    position:relative;
+}
+
+.draw-thumb-score{
+    position:absolute;
+    right:6px;
+    bottom:6px;
+    padding:0.1rem 0.4rem;
+    border-radius:999px;
+    background:var(--draw-blue);
+    color:#fff;
+    font-size:0.7rem;
+}
+
+.draw-hint{
+    margin:0.5rem 0 0;
+    color:var(--draw-muted);
+    font-size:0.8rem;
+    text-align:center;
+}
+
+.draw-today{
+    margin-top:2rem;
+}
+
+.draw-empty{
+    margin:0.5rem 0 0;
+    color:var(--draw-muted);
+    font-size:0.9rem;
+}
+
+.draw-gallery{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(120px, 1fr));
+    gap:0.75rem;
+    margin:0.75rem 0 0;
+    padding:0;
+    list-style:none;
+}
+
+.draw-gallery img{
+    display:block;
+    width:100%;
+    height:auto;
+    border:1px solid var(--draw-line);
+    border-radius:6px;
+}
+
+.draw-footer{
+    margin-top:2.5rem;
+    text-align:center;
+    font-size:0.9rem;
+}
+
+.draw-footer a{
+    color:var(--draw-blue);
+}
+
+@media (max-width: 800px){
+    .draw-main{
+        grid-template-columns:minmax(0, 1fr);
+    }
+
+    .draw-progress{
+        text-align:left;
+    }
+
+    .draw-tally{
+        justify-content:flex-start;
+    }
+}
+
+/* link to the drawing page, under the artist section's portfolio button */
+.draw-invite{
+    margin-top:0.75rem;
+    font-family:"Libertinus Serif", Georgia, serif;
+    font-style:italic;
+    font-size:1.25rem;
+    color:#fffde3;
+    text-decoration:underline;
+    text-decoration-thickness:1px;
+    text-underline-offset:0.25em;
+    transition:transform 0.2s ease-out, opacity 0.2s ease;
+}
+
+.draw-invite:hover{
+    transform:translateX(4px);
+}

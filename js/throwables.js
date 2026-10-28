@@ -171,6 +171,11 @@ function createThrowWorld({ container, floor }) {
           y: e.clientY,
           dragging: false,
           samples: [],
+          // touch on something that also scrolls the page (touch-action: pan-y,
+          // like the photos): only a sideways drag picks it up
+          scrolls:
+            e.pointerType !== "mouse" &&
+            getComputedStyle(el).touchAction.includes("pan"),
         };
         // no pointer capture until it's really a drag: capturing now would send
         // a plain click to `el` instead of the photo or icon inside it
@@ -197,9 +202,19 @@ function createThrowWorld({ container, floor }) {
       const containerBox = container.getBoundingClientRect();
 
       if (!press.dragging) {
-        if (Math.hypot(e.clientX - press.x, e.clientY - press.y) < DRAG_START)
+        const dx = Math.abs(e.clientX - press.x);
+        const dy = Math.abs(e.clientY - press.y);
+        if (Math.hypot(dx, dy) < DRAG_START) return;
+        // mostly up/down on a scrollable thing: that's the page scrolling
+        if (press.scrolls && dy >= dx) {
+          press = null;
           return;
+        }
+        const fresh = !body;
         pickUp();
+        // where it was, in case the browser takes the gesture over (see release)
+        press.fresh = fresh;
+        press.before = { x: body.x, y: body.y, angle: body.angle, resting: body.resting };
         try {
           grab.setPointerCapture(press.id);
         } catch {}
@@ -225,6 +240,23 @@ function createThrowWorld({ container, floor }) {
 
     const release = (e) => {
       if (!press || e.pointerId !== press.id) return;
+      // pointercancel = the browser took the gesture (usually to scroll), so
+      // this wasn't a throw: put the thing back instead of letting it fall
+      if (press.dragging && e.type === "pointercancel") {
+        if (press.fresh && body.inPlace) {
+          bodies.delete(body);
+          body.el.style.transform = "";
+          body.el.style.zIndex = "";
+          body = null;
+        } else {
+          Object.assign(body, press.before, { vx: 0, vy: 0, held: false });
+          place(body);
+          if (!body.resting) wake();
+        }
+        document.documentElement.classList.remove("is-grabbing");
+        press = null;
+        return;
+      }
       if (press.dragging) {
         const first = press.samples[0];
         const last = press.samples[press.samples.length - 1];
