@@ -3020,3 +3020,191 @@ html:has(.draw-page),
 .draw-invite:hover{
     transform:translateX(4px);
 }
+
+/* ---------- Top-right portfolio buttons (index.html) ---------- */
+.landing-nav{
+    position:absolute;
+    top:1.25rem;
+    right:1.25rem;
+    z-index:2;
+    display:flex;
+    gap:0.75rem;
+}
+
+.landing-nav-button{
+    padding:0.6rem 1.1rem;
+    border:1px solid #fffde3;
+    color:#fffde3;
+    text-decoration:none;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-size:0.85rem;
+    font-weight:700;
+    transition:transform 0.3s ease-out, background-color 0.3s ease-out;
+}
+
+.landing-nav-button:hover,
+.landing-nav-button:focus-visible{
+    transform:scale(1.08);
+    background:rgba(255, 253, 227, 0.12);
+}
+
+@media (max-width:560px){
+    .landing-nav{
+        flex-direction:column;
+        align-items:flex-end;
+        gap:0.5rem;
+    }
+    .landing-nav-button{
+        font-size:0.75rem;
+        padding:0.5rem 0.8rem;
+    }
+}
+
+/* ---------- UI/UX portfolio page (uiux.html) ---------- */
+.uiux-page{
+    min-height:100vh;
+    background:#4A98E3;
+}
+
+.uiux-main{
+    position:relative;
+    max-width:72rem;
+    margin:0 auto;
+    padding:5rem 1.5rem 6rem;
+    box-sizing:border-box;
+}
+
+.uiux-title{
+    margin:0 0 3rem;
+    text-align:center;
+    font-family:"Libertinus Serif", serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(1.8rem, 4vw, 2.4rem);
+}
+
+.uiux-grid{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:grid;
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+    gap:3rem 2.75rem;
+}
+
+.uiux-item{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:0.6rem;
+}
+
+.uiux-card{
+    position:relative;
+    display:block;
+    width:100%;
+    aspect-ratio:7 / 4;
+    background:#D9D9D9;
+    text-decoration:none;
+    border-radius:12px;
+    --dx:0px;
+    --dy:0px;
+    transition:transform 0.25s ease-out;
+}
+
+/* solid white border that drifts a few px toward the cursor
+   (js/uiux.js sets --dx / --dy, capped at a small limit each way) */
+.uiux-card::after{
+    content:"";
+    position:absolute;
+    inset:-7px;
+    z-index:1;
+    border:3px solid #fff;
+    border-radius:18px;
+    opacity:0;
+    transform:translate(var(--dx), var(--dy));
+    transition:opacity 0.2s ease-out, transform 0.35s ease-out;
+    pointer-events:none;
+}
+
+.uiux-card:hover,
+.uiux-card:focus-visible{
+    transform:scale(1.05);
+    z-index:1;
+}
+
+.uiux-card:hover::after,
+.uiux-card:focus-visible::after{
+    opacity:1;
+}
+
+.uiux-card:focus-visible{
+    outline:none;
+}
+
+.uiux-card img{
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:top;
+    border-radius:inherit;
+}
+
+/* grey box for designs without a screenshot yet */
+.uiux-placeholder{
+    display:flex;
+    width:100%;
+    height:100%;
+    align-items:center;
+    justify-content:center;
+    color:#222;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-size:0.95rem;
+}
+
+.uiux-link{
+    color:#fff;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-size:0.85rem;
+}
+
+@media (max-width:900px){
+    .uiux-grid{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width:560px){
+    .uiux-grid{ grid-template-columns:1fr; gap:2.5rem; }
+    .uiux-main{ padding:4.5rem 1rem 4rem; }
+}
+
+@media (prefers-reduced-motion:reduce){
+    .uiux-card, .landing-nav-button{ transition:none; }
+}
+
+/* ---------- Return links ("← back home" etc.) get a solid white box ---------- */
+.portfolio-home,
+.blog-home,
+.acad-back a{
+    display:inline-block;
+    padding:0.45rem 1rem;
+    border:2px solid #fff;
+    color:#fff;
+    text-decoration:none;
+    line-height:1.2;
+    transition:transform 0.25s ease-out, background-color 0.25s ease-out;
+}
+
+.portfolio-home:hover,
+.blog-home:hover,
+.acad-back a:hover,
+.portfolio-home:focus-visible,
+.blog-home:focus-visible,
+.acad-back a:focus-visible{
+    transform:scale(1.06);
+    background:rgba(255, 255, 255, 0.12);
+}
+
+@media (prefers-reduced-motion:reduce){
+    .portfolio-home, .blog-home, .acad-back a{ transition:none; }
+}
